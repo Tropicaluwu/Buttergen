@@ -1,0 +1,126 @@
+{
+    "acts": {
+        "eat_first": ["ate before {PRONOUN/m_c/poss} turn", "ate before your turn"],
+        "sneak_out": ["snuck out of camp at night", "snuck out of camp at night"],
+        "skip_duties": ["skipped {PRONOUN/m_c/poss} duties", "skipped your duties"],
+        "lie_leader": ["lied to the leader", "lied to the leader"],
+        "gathering_fight": ["broke the Gathering truce", "broke the Gathering truce"],
+        "pass_secrets": ["told o_c_n about c_n's patrols", "told o_c_n about c_n's patrols"],
+        "twoleg_food": ["ate kittypet food at a Twoleg den", "ate kittypet food at a Twoleg den"],
+        "neglect_kit": ["left an o_c_n kit crying at the border", "left an o_c_n kit crying at the border"],
+        "hunt_border": ["hunted on o_c_n's land", "hunted on o_c_n's land"],
+        "let_trespasser": ["let an o_c_n trespasser go", "let an o_c_n trespasser go"],
+        "markers_lapse": ["let the o_c_n border markers go stale", "let the o_c_n border markers go stale"],
+        "disobey_mentor": ["disobeyed {PRONOUN/m_c/poss} mentor", "disobeyed your mentor"],
+        "app_eat_first": ["ate before hunting for the elders", "ate before hunting for the elders"],
+        "hide_sign": ["kept a sign from StarClan secret", "kept a sign from StarClan secret"],
+        "bend_sign": ["twisted the meaning of a sign from StarClan", "twisted the meaning of a sign from StarClan"],
+        "favorite_herbs": ["saved the best herbs for a favorite", "saved the best herbs for a favorite"],
+        "leave_den": ["left the healer's den untended", "left the healer's den untended"],
+        "twist_words": ["took sides while settling a quarrel", "took sides while settling a quarrel"],
+        "carry_messages": ["carried messages to o_c_n behind the leader's back", "carried messages to o_c_n behind the leader's back"],
+        "kits_wander": ["let the kits wander off", "let the kits wander off"],
+        "best_nest": ["kept the best of the nursery for {PRONOUN/m_c/poss} own kits", "kept the best of the nursery for your own kits"],
+        "spread_rumors": ["spread rumors about a Clanmate", "spread rumors about a Clanmate"],
+        "unfair_patrols": ["gave a Clanmate the worst patrols out of spite", "gave a Clanmate the worst patrols out of spite"],
+        "hide_news": ["kept news from the leader", "kept news from the leader"]
+    },
+    "report": {
+        "others": [
+            "r_c tells the leader that m_c [act].",
+            "r_c saw m_c's misdeed and reports it: m_c [act]."
+        ],
+        "you_did": [
+            "r_c saw you, and goes straight to the leader. Soon the whole camp knows you [act you]."
+        ],
+        "you_saw": [
+            "You tell the leader that m_c [act]."
+        ]
+    },
+    "keep": {
+        "others": [
+            "r_c knows that m_c [act], but keeps it to {PRONOUN/r_c/self}."
+        ],
+        "you_did": [
+            "You catch r_c watching you. {PRONOUN/r_c/subject/CAP} saw. But {PRONOUN/r_c/subject} {VERB/r_c/say/says} nothing."
+        ],
+        "you_saw": [
+            "You know that m_c [act]. You keep it to yourself."
+        ]
+    },
+    "hold": {
+        "others": [
+            "r_c knows that m_c [act], and makes sure m_c knows it."
+        ],
+        "you_did": [
+            "r_c saw you. {PRONOUN/r_c/subject/CAP} {VERB/r_c/don't/doesn't} tell anyone. Not yet. But {PRONOUN/r_c/subject} {VERB/r_c/make/makes} sure you know."
+        ],
+        "you_saw": [
+            "You know that m_c [act]. You don't tell anyone, but you make sure m_c knows you saw."
+        ]
+    },
+    "favor": {
+        "others": [
+            "m_c gives r_c the best piece of fresh-kill again. r_c only has to look at {PRONOUN/m_c/object}.",
+            "m_c takes r_c's dawn patrol without a word. They both know why."
+        ],
+        "you_did": [
+            "r_c gives you a long look across the camp. You both know what {PRONOUN/r_c/subject} saw."
+        ],
+        "you_saw": [
+            "m_c brings you the best piece of fresh-kill. Neither of you says why."
+        ]
+    },
+    "gossip": {
+        "you_did": [
+            "You catch Clanmates whispering when you walk past. Someone has been talking."
+        ],
+        "you_saw": [
+            "You hear Clanmates whispering about m_c. It isn't only you who knows anymore."
+        ]
+    },
+    "out": {
+        "others": [
+            "It's out: everyone knows that m_c [act]."
+        ],
+        "you_did": [
+            "It's out. The whole Clan knows you [act you]."
+        ],
+        "you_saw": [
+            "It's out: everyone knows that m_c [act]."
+        ]
+    },
+    "falling_out": {
+        "others": [
+            "After falling out with m_c, r_c tells the leader that m_c [act] moons ago."
+        ],
+        "you_did": [
+            "r_c is angry with you, and tells the leader what you did moons ago."
+        ],
+        "you_saw": [
+            "You're done keeping quiet for m_c. You tell the leader what {PRONOUN/m_c/subject} did moons ago."
+        ]
+    },
+    "naming": {
+        "others": [
+            "Caught, m_c tries to share the blame, and tells the leader that r_c [act r_c] too."
+        ],
+        "you_named": [
+            "Caught, m_c tries to share the blame, and tells the leader what you did."
+        ],
+        "you_name": [
+            "Caught, you tell the leader what r_c did too. If you're going down, you're not going alone."
+        ]
+    },
+    "deathbed": {
+        "others": [
+            "Before r_c died, {PRONOUN/r_c/subject} told the healer that m_c [act]."
+        ],
+        "you_did": [
+            "Before r_c died, {PRONOUN/r_c/subject} told the healer what you did."
+        ],
+        "you_saw": [
+            "Before r_c died, {PRONOUN/r_c/subject} told the healer that m_c [act]."
+        ]
+    }
+}

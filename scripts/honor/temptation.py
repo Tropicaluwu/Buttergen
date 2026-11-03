@@ -240,6 +240,11 @@ def do_act(cat, key, other, other_clan):
         game.cur_events_list.insert(0, event)
     else:
         game.cur_events_list.append(event)
+    # step 3: someone may have seen it
+    if a["kind"] == "break":
+        from scripts.honor import witness
+
+        witness.after_break(cat, key, other_clan)
     return text
 
 
@@ -277,6 +282,10 @@ def on_skip(full_moon: bool):
     """called once every skip (every moon, or every week with weekskip)"""
     if not game.clan:
         return
+    # step 3: old secrets spread, get called in or come out first
+    from scripts.honor import witness
+
+    witness.on_skip()
     scale = 1 / weekskip.WEEKS_IN_MOON if weekskip.on() else 1.0
     cats = [c for c in clanmates() if can_act(c)]
     for cat in cats:
