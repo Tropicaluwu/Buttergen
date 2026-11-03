@@ -12,6 +12,7 @@ from scripts.cat_editor_logic import (
     BIRTH_CONDITIONS,
     LIFE_FLAGS,
     LIFEGEN_STATS,
+    honor_stats_for,
     PERSONALITY_FACETS,
     SKILL_SLOTS,
     all_traits,
@@ -122,10 +123,10 @@ class CatStatEditorWindow(EditorWindowBase):
             "#text_box_26_horizleft_pad_10_14",
         )
 
-    def _stat_rows(self, table, top, steps):
+    def _stat_rows(self, table, top, steps, spacing=40):
         """a row per stat: name, value, and buttons that move it"""
         for i, (attr, label, low, high, _reset) in enumerate(table):
-            y = top + i * 40
+            y = top + i * spacing
             value = round(get_stat(self.the_cat, attr))
             self._text(f"{label}: {value}", (20, y, 260, 30))
             self._text(f"({low} to {high})", (230, y, 120, 30), "#text_box_26_horizleft_pad_10_14")
@@ -166,18 +167,22 @@ class CatStatEditorWindow(EditorWindowBase):
                    "#text_box_26_horizleft_pad_10_14")
         four = [row for row in LIFEGEN_STATS if row[0] in ("courage", "intelligence", "empathy", "compassion", "faith")]
         affinity = [row for row in LIFEGEN_STATS if row[0].endswith("affinity")]
-        self._stat_rows(four, 130, (-5, -1, 1, 5))
-        self._stat_rows(affinity, 340, (-50, -10, 10, 50))
+        # BUTTERGEN: honor and reputation, and Clan trust for leaders, deputies and healers
+        honor = honor_stats_for(cat)
+        self._stat_rows(four, 128, (-5, -1, 1, 5), spacing=36)
+        self._stat_rows(affinity + honor, 312, (-50, -10, 10, 50), spacing=36)
         self._text(
-            "Affinity is how much StarClan or the Dark Forest likes this cat, it matters when they die.",
-            (20, 430, 660, 60),
+            "Affinity is how much StarClan or the Dark Forest likes this cat, it matters when they die. "
+            "Honor is how well they really follow the warrior code, reputation is what the Clan knows.",
+            (20, 492, 660, 64),
             "#text_box_26_horizleft_pad_10_14",
         )
         self._max_reset(
             560,
-            lambda: max_stats(cat, LIFEGEN_STATS),
-            lambda: reset_stats(cat, LIFEGEN_STATS),
-            "Courage, intelligence, empathy and compassion to 10, faith to 9, StarClan affinity to 100.",
+            lambda: max_stats(cat, LIFEGEN_STATS + honor),
+            lambda: reset_stats(cat, LIFEGEN_STATS + honor),
+            "Courage, intelligence, empathy and compassion to 10, faith to 9, StarClan affinity, "
+            "honor and reputation to 100.",
             "Everything back to 0.",
         )
 

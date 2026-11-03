@@ -81,6 +81,8 @@
         backgrounds = true
         freshkill = true
         weekskip = false
+        "rare code events" = false
+        "frequent code events" = false
         "all accessories" = false
         "modded names" = true
         "new prefixes" = true
@@ -124,6 +126,7 @@
         multisire = false
         "romantic with former mentor" = true
         "first cousin mates" = false
+        "healer mates break the code" = false
         no_litters = false
     
     [clan.freshkill_tactics]
@@ -211,6 +214,11 @@
             "modded names" = true
         [clan.nests.general."outsider names"]
             "modded names" = true
+        # BUTTERGEN: the two code event settings rule each other out, neither means normal
+        [clan.nests.general."rare code events"]
+            "frequent code events" = false
+        [clan.nests.general."frequent code events"]
+            "rare code events" = false
         [clan.nests.relation."same sex adoption"]
             "same sex birth" = false
         [clan.nests.relation."halfclan single"]

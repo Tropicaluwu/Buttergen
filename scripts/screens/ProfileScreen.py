@@ -1734,6 +1734,11 @@ class ProfileScreen(Screens):
         # NEWLINE ----------
         output += "\n"
 
+        # BUTTERGEN: honor, reputation and the Clan's trust (labels only, numbers are in the editor)
+        from scripts.honor.core import profile_lines
+
+        output += profile_lines(the_cat)
+
         # NUTRITION INFO (if the game is in the correct mode)
         if (
             game.clan.game_mode in ["expanded", "cruel_season"]

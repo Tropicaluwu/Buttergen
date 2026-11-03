@@ -66,6 +66,10 @@ LIFEGEN_SAVED_FIELDS = (
     "df_patrols",
     "df_join_moon",
     "graduated_df",
+    # BUTTERGEN: the honor system, old saves start at 0
+    "honor",
+    "reputation",
+    "clan_trust",
 )
 
 

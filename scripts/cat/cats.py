@@ -251,6 +251,10 @@ class Cat:
         # afterlife affinity
         self.dark_forest_affinity = affinity["dark_forest"]
         self.starclan_affinity = affinity["starclan"]
+        # BUTTERGEN: the honor system, -100 to 100 each (scripts/honor/core.py)
+        self.honor = 0
+        self.reputation = 0
+        self.clan_trust = 0
 
         # toggles
         self.no_kits = toggles["no_kits"]
@@ -3127,6 +3131,9 @@ class Cat:
                 "status": self.status.get_status_dict(),
                 "dark_forest_affinity": self.dark_forest_affinity,
                 "starclan_affinity": self.starclan_affinity,
+                "honor": self.honor,
+                "reputation": self.reputation,
+                "clan_trust": self.clan_trust,
                 "backstory": self.backstory or None,
                 "moons": self.moons,
                 "trait": self.personality.trait,

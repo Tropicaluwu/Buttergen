@@ -122,6 +122,19 @@ LIFEGEN_STATS = [
     ("dark_forest_affinity", "Dark Forest affinity", -100, 100, 0),
 ]
 
+# BUTTERGEN: the honor system. Clan trust only shows for leaders, deputies and healers
+HONOR_STATS = [
+    ("honor", "Honor", -100, 100, 0),
+    ("reputation", "Reputation", -100, 100, 0),
+    ("clan_trust", "Clan trust", -100, 100, 0),
+]
+
+
+def honor_stats_for(cat: Cat) -> list:
+    from scripts.honor.core import has_clan_trust
+
+    return [row for row in HONOR_STATS if row[0] != "clan_trust" or has_clan_trust(cat)]
+
 # these come from genes in genemod, adding them by hand wouldnt match how the cat looks
 GENETIC_ONLY_CONDITIONS = [
     "manx syndrome", "flat nose", "rabbit gait", "albinism", "ocular albinism",
@@ -146,7 +159,7 @@ def get_stat(cat: Cat, attr: str):
 
 def set_stat(cat: Cat, attr: str, value: int):
     """sets a facet or lifegen stat, clamped to its range"""
-    for table in (PERSONALITY_FACETS, LIFEGEN_STATS):
+    for table in (PERSONALITY_FACETS, LIFEGEN_STATS, HONOR_STATS):
         for name, _label, low, high, _reset in table:
             if name != attr:
                 continue
