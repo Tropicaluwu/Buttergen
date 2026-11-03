@@ -9,6 +9,7 @@ import pygame_gui
 
 from scripts.cat.enums import CatAge, CatRank
 from scripts.cat_editor_logic import (
+    BIRTH_CONDITIONS,
     LIFE_FLAGS,
     LIFEGEN_STATS,
     PERSONALITY_FACETS,
@@ -69,10 +70,10 @@ PICKER_COLUMNS = 3
 PICKER_ROWS = 9
 PICKER_PAGE = PICKER_COLUMNS * PICKER_ROWS
 
+# injuries and illnesses are both temporary conditions in this ClanGen
 CONDITION_KINDS = [
-    ("injury", "injuries", "Injury"),
-    ("illness", "illnesses", "Illness"),
-    ("permanent", "permanent_condition", "Condition"),
+    ("temporary", "temporary_conditions", "Injury or illness"),
+    ("permanent", "permanent_conditions", "Lasting condition"),
 ]
 
 
@@ -189,21 +190,21 @@ class CatStatEditorWindow(EditorWindowBase):
         self._text("Conditions (click one to remove it):", (20, 176, 660, 30))
         current = []
         for kind, attr, _label in CONDITION_KINDS:
-            for name in getattr(cat, attr):
-                current.append((kind, name))
+            for condition in getattr(cat, attr):
+                current.append((kind, condition.name))
         if not current:
             self._text("None", (20, 206, 300, 30), "#text_box_26_horizleft_pad_10_14")
         for i, (kind, name) in enumerate(current[:12]):
             col, row = i % 3, i // 3
-            self._button(name, (20 + col * 222, 208 + row * 36, 214, 30),
+            self._button(name.replace("_", " "), (20 + col * 222, 208 + row * 36, 214, 30),
                          lambda k=kind, n=name: remove_condition(cat, k, n),
-                         disabled=name == "pregnant", tooltip=f"{kind}, click to remove")
+                         disabled=name in BIRTH_CONDITIONS, tooltip="click to remove")
         if len(current) > 12:
             self._text(f"...and {len(current) - 12} more", (20, 352, 300, 30), "#text_box_26_horizleft_pad_10_14")
 
         # adding
         for i, (kind, _attr, label) in enumerate(CONDITION_KINDS):
-            self._button(f"Add {label.lower()}", (20 + i * 222, 386, 214, 32),
+            self._button(f"Add {label.lower()}", (20 + i * 333, 386, 325, 32),
                          lambda k=kind, l=label: self._open_condition_picker(k, l), disabled=cat.dead)
 
         # flags

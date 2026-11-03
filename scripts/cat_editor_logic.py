@@ -129,6 +129,9 @@ GENETIC_ONLY_CONDITIONS = [
     "fully hairless", "partially hairless", "bad back", "narrowed chest", "bumpy skin",
 ]
 
+# pregnancy and birth are handled by the pregnancy code, the editor leaves them alone
+BIRTH_CONDITIONS = ("pregnant", "recovering_from_birth")
+
 LIFE_FLAGS = [
     ("no_kits", "No kits"),
     ("no_mates", "No mates"),
@@ -206,50 +209,42 @@ def set_trait(cat: Cat, trait: str) -> bool:
 
 
 def condition_options(kind: str) -> list:
-    """names that can be given to a cat, kind is injury, illness or permanent"""
-    from scripts.cat.cats import ILLNESSES, INJURIES
-    import ujson
+    """names that can be given to a cat, kind is temporary (injuries and illnesses) or permanent"""
+    from scripts.cat.constants import PERMANENT_CONDITIONS, TEMPORARY_CONDITIONS
 
-    if kind == "injury":
-        return sorted(INJURIES)
-    if kind == "illness":
-        return sorted(ILLNESSES)
-    with open("resources/dicts/conditions/permanent_conditions.json", "r", encoding="utf-8") as read_file:
-        permanent = ujson.loads(read_file.read())
-    return sorted(c for c in permanent if c not in GENETIC_ONLY_CONDITIONS)
+    if kind == "temporary":
+        return sorted(name for name in TEMPORARY_CONDITIONS if name not in BIRTH_CONDITIONS)
+    return sorted(name for name in PERMANENT_CONDITIONS
+                  if name.replace("_", " ") not in GENETIC_ONLY_CONDITIONS)
 
 
 def give_condition(cat: Cat, kind: str, name: str):
+    from scripts.cat.conditions.gain_conditions import gain_permanent_condition, gain_temporary_condition
+
     if cat.dead:
         return
-    if kind == "injury":
-        cat.get_injured(name, event_triggered=True, lethal=False)
-    elif kind == "illness":
-        cat.get_ill(name, event_triggered=True, lethal=False)
+    if kind == "temporary":
+        gain_temporary_condition(cat, name, prevent_death=True)
     else:
-        cat.get_permanent_condition(name, born_with=False, event_triggered=True)
+        gain_permanent_condition(cat, name)
     cat.pelt.rebuild_sprite = True
 
 
 def remove_condition(cat: Cat, kind: str, name: str):
-    table = {"injury": cat.injuries, "illness": cat.illnesses, "permanent": cat.permanent_condition}[kind]
-    table.pop(name, None)
-    if kind == "permanent" and name == "paralyzed":
+    cat.remove_condition(name)
+    if name == "paralyzed":
         cat.pelt.paralyzed = False
     cat.pelt.rebuild_sprite = True
 
 
 def heal_all(cat: Cat):
     """clears injuries and illnesses, keeps pregnancy and permanent conditions"""
-    for name in list(cat.injuries):
-        if name != "pregnant":
-            cat.injuries.pop(name, None)
-    cat.illnesses.clear()
+    cat.temporary_conditions = [c for c in cat.temporary_conditions if c.name in BIRTH_CONDITIONS]
     cat.pelt.rebuild_sprite = True
 
 
 def clear_permanent(cat: Cat):
-    cat.permanent_condition.clear()
+    cat.permanent_conditions = []
     cat.pelt.paralyzed = False
     cat.pelt.rebuild_sprite = True
 
