@@ -255,6 +255,9 @@ class Cat:
         self.honor = 0
         self.reputation = 0
         self.clan_trust = 0
+        # what's tempting the cat, by cause, and the Clan age when they last did each act
+        self.temptation = {}
+        self.code_done = {}
 
         # toggles
         self.no_kits = toggles["no_kits"]
@@ -3134,6 +3137,8 @@ class Cat:
                 "honor": self.honor,
                 "reputation": self.reputation,
                 "clan_trust": self.clan_trust,
+                "temptation": self.temptation,
+                "code_done": self.code_done,
                 "backstory": self.backstory or None,
                 "moons": self.moons,
                 "trait": self.personality.trait,

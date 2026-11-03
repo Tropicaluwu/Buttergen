@@ -1,0 +1,363 @@
+{
+    "eat_first": {
+        "you": [
+            "The fresh-kill pile is low, and your belly aches. You eat before it's your turn. Nobody sees, but it sits heavy all the same.",
+            "While the Clan is busy, you take the plumpest piece of fresh-kill for yourself before it's your turn."
+        ],
+        "others": [
+            "m_c eats from the fresh-kill pile before it's {PRONOUN/m_c/poss} turn.",
+            "Somehow the best piece of fresh-kill keeps ending up in m_c's nest, even with the pile so low."
+        ]
+    },
+    "sneak_out": {
+        "you": [
+            "You slip out of camp under the cover of darkness and wander the territory alone. You're back in your nest before dawn.",
+            "You can't sleep, so you sneak out past the camp entrance and spend the night under the stars."
+        ],
+        "others": [
+            "m_c's nest is empty in the middle of the night, but {PRONOUN/m_c/subject} {VERB/m_c/are/is} back by dawn as if nothing happened.",
+            "m_c slips out of camp after dark and comes back with dew on {PRONOUN/m_c/poss} pelt."
+        ]
+    },
+    "skip_duties": {
+        "you": [
+            "You spend the moon finding sunny spots instead of doing your duties.",
+            "Every time there's a job to do, you find a reason to be somewhere else."
+        ],
+        "others": [
+            "m_c has been finding excuses to skip {PRONOUN/m_c/poss} duties all moon.",
+            "m_c naps in the sun while {PRONOUN/m_c/poss} Clanmates do all the work."
+        ]
+    },
+    "lie_leader": {
+        "you": [
+            "When r_c asks where you were, you look {PRONOUN/r_c/object} in the eye and lie.",
+            "You tell r_c a story that isn't true, and {PRONOUN/r_c/subject} {VERB/r_c/believe/believes} every word."
+        ],
+        "others": [
+            "m_c tells r_c a lie about where {PRONOUN/m_c/subject} {VERB/m_c/have/has} been, and r_c believes it."
+        ]
+    },
+    "gathering_fight": {
+        "you": [
+            "Under the full moon, an o_c_n cat says one word too many, and you're on them before you can think. The truce is broken."
+        ],
+        "others": [
+            "m_c picks a fight with an o_c_n cat at the Gathering, breaking the truce."
+        ]
+    },
+    "pass_secrets": {
+        "you": [
+            "You tell an o_c_n cat where c_n's patrols go and when. You don't let yourself think about what they'll do with it."
+        ],
+        "others": [
+            "m_c meets an o_c_n cat at the border and tells them more about c_n than any warrior should."
+        ]
+    },
+    "twoleg_food": {
+        "you": [
+            "You follow the smell of kittypet food to a Twoleg den and eat from the bowl by the door. It's soft, and easy, and you hate how much you like it."
+        ],
+        "others": [
+            "m_c comes back smelling of Twolegs and kittypet food."
+        ]
+    },
+    "neglect_kit": {
+        "you": [
+            "You hear a kit crying near the border. It smells of o_c_n. You keep walking."
+        ],
+        "others": [
+            "m_c walks past a crying o_c_n kit near the border and does nothing."
+        ]
+    },
+    "give_share": {
+        "you": [
+            "r_c looks thin, so you give {PRONOUN/r_c/object} your share of the fresh-kill and go to sleep hungry."
+        ],
+        "others": [
+            "m_c gives {PRONOUN/m_c/poss} share of the fresh-kill to r_c, who needed it more."
+        ]
+    },
+    "defend_clanmate": {
+        "you": [
+            "When r_c is blamed for something {PRONOUN/r_c/subject} didn't do, you speak up for {PRONOUN/r_c/object} in front of the whole Clan."
+        ],
+        "others": [
+            "m_c stands up for r_c when the Clan is quick to blame {PRONOUN/r_c/object}."
+        ]
+    },
+    "help_kit": {
+        "you": [
+            "You find an o_c_n kit stuck near the border, crying for its mother. You carry it back to the o_c_n scent line and wait until its Clan comes."
+        ],
+        "others": [
+            "m_c finds a lost o_c_n kit near the border and makes sure it gets home safely."
+        ]
+    },
+    "hunt_border": {
+        "you": [
+            "The prey on o_c_n's side of the border is fat and slow. You slip across, hunt, and are back before anyone smells you.",
+            "Your Clan is hungry, and o_c_n's land is right there. You cross the border, and you don't come back empty-jawed."
+        ],
+        "others": [
+            "m_c comes back from hunting with suspiciously plump prey and won't say where it came from.",
+            "m_c's pelt smells faintly of o_c_n, but the fresh-kill {PRONOUN/m_c/subject} {VERB/m_c/bring/brings} back is too good to complain about."
+        ]
+    },
+    "let_trespasser": {
+        "you": [
+            "You find an o_c_n cat on your side of the border. You know them, a little. You look the other way."
+        ],
+        "others": [
+            "m_c finds an o_c_n cat trespassing and lets them leave without a word."
+        ]
+    },
+    "markers_lapse": {
+        "you": [
+            "You're meant to renew the border markers, but it's cold and far, and you turn back halfway."
+        ],
+        "others": [
+            "m_c was meant to renew the o_c_n border markers. The scent there is getting stale."
+        ]
+    },
+    "renew_markers": {
+        "you": [
+            "You walk the whole o_c_n border and renew every marker. Nobody will be able to say they didn't know where c_n starts."
+        ],
+        "others": [
+            "m_c spends the moon carefully renewing the scent markers along the o_c_n border."
+        ]
+    },
+    "feed_elders": {
+        "you": [
+            "You bring your first catch straight to the elders' den. r_c purrs and says not many young cats remember to do that."
+        ],
+        "others": [
+            "m_c brings {PRONOUN/m_c/poss} first catch straight to the elders, just like the warrior code says."
+        ]
+    },
+    "keep_vigil": {
+        "you": [
+            "You stay awake through the night, watching over the sleeping camp. By dawn your eyes are heavy, but c_n slept safely."
+        ],
+        "others": [
+            "m_c volunteers to keep watch over camp through the night, and doesn't complain once."
+        ]
+    },
+    "extra_patrol": {
+        "you": [
+            "You join a second patrol after your first, even though your paws ache."
+        ],
+        "others": [
+            "m_c joins every patrol {PRONOUN/m_c/subject} can this moon."
+        ]
+    },
+    "disobey_mentor": {
+        "you": [
+            "r_c tells you to wait, but you don't. You do it your way."
+        ],
+        "others": [
+            "m_c ignores what {PRONOUN/m_c/poss} mentor r_c told {PRONOUN/m_c/object} and goes off on {PRONOUN/m_c/poss} own."
+        ]
+    },
+    "app_eat_first": {
+        "you": [
+            "You're meant to hunt for the elders first, but the first mouse you catch goes into your own belly."
+        ],
+        "others": [
+            "m_c eats {PRONOUN/m_c/poss} first catch instead of bringing it to the elders."
+        ]
+    },
+    "practice": {
+        "you": [
+            "You practice your hunting crouch long after r_c has gone back to camp."
+        ],
+        "others": [
+            "m_c practices long after training is over."
+        ]
+    },
+    "help_healer": {
+        "you": [
+            "You spend your free time helping r_c sort herbs."
+        ],
+        "others": [
+            "m_c spends {PRONOUN/m_c/poss} free time helping in the healer's den."
+        ]
+    },
+    "kit_sneak": {
+        "you": [
+            "You squeeze out through the camp wall and explore. It's huge out here! You're back before anyone notices... you think."
+        ],
+        "others": [
+            "m_c sneaks out of camp and gives the queens a fright."
+        ]
+    },
+    "kit_border": {
+        "you": [
+            "You follow a beetle all the way to the border, where everything smells strange."
+        ],
+        "others": [
+            "m_c is found wandering near the o_c_n border, far too far from the nursery."
+        ]
+    },
+    "hide_sign": {
+        "you": [
+            "StarClan sends you a sign, and you don't like what it means. You keep it to yourself."
+        ],
+        "others": [
+            "m_c has a strange look about {PRONOUN/m_c/object} after visiting the Moonpool, but tells r_c nothing."
+        ]
+    },
+    "bend_sign": {
+        "you": [
+            "The sign was clear, but you tell r_c it means something else. Something that suits you better."
+        ],
+        "others": [
+            "m_c tells r_c what StarClan's sign means. It isn't quite what StarClan meant."
+        ]
+    },
+    "favorite_herbs": {
+        "you": [
+            "The herb stores are low, so you save the best for r_c, even though others need them more."
+        ],
+        "others": [
+            "m_c saves the best herbs for r_c while others wait."
+        ]
+    },
+    "leave_den": {
+        "you": [
+            "You leave the healer's den untended for a whole day. When you come back, r_c has been waiting for you."
+        ],
+        "others": [
+            "m_c leaves the healer's den untended, and r_c has to wait for help."
+        ]
+    },
+    "honest_sign": {
+        "you": [
+            "The sign is a bad one, and it would be easier to keep it quiet. You tell r_c anyway."
+        ],
+        "others": [
+            "m_c brings r_c a sign from StarClan, even though it's bad news."
+        ]
+    },
+    "sick_vigil": {
+        "you": [
+            "You don't sleep at all, staying with r_c through the worst of it."
+        ],
+        "others": [
+            "m_c stays up all night with r_c through the worst of it."
+        ]
+    },
+    "teach_apprentice": {
+        "you": [
+            "You go through every herb in the stores with r_c until {PRONOUN/r_c/subject} {VERB/r_c/know/knows} them all."
+        ],
+        "others": [
+            "m_c teaches r_c every herb in the stores, twice."
+        ]
+    },
+    "share_herbs": {
+        "you": [
+            "o_c_n's healer is out of herbs, so you share some of yours. Healers help each other, whatever the borders say."
+        ],
+        "others": [
+            "m_c shares herbs with o_c_n's healer, who has run out."
+        ]
+    },
+    "twist_words": {
+        "you": [
+            "You're meant to be fair, but when r_c comes to you with a quarrel, you lean the way you already wanted to."
+        ],
+        "others": [
+            "m_c settles a quarrel, but not quite fairly."
+        ]
+    },
+    "carry_messages": {
+        "you": [
+            "An o_c_n cat asks you to carry a message to someone in c_n, and you say yes without telling your leader."
+        ],
+        "others": [
+            "m_c has been carrying messages between c_n and o_c_n without the leader knowing."
+        ]
+    },
+    "settle_fairly": {
+        "you": [
+            "You hear both sides out and find an answer that everyone can live with."
+        ],
+        "others": [
+            "m_c settles a quarrel between r_c and a Clanmate fairly."
+        ]
+    },
+    "kits_wander": {
+        "you": [
+            "You close your eyes for a moment, and when you open them, the kits are gone. You find them at the camp entrance."
+        ],
+        "others": [
+            "m_c lets the kits wander off while {PRONOUN/m_c/subject} {VERB/m_c/are/is} meant to be watching them."
+        ]
+    },
+    "best_nest": {
+        "you": [
+            "You take the warmest part of the nursery for your own kits, and r_c's kits get the drafty corner."
+        ],
+        "others": [
+            "m_c keeps the best of the nursery for {PRONOUN/m_c/poss} own kits."
+        ]
+    },
+    "nurse_kit": {
+        "you": [
+            "r_c's kit is hungry, so you nurse them with your own."
+        ],
+        "others": [
+            "m_c nurses a kit that isn't {PRONOUN/m_c/poss} own."
+        ]
+    },
+    "watch_nursery": {
+        "you": [
+            "You stay awake all night so the other queens can sleep."
+        ],
+        "others": [
+            "m_c watches over the nursery all night."
+        ]
+    },
+    "spread_rumors": {
+        "you": [
+            "You tell the young ones a story about r_c. It's mostly true. Mostly."
+        ],
+        "others": [
+            "m_c has been spreading rumors about r_c in the elders' den."
+        ]
+    },
+    "old_stories": {
+        "you": [
+            "The kits gather around, and you tell them the old stories, and why the warrior code matters."
+        ],
+        "others": [
+            "m_c teaches the kits the warrior code through the old stories."
+        ]
+    },
+    "unfair_patrols": {
+        "you": [
+            "You put r_c on every dawn patrol this moon. You tell yourself it's fair."
+        ],
+        "others": [
+            "m_c keeps putting r_c on the worst patrols."
+        ]
+    },
+    "hide_news": {
+        "you": [
+            "You hear something r_c should know, and you keep it to yourself."
+        ],
+        "others": [
+            "m_c keeps news from the leader r_c."
+        ]
+    },
+    "fair_patrols": {
+        "you": [
+            "You make sure every warrior gets a fair share of patrols this moon."
+        ],
+        "others": [
+            "m_c organizes the patrols fairly this moon."
+        ]
+    }
+}

@@ -754,6 +754,16 @@ def _one_moon_impl():
         game.clan.affair = False
         game.clan.exile_return = False
 
+    # BUTTERGEN: the honor system's code events, every skip. A bug here mustn't stop the skip
+    try:
+        from scripts.honor import temptation
+
+        temptation.on_skip(full_moon)
+    except Exception:  # pylint: disable=broad-except
+        import traceback
+
+        traceback.print_exc()
+
     generate_dialogue_focus()
     checks = [
         len(game.clan.your_cat.apprentice),

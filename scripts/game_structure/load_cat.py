@@ -70,6 +70,8 @@ LIFEGEN_SAVED_FIELDS = (
     "honor",
     "reputation",
     "clan_trust",
+    "temptation",
+    "code_done",
 )
 
 
