@@ -261,6 +261,8 @@ class Cat:
         # judgments: [[clan age, step], ...] and the sentence being served, or None
         self.code_record = []
         self.code_sentence = None
+        # exiled from your Clan: when, why, and who refused them (scripts/honor/exile.py)
+        self.code_exile = None
 
         # toggles
         self.no_kits = toggles["no_kits"]
@@ -3151,6 +3153,7 @@ class Cat:
                 "code_done": self.code_done,
                 "code_record": self.code_record,
                 "code_sentence": self.code_sentence,
+                "code_exile": self.code_exile,
                 "backstory": self.backstory or None,
                 "moons": self.moons,
                 "trait": self.personality.trait,

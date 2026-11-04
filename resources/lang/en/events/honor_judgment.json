@@ -89,7 +89,7 @@
             "Because m_c [act], r_c exiles {PRONOUN/m_c/object} from c_n. Some of the Clan watch {PRONOUN/m_c/object} go, and some won't look."
         ],
         "you": [
-            "Because you [act you], r_c exiles you from c_n."
+            "Because you [act you], r_c exiles you from c_n. You leave camp with nothing but the fur on your back."
         ]
     },
     "deputy_for": [

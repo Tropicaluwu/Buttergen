@@ -4543,6 +4543,10 @@ def exile_or_forgive(cat):
 
     if not int(random.random() * fate):
         cat.status.exile_from_group()
+        # BUTTERGEN: remembered, so they can ask to come home later (honor system step 6)
+        from scripts.honor import exile
+
+        exile.record(cat, "shunning")
         text = event_text_adjust(
             Cat,
             text=(

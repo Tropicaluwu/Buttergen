@@ -1,0 +1,39 @@
+{
+    "home_yes": {
+        "you": [
+            "You wait at the border until a patrol finds you. r_c hears you out, and in the end {PRONOUN/r_c/subject} {VERB/r_c/let/lets} you come home. Not everyone looks glad to see you."
+        ],
+        "others": [
+            "m_c comes back to the border, asking to return. r_c lets {PRONOUN/m_c/object} back into c_n, though it will take time to earn their trust."
+        ]
+    },
+    "home_no": {
+        "you": [
+            "You wait at the border until a patrol finds you. r_c hears you out, then tells you to go. Not yet. Maybe not ever."
+        ],
+        "others": [
+            "m_c comes back to the border, asking to return. r_c turns {PRONOUN/m_c/object} away."
+        ]
+    },
+    "clan_yes": {
+        "you": [
+            "You go to o_c_n's border and ask for their leader. r_c looks you over for a long time, then says you may stay. Your old Clanmates will hear of this."
+        ],
+        "others": [
+            "The exiled m_c has joined o_c_n."
+        ]
+    },
+    "clan_no": {
+        "you": [
+            "You go to o_c_n's border and ask for their leader. r_c tells you o_c_n has no use for c_n's castoffs."
+        ],
+        "others": []
+    },
+    "window": {
+        "title": "Where will you go?",
+        "home": "Ask c_n to let you come home",
+        "clan": "Ask o_c_n to take you in",
+        "wait_one": "%{option} (1 more moon)",
+        "wait": "%{option} (%{moons} more moons)"
+    }
+}

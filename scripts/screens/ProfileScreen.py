@@ -278,9 +278,10 @@ class ProfileScreen(Screens):
                 "exile_return" in self.profile_elements
                 and event.ui_element == self.profile_elements["exile_return"]
             ):
-                game.clan.exile_return = True
-                self.the_cat.return_home()
-                self.change_screen(GameScreen.EVENTS)
+                # BUTTERGEN: come home or ask another Clan (honor system step 6)
+                from scripts.ui.windows.honor_exile import HonorExileWindow
+
+                HonorExileWindow(self.the_cat, self)
             elif event.ui_element == self.back_button:
                 self.close_current_tab()
                 self.change_screen(game.last_screen_forProfile)

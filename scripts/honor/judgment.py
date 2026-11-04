@@ -206,8 +206,6 @@ def judge(entry) -> bool:
     key = entry["act"]
     points, deputy_push, clan_push = points_for(cat, judge_cat, key, entry.get("extra", 0), entry.get("level"))
     step = step_for(points)
-    if step == EXILE and cat is _you():
-        step = SHUNNING  # step 6 adds exiling your cat
     from scripts.honor.witness import _clan_by_name
 
     other_clan = _clan_by_name(entry.get("clan"))
@@ -215,7 +213,7 @@ def judge(entry) -> bool:
         # the other Clan is gone, so name any of them
         other_clan = choice(game.clan.all_other_clans) if game.clan.all_other_clans else None
     text = _sentence_text(step, cat, key, deputy_push, clan_push)
-    apply(cat, judge_cat, step, clan_push)
+    apply(cat, judge_cat, step, clan_push, entry.get("level") or ACTS[key]["level"])
     _post(text, cat, judge_cat, other_clan=other_clan)
     if step == SHUNNING:
         demotion = cat.shunned_demotion() if not cat.dead else ""
@@ -225,7 +223,7 @@ def judge(entry) -> bool:
     return True
 
 
-def apply(cat, judge_cat, step, clan_push=0):
+def apply(cat, judge_cat, step, clan_push=0, level=None):
     from scripts.honor.temptation import nudge
 
     age = game.clan.age
@@ -242,6 +240,10 @@ def apply(cat, judge_cat, step, clan_push=0):
     elif step == EXILE:
         cat.code_sentence = None
         cat.status.exile_from_group()
+        # step 6: remembered, so they can ask to come home later
+        from scripts.honor import exile
+
+        exile.record(cat, level)
     if LADDER.index(step) >= LADDER.index(LOST_TRUST):
         nudge(cat, judge_cat, like=-randint(2, 5))
         if clan_push > 0:
@@ -336,6 +338,10 @@ def on_skip(full_moon: bool):
     if not full_moon:
         return
     tick_sentences()
+    # step 6: exiled cats may ask to come home, or ask another Clan
+    from scripts.honor import exile
+
+    exile.on_full_moon()
     waiting = []
     for entry in list(game.clan.code_judgments):
         if not judge(entry):
