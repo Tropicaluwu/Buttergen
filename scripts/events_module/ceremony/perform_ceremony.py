@@ -301,6 +301,10 @@ def check_and_promote_deputy(clan):
     if get_clan_setting("rel_deputy") and clan.leader:
         possible_deputies = _rel_deputy_filter(possible_deputies, clan.leader)
 
+    # BUTTERGEN: cats who lost the Clan's trust aren't picked while anyone else can be
+    from scripts.honor.judgment import trusted_first
+
+    possible_deputies = trusted_first(possible_deputies)
     if possible_deputies:
         # from here we must have appropriate deputy choices
         main_cat = random.choice(possible_deputies)
@@ -323,7 +327,7 @@ def check_and_promote_deputy(clan):
         if all_warriors:
             if get_clan_setting("rel_deputy") and clan.leader:
                 all_warriors = _rel_deputy_filter(all_warriors, clan.leader)
-            main_cat = random.choice(all_warriors)
+            main_cat = random.choice(trusted_first(all_warriors))
         else:
             # If there are no warriors at all, no one is named deputy.
             game.cur_events_list.append(

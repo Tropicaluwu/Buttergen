@@ -258,6 +258,9 @@ class Cat:
         # what's tempting the cat, by cause, and the Clan age when they last did each act
         self.temptation = {}
         self.code_done = {}
+        # judgments: [[clan age, step], ...] and the sentence being served, or None
+        self.code_record = []
+        self.code_sentence = None
 
         # toggles
         self.no_kits = toggles["no_kits"]
@@ -1948,6 +1951,13 @@ class Cat:
                     potential_mentors.append(cat)
                     if not cat.apprentice and cat.can_work() and cat.moons >= get_config("roles.min_mentorship_age"):
                         priority_mentors.append(cat)
+            # BUTTERGEN: cats who lost the Clan's trust aren't picked while anyone else can be
+            from scripts.honor.judgment import lost_trust
+
+            trusted_priority = [c for c in priority_mentors if not lost_trust(c)]
+            trusted = [c for c in potential_mentors if not lost_trust(c)]
+            if trusted_priority or trusted:
+                priority_mentors, potential_mentors = trusted_priority, trusted
             # First try for a cat who currently has no apprentices and is working
             if (
                 switch_get_value(Switch.request_apprentice)
@@ -3139,6 +3149,8 @@ class Cat:
                 "clan_trust": self.clan_trust,
                 "temptation": self.temptation,
                 "code_done": self.code_done,
+                "code_record": self.code_record,
+                "code_sentence": self.code_sentence,
                 "backstory": self.backstory or None,
                 "moons": self.moons,
                 "trait": self.personality.trait,

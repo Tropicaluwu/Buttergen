@@ -186,6 +186,8 @@ class Clan:
         self.affair = False
         # BUTTERGEN: kept and held secrets about broken code (scripts/honor/witness.py)
         self.code_secrets = []
+        # cats waiting for the leader's judgment (scripts/honor/judgment.py)
+        self.code_judgments = []
         self.achievements = []
         self.talks = []
         self.focus = ""
@@ -1105,6 +1107,7 @@ class Clan:
             "exile_return": self.exile_return,
             "affair": self.affair,
             "code_secrets": self.code_secrets,
+            "code_judgments": self.code_judgments,
             "custom_pronouns": self.custom_pronouns,
             "clan_age": self.clan_age,
         }
@@ -1677,6 +1680,7 @@ class Clan:
         if "affair" in clan_data:
             game.clan.affair = clan_data["affair"]
         game.clan.code_secrets = list(clan_data.get("code_secrets", []))
+        game.clan.code_judgments = list(clan_data.get("code_judgments", []))
 
         if "exile_return" in clan_data:
             game.clan.exile_return = clan_data["exile_return"]

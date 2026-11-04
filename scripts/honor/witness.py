@@ -214,6 +214,10 @@ def after_break(offender, key, other_clan):
 def report(offender, witness, key, other_clan, group, naming=True):
     """the offender's misdeed comes out. witness is None when the whole Clan finds out"""
     core.change_reputation(offender, -randint(*REPUTATION_LOSS[ACTS[key]["level"]]))
+    # step 4: the leader judges it at the next full moon
+    from scripts.honor import judgment
+
+    judgment.queue(offender, key, other_clan)
     leader = game.clan.leader
     if _alive_in_clan(leader) and leader is not offender:
         _nudge(leader, offender, respect=-randint(3, 8), trust=-randint(3, 8))
@@ -239,6 +243,9 @@ def name_others(caught):
         return
     key, other_clan = secret["act"], _clan_by_name(secret["clan"])
     core.change_reputation(named, -randint(*REPUTATION_LOSS[ACTS[key]["level"]]))
+    from scripts.honor import judgment
+
+    judgment.queue(named, key, other_clan)
     _nudge(named, caught, like=-randint(8, 14))
     you = _you()
     variant = "you_named" if named is you else ("you_name" if caught is you else "others")

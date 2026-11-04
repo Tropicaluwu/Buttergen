@@ -72,6 +72,8 @@ LIFEGEN_SAVED_FIELDS = (
     "clan_trust",
     "temptation",
     "code_done",
+    "code_record",
+    "code_sentence",
 )
 
 

@@ -1,0 +1,107 @@
+{
+    "warning": {
+        "others": [
+            "r_c calls m_c aside. {PRONOUN/r_c/subject/CAP} {VERB/r_c/know/knows} that m_c [act]. This time it's only a warning.",
+            "r_c speaks sharply to m_c in front of the warriors' den about how {PRONOUN/m_c/subject} [act]. It won't happen again, {PRONOUN/r_c/subject} {VERB/r_c/say/says}."
+        ],
+        "you": [
+            "r_c calls you aside. {PRONOUN/r_c/subject/CAP} {VERB/r_c/know/knows} you [act you]. This time it's only a warning."
+        ]
+    },
+    "duties": {
+        "others": [
+            "Because m_c [act], r_c gives {PRONOUN/m_c/object} extra duties until the next moons are out: the elders' den, the dirtplace and every tick in camp."
+        ],
+        "you": [
+            "Because you [act you], r_c gives you extra duties. You'll be cleaning out the elders' den for a while."
+        ],
+        "healer_others": [
+            "Because m_c [act], r_c tells {PRONOUN/m_c/object} to stay behind from the next trip to the Moonpool and sort the old herbs instead."
+        ],
+        "healer_you": [
+            "Because you [act you], r_c tells you to stay behind from the next trip to the Moonpool and sort the old herbs instead."
+        ]
+    },
+    "duties_during": {
+        "you": [
+            "You pick ticks out of the elders' fur while your Clanmates head out on patrol.",
+            "You stay behind while the others leave for the Gathering.",
+            "The dirtplace needs clearing again. Of course it does."
+        ],
+        "healer_you": [
+            "You sort through the oldest herbs in the store while the sick wait for someone else."
+        ]
+    },
+    "duties_end": {
+        "you": [
+            "r_c tells you your extra duties are over."
+        ]
+    },
+    "lost_trust": {
+        "others": [
+            "Because m_c [act], r_c says {PRONOUN/m_c/subject} won't be trusted with an apprentice or anything more for some moons."
+        ],
+        "you": [
+            "Because you [act you], r_c tells you plainly: you won't be trusted with an apprentice, or anything more, for some moons."
+        ]
+    },
+    "lost_trust_end": {
+        "you": [
+            "r_c seems to trust you again."
+        ]
+    },
+    "demotion": {
+        "warrior": [
+            "Because m_c [act], r_c sends {PRONOUN/m_c/object} back to apprentice duties for a time."
+        ],
+        "apprentice": [
+            "Because m_c [act], r_c keeps {PRONOUN/m_c/object} in camp with the kits for a time."
+        ],
+        "healer": [
+            "Because m_c [act], r_c says {PRONOUN/m_c/subject} will do an apprentice's work in the healer den for a time."
+        ],
+        "you_warrior": [
+            "Because you [act you], r_c sends you back to apprentice duties for a time."
+        ],
+        "you_apprentice": [
+            "Because you [act you], r_c keeps you in camp with the kits for a time."
+        ],
+        "you_healer": [
+            "Because you [act you], r_c says you'll do an apprentice's work in the healer den for a time."
+        ]
+    },
+    "demotion_end": {
+        "you": [
+            "r_c tells you you've done your time. You're back to your own duties."
+        ]
+    },
+    "shunning": {
+        "others": [
+            "Because m_c [act], r_c declares that the Clan will shun {PRONOUN/m_c/object}."
+        ],
+        "you": [
+            "Because you [act you], r_c declares that the Clan will shun you. Your Clanmates turn away as you pass."
+        ]
+    },
+    "exile": {
+        "others": [
+            "Because m_c [act], r_c exiles {PRONOUN/m_c/object} from c_n. m_c leaves without a word.",
+            "Because m_c [act], r_c exiles {PRONOUN/m_c/object} from c_n. Some of the Clan watch {PRONOUN/m_c/object} go, and some won't look."
+        ],
+        "you": [
+            "Because you [act you], r_c exiles you from c_n."
+        ]
+    },
+    "deputy_for": [
+        "[deputy] speaks up for m_c."
+    ],
+    "deputy_against": [
+        "[deputy] says m_c deserves no softness."
+    ],
+    "clan_mercy": [
+        "Many of the Clan ask r_c to go easy on m_c."
+    ],
+    "clan_harsh": [
+        "The Clan murmurs that m_c has got away with too much already."
+    ]
+}

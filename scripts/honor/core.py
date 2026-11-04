@@ -84,9 +84,11 @@ def profile_lines(cat) -> str:
     if not has_honor(cat):
         return ""
     profile = texts()["profile"]
+    from scripts.honor.judgment import profile_note
+
     out = profile["honor_line"].replace("%{honor}", honor_label(cat)).replace(
         "%{reputation}", reputation_label(cat)
-    ) + "\n"
+    ) + profile_note(cat) + "\n"
     if has_clan_trust(cat):
         out += profile["trust_line"].replace("%{trust}", trust_label(cat)) + "\n"
     return out
