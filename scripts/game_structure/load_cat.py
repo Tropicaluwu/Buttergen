@@ -75,6 +75,7 @@ LIFEGEN_SAVED_FIELDS = (
     "code_record",
     "code_sentence",
     "code_exile",
+    "code_healer",
 )
 
 

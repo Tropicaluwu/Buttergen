@@ -43,6 +43,10 @@ def fol(roles, **kw):
 
 
 ACTS = {
+    # step 7: healers taking mates and having kits, with the toggle on. No roles: these come
+    # from romance and births (scripts/honor/healer.py), never from temptation
+    "healer_mate": brk("serious", frozenset(), ()),
+    "healer_kits": brk("serious", frozenset(), ()),
     # everyone from apprentice up
     "eat_first": brk("minor", EVERYONE, (HUNGER,)),
     "sneak_out": brk("minor", EVERYONE, (RESTLESS, LONGING)),

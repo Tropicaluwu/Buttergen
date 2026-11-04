@@ -302,6 +302,11 @@ def on_skip(full_moon: bool):
     # step 4: misdeeds that came out before this skip are judged at the full moon
 
     judgment.on_skip(full_moon)
+    # step 7: secret healer mates can come out
+    if full_moon:
+        from scripts.honor import healer
+
+        healer.on_full_moon()
     # step 3: old secrets spread, get called in or come out
     witness.on_skip()
     scale = 1 / weekskip.WEEKS_IN_MOON if weekskip.on() else 1.0

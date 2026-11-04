@@ -23,7 +23,9 @@
         "best_nest": ["kept the best of the nursery for {PRONOUN/m_c/poss} own kits", "kept the best of the nursery for your own kits"],
         "spread_rumors": ["spread rumors about a Clanmate", "spread rumors about a Clanmate"],
         "unfair_patrols": ["gave a Clanmate the worst patrols out of spite", "gave a Clanmate the worst patrols out of spite"],
-        "hide_news": ["kept news from the leader", "kept news from the leader"]
+        "hide_news": ["kept news from the leader", "kept news from the leader"],
+        "healer_mate": ["broke a healer's vow and took a mate", "broke a healer's vow and took a mate"],
+        "healer_kits": ["broke a healer's vow and had kits", "broke a healer's vow and had kits"]
     },
     "report": {
         "others": [

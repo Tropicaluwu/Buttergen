@@ -1,0 +1,40 @@
+{
+    "mate_you": [
+        "You and r_c are mates now. No one can know. Healers aren't supposed to take mates."
+    ],
+    "kits_queen": {
+        "you": [
+            "You carry your kits to r_c in the night. {PRONOUN/r_c/subject/CAP} {VERB/r_c/say/says} {PRONOUN/r_c/subject}'ll raise them as {PRONOUN/r_c/poss} own."
+        ],
+        "others": [
+            "r_c has a new litter in the nursery. Only a few cats know they're really m_c's."
+        ]
+    },
+    "kits_found": {
+        "you": [
+            "You come back from the border with a litter of kits, saying you found them abandoned. r_c takes them in."
+        ],
+        "others": [
+            "m_c comes back from the border with a litter of kits, saying {PRONOUN/m_c/subject} found them abandoned. r_c takes them in."
+        ]
+    },
+    "out_mate": {
+        "you": [
+            "It's out: the Clan knows you've taken r_c as your mate."
+        ],
+        "others": [
+            "It's out: m_c, a healer, has taken r_c as a mate."
+        ]
+    },
+    "out_kits": {
+        "you": [
+            "It's out: the Clan knows the kits are yours."
+        ],
+        "others": [
+            "It's out: m_c's kits are really {PRONOUN/m_c/poss} own."
+        ]
+    },
+    "refuse_you": [
+        "You turn r_c away as gently as you can. A healer's path is a lonely one."
+    ]
+}

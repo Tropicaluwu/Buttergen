@@ -468,6 +468,16 @@ def handle_two_moon_pregnant(cat: Cat, clan):
             if other_cat_mate and other_cat_affair_known:
                 _handle_affair_discovery_breakup(who_cheater, other_cat_mate)
 
+    # BUTTERGEN: a healer's kits, with the healer mates toggle on (honor step 7)
+    try:
+        from scripts.honor import healer as honor_healer
+
+        honor_healer.after_birth(pregnant_cat, other_cat or [], kits)
+    except Exception:  # pylint: disable=broad-except
+        import traceback
+
+        traceback.print_exc()
+
 
 def _get_affair_visibility_from_pregnancy(
     cat: Optional[Cat] = None, pregnant_cat: Optional[Cat] = None

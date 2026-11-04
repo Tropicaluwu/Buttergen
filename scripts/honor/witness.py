@@ -31,6 +31,7 @@ WHERE = {
     "neglect_kit": "border", "twoleg_food": "border",
     "sneak_out": "secret", "lie_leader": "secret", "hide_sign": "secret", "bend_sign": "secret",
     "hide_news": "secret", "pass_secrets": "secret", "carry_messages": "secret",
+    "healer_mate": "secret", "healer_kits": "secret",
 }
 # reputation lost when it comes out
 REPUTATION_LOSS = {"minor": (3, 5), "serious": (8, 12), "grave": (15, 25)}
@@ -257,7 +258,10 @@ def report(offender, witness, key, other_clan, group, naming=True, level=None):
     """the offender's misdeed comes out. witness is None when the whole Clan finds out"""
     core.change_reputation(offender, -randint(*REPUTATION_LOSS[_level(key, level)]))
     # step 4: the leader judges it at the next full moon
-    from scripts.honor import judgment
+    from scripts.honor import healer, judgment
+
+    if key in healer.HEALER_ACTS:
+        healer.mark_known(offender)
 
     judgment.queue(offender, key, other_clan, level)
     leader = game.clan.leader

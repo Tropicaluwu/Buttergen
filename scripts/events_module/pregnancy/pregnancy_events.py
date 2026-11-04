@@ -85,6 +85,10 @@ def handle_having_kits(cat: Cat, clan):
         return
 
     chance = get_balanced_kit_chance(cat, second_parent, is_affair, clan)
+    # BUTTERGEN: with the healer mates toggle on, healers' kits are half as likely (honor step 7)
+    from scripts.honor import healer as honor_healer
+
+    chance = honor_healer.kit_chance(chance, cat, second_parent)
     
     all_infertile = True
     if 'sterile' not in cat.permanent_conditions:

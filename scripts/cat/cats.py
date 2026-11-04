@@ -263,6 +263,8 @@ class Cat:
         self.code_sentence = None
         # exiled from your Clan: when, why, and who refused them (scripts/honor/exile.py)
         self.code_exile = None
+        # healer mates the Clan does and doesn't know about (scripts/honor/healer.py)
+        self.code_healer = None
 
         # toggles
         self.no_kits = toggles["no_kits"]
@@ -2267,10 +2269,21 @@ class Cat:
         :param other_cat: The other cat
         :param recalculate_inheritance: Set to False if this func should SKIP recalculating inheritance. Take care when using this.
         """
+        new_mate = other_cat.ID not in self.mate
         if other_cat.ID not in self.mate:
             self.mate.append(other_cat.ID)
         if self.ID not in other_cat.mate:
             other_cat.mate.append(self.ID)
+        # BUTTERGEN: with the healer mates toggle on, a healer's new mate breaks the code (honor step 7)
+        if new_mate:
+            try:
+                from scripts.honor import healer as honor_healer
+
+                honor_healer.on_new_mate(self, other_cat)
+            except Exception:  # pylint: disable=broad-except
+                import traceback
+
+                traceback.print_exc()
 
         # If the current mate was in the previous mate list, remove them.
         if other_cat.ID in self.previous_mates:
@@ -3154,6 +3167,7 @@ class Cat:
                 "code_record": self.code_record,
                 "code_sentence": self.code_sentence,
                 "code_exile": self.code_exile,
+                "code_healer": self.code_healer,
                 "backstory": self.backstory or None,
                 "moons": self.moons,
                 "trait": self.personality.trait,

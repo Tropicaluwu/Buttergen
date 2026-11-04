@@ -131,6 +131,9 @@ def _clan_push(cat) -> int:
 def points_for(cat, judge, key, extra=0, level=None):
     """(points, deputy_push, clan_push)"""
     points = _points(key, level) + extra
+    from scripts.honor.healer import HEALER_ACTS
+
+    healer_floor = key in HEALER_ACTS
     points += sum(1 for moon, _ in cat.code_record if game.clan.age - moon <= RECORD_MOONS)
     points += round((judge.personality.lawfulness - 8) / 8)
     like = _like(judge, cat)
@@ -143,6 +146,9 @@ def points_for(cat, judge, key, extra=0, level=None):
     clan_push = _clan_push(cat)
     rep = cat.reputation
     points += deputy_push + clan_push + (-1 if rep >= 10 else 1 if rep <= -10 else 0)
+    if healer_floor:
+        # step 7: a healer's broken vow is never judged below a demotion
+        points = max(points, 5)
     return points, deputy_push, clan_push
 
 
@@ -179,6 +185,8 @@ def _sentence_text(step, cat, key, deputy_push, clan_push):
     kind = _rank_kind(cat)
     if step == DUTIES and kind == "healer":
         lines = t[DUTIES]["healer_" + who]
+    elif step == DEMOTION and key in ("healer_mate", "healer_kits"):
+        lines = t["demotion_vow"][who]
     elif step == DEMOTION:
         lines = t[DEMOTION][("you_" if you else "") + kind]
     else:

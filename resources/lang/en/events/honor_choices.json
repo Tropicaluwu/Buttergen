@@ -66,6 +66,17 @@
             "resist": "You tell r_c right away, even though it hurts to."
         }
     },
+    "healer_mate": {
+        "prompt": "r_c wants to be your mate. A healer isn't supposed to take a mate.",
+        "options": ["Take r_c as your mate in secret", "Not now"],
+        "take_mate": "You and r_c are mates now. r_c is a healer, so no one can know."
+    },
+    "healer_kits": {
+        "prompt_healer": "Your kits are born. Healers aren't supposed to have kits.",
+        "prompt_mate": "Your kits are born. Their other parent is r_c, a healer.",
+        "options": ["Raise them as your own", "Give them to a queen to raise", "Say you found them"],
+        "raise": "You curl around your newborn kits. Whatever the Clan says, they're yours."
+    },
     "witness": {
         "prompt": "You saw m_c [act]. What do you do?",
         "options": ["Tell r_c", "Keep it to yourself", "Talk to m_c"],

@@ -327,6 +327,11 @@ def _attempt_confession(cat_from: Cat) -> bool:
 
     if not become_mates:
         return False
+    # BUTTERGEN: healers and the healer mates toggle (honor step 7)
+    from scripts.honor import healer as honor_healer
+
+    if not honor_healer.gate(cat_from, cat_to):
+        return False
 
     # do the final prep of the rel change dicts
     cat_from_change["cats_from"] = [cat_from]
@@ -520,6 +525,11 @@ def _attempt_mutual_interest_mates(
             )
 
     if not become_mates:
+        return
+    # BUTTERGEN: healers and the healer mates toggle (honor step 7)
+    from scripts.honor import healer as honor_healer
+
+    if not honor_healer.gate(cat_from, cat_to):
         return
 
     if poly:

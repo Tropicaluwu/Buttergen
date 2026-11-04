@@ -8,7 +8,7 @@ decides by personality at the start of that skip.
 Your cat never holds a secret over anyone, even when deciding alone.
 """
 
-from random import choices as weighted_choice, randint, random
+from random import choice, choices as weighted_choice, randint, random
 
 from scripts.cat.cats import Cat
 from scripts.events_module.event_information import EventInformation
@@ -19,6 +19,8 @@ from scripts.honor import core
 from scripts.honor.acts import ACTS, HONOR_LOSS
 
 TEMPTATION, WITNESS = "temptation", "witness"
+# step 7: a healer's romance, and what to do with a healer's kits
+MATE, KITS = "mate", "kits"
 GIVE, BETWEEN, RESIST = "give", "between", "resist"
 REPORT, KEEP, TALK = "report", "keep", "talk"
 DECIDE = "decide"
@@ -51,7 +53,13 @@ def pending():
     c = getattr(game.clan, "code_choice", None) if game.clan else None
     if not c:
         return None
-    if not _alive_in_clan(_you()) or (c["kind"] == WITNESS and not _alive_in_clan(Cat.fetch_cat(c["offender"]))):
+    gone = (
+        not _alive_in_clan(_you())
+        or (c["kind"] == WITNESS and not _alive_in_clan(Cat.fetch_cat(c["offender"])))
+        or (c["kind"] == MATE and not _alive_in_clan(Cat.fetch_cat(c["other"])))
+        or (c["kind"] == KITS and not [k for k in (Cat.fetch_cat(i) for i in c["kits"]) if k and not k.dead])
+    )
+    if gone:
         game.clan.code_choice = None
         return None
     return c
@@ -81,6 +89,14 @@ def offer_witness(offender, key, other_clan, level=None):
             "clan": other_clan.name if other_clan else None, "level": level})
 
 
+def offer_mate(other):
+    _offer({"kind": MATE, "other": other.ID})
+
+
+def offer_kits(kits, healers):
+    _offer({"kind": KITS, "kits": [k.ID for k in kits], "healers": [h.ID for h in healers]})
+
+
 def is_big(key) -> bool:
     a = ACTS.get(key)
     return bool(a) and a["kind"] == "break" and a["level"] in ("serious", "grave")
@@ -106,7 +122,18 @@ def window_text():
     you = _you()
     t = texts()
     oc = _clan(c.get("clan"))
-    if c["kind"] == TEMPTATION:
+    if c["kind"] == MATE:
+        other = Cat.fetch_cat(c["other"])
+        m = t["healer_mate"]
+        prompt = _render(m["prompt"], you, other, None)
+        options = [(o, _render(label, you, other, None)) for o, label in zip(("take", "refuse"), m["options"])]
+    elif c["kind"] == KITS:
+        healers = [Cat.fetch_cat(i) for i in c["healers"]]
+        k = t["healer_kits"]
+        other = next((h for h in healers if h is not you), None)
+        prompt = _render(k["prompt_healer" if you in healers else "prompt_mate"], you, other, None)
+        options = [(o, _render(label, you, other, None)) for o, label in zip(("raise", "queen", "found"), k["options"])]
+    elif c["kind"] == TEMPTATION:
         a = t["acts"][c["act"]]
         r = _leader_or(Cat.fetch_cat(c["other"]) if c.get("other") else None)
         prompt = _render(a["prompt"], you, r, oc)
@@ -153,10 +180,36 @@ def resolve(option):
     if not c:
         return None
     game.clan.code_choice = None
+    if c["kind"] in (MATE, KITS):
+        return _resolve_healer(c, option)
     if c["kind"] == TEMPTATION:
         return _resolve_temptation(c, option)
     offender = Cat.fetch_cat(c["offender"])
     return resolve_witness(_you(), offender, c["act"], _clan(c.get("clan")), option, c.get("level"))
+
+
+def _resolve_healer(c, option):
+    from scripts.honor import healer
+
+    you = _you()
+    if c["kind"] == MATE:
+        other = Cat.fetch_cat(c["other"])
+        if option == DECIDE:
+            option = healer.decide_mate(you, other)
+        if option == "take":
+            you.set_mate(other)
+            if not healer.is_healer(you):
+                return _post(_render(texts()["healer_mate"]["take_mate"], you, other, None))
+            return None
+        return _post(_render(choice(healer.texts()["refuse_you"]), you, other, None))
+    kits = [k for k in (Cat.fetch_cat(i) for i in c["kits"]) if k and not k.dead]
+    healers = [h for h in (Cat.fetch_cat(i) for i in c["healers"]) if h]
+    if option == DECIDE:
+        option = healer.decide_kits(you)
+    healer.resolve_kits(you, healers, kits, option)
+    if option == "raise":
+        return _post(_render(texts()["healer_kits"]["raise"], you, None, None))
+    return None
 
 
 def _post(text):

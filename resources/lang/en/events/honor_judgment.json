@@ -70,6 +70,14 @@
             "Because you [act you], r_c says you'll do an apprentice's work in the healer den for a time."
         ]
     },
+    "demotion_vow": {
+        "others": [
+            "Because m_c broke a healer's vow, r_c says {PRONOUN/m_c/subject} will live as a warrior for a time, away from the healer den."
+        ],
+        "you": [
+            "Because you broke a healer's vow, r_c says you'll live as a warrior for a time, away from the healer den."
+        ]
+    },
     "demotion_end": {
         "you": [
             "r_c tells you you've done your time. You're back to your own duties."
