@@ -1,3 +1,4 @@
+from scripts.honor import choices as honor_choices
 from math import ceil
 from typing import Dict
 
@@ -160,6 +161,10 @@ class EventsScreen(Screens):
     def start_timeskip(self):
         # LG: starts the moon, also used right after picking your path at 5 moons
         self.timeskip_button.disable()
+        # BUTTERGEN: no choosing while the skip runs, it comes back afterward
+        if getattr(self, "honor_choice_badge", None) is not None:
+            self.honor_choice_badge.kill()
+            self.honor_choice_badge = None
         self.events_thread = self.loading_screen_start_work(events.one_moon)
         # rebuild_moon_n_season_indicator(change_moon=True, visible=True)
         self.save_button.reset_save()
@@ -205,6 +210,9 @@ class EventsScreen(Screens):
             event.type == pygame_gui.UI_BUTTON_PRESSED
         ):  # everything else on button press to prevent blinking
             element = event.ui_element
+            if element is not None and element == getattr(self, "honor_choice_badge", None):
+                honor_choices.open_window(self)
+                return
             if element == self.timeskip_button:
                 # ensure we can't run the same timeskip multiple times
                 if self.events_thread is not None and self.events_thread.is_alive():
@@ -797,6 +805,9 @@ class EventsScreen(Screens):
         self.open_involved_cat_button = None
         self.update_display_events_lists()
         self.update_events_display()
+        # BUTTERGEN: "Your cat has a choice" (honor system step 5)
+        self.honor_choice_badge = None
+        honor_choices.show_badge(self)
 
         # Draw and disable the correct menu buttons.
         self.set_disabled_menu_buttons(["events"])
@@ -1652,3 +1663,4 @@ class EventsScreen(Screens):
 
         self.update_events_display()
         self.timeskip_button.enable()
+        honor_choices.show_badge(self)

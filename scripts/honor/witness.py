@@ -179,22 +179,11 @@ def decide(witness, offender, key) -> str:
 
 # ------------------------------------------------------------------ after a broken rule
 
-def after_break(offender, key, other_clan):
-    """called by temptation.do_act after a cat breaks the code"""
-    where = WHERE.get(key)
-    if where is None or random() >= SEE_CHANCE[where]:
-        return
-    witness = pick_witness(offender, key)
-    if witness is None:
-        return
-    if where == "public":
-        report(offender, witness, key, other_clan, "report")
-        return
-    what = decide(witness, offender, key)
-    if what == "report":
-        report(offender, witness, key, other_clan, "report")
-        return
-    held = what == "hold"
+def _level(key, level=None) -> str:
+    return level or ACTS[key]["level"]
+
+
+def add_secret(offender, witness, key, other_clan, held=False, level=None):
     game.clan.code_secrets.append({
         "offender": offender.ID,
         "witness": witness.ID,
@@ -203,7 +192,36 @@ def after_break(offender, key, other_clan):
         "held": held,
         "knowers": [witness.ID],
         "clan": other_clan.name if other_clan else None,
+        "level": level,
     })
+
+
+def after_break(offender, key, other_clan, level=None):
+    """called after a cat breaks the code. level overrides the act's own (a half-done act is minor)"""
+    where = WHERE.get(key)
+    if where is None or random() >= SEE_CHANCE[where]:
+        return
+    witness = pick_witness(offender, key)
+    if witness is None:
+        return
+    if where == "public":
+        report(offender, witness, key, other_clan, "report", level=level)
+        return
+    if witness is _you():
+        # step 5: you choose, or your cat does (and never holds it over anyone)
+        from scripts.honor import choices
+
+        if choices.can_offer():
+            choices.offer_witness(offender, key, other_clan, level)
+        else:
+            choices.resolve_witness(witness, offender, key, other_clan, choices.DECIDE, level)
+        return
+    what = decide(witness, offender, key)
+    if what == "report":
+        report(offender, witness, key, other_clan, "report", level=level)
+        return
+    held = what == "hold"
+    add_secret(offender, witness, key, other_clan, held, level)
     if held:
         _nudge(offender, witness, trust=-randint(6, 12), like=-randint(3, 6))
     you = _you()
@@ -211,13 +229,13 @@ def after_break(offender, key, other_clan):
         _post("hold" if held else "keep", offender, witness, key, other_clan)
 
 
-def report(offender, witness, key, other_clan, group, naming=True):
+def report(offender, witness, key, other_clan, group, naming=True, level=None):
     """the offender's misdeed comes out. witness is None when the whole Clan finds out"""
-    core.change_reputation(offender, -randint(*REPUTATION_LOSS[ACTS[key]["level"]]))
+    core.change_reputation(offender, -randint(*REPUTATION_LOSS[_level(key, level)]))
     # step 4: the leader judges it at the next full moon
     from scripts.honor import judgment
 
-    judgment.queue(offender, key, other_clan)
+    judgment.queue(offender, key, other_clan, level)
     leader = game.clan.leader
     if _alive_in_clan(leader) and leader is not offender:
         _nudge(leader, offender, respect=-randint(3, 8), trust=-randint(3, 8))
@@ -241,11 +259,11 @@ def name_others(caught):
     game.clan.code_secrets.remove(secret)
     if not _alive_in_clan(named):
         return
-    key, other_clan = secret["act"], _clan_by_name(secret["clan"])
-    core.change_reputation(named, -randint(*REPUTATION_LOSS[ACTS[key]["level"]]))
+    key, other_clan, level = secret["act"], _clan_by_name(secret["clan"]), secret.get("level")
+    core.change_reputation(named, -randint(*REPUTATION_LOSS[_level(key, level)]))
     from scripts.honor import judgment
 
-    judgment.queue(named, key, other_clan)
+    judgment.queue(named, key, other_clan, level)
     _nudge(named, caught, like=-randint(8, 14))
     you = _you()
     variant = "you_named" if named is you else ("you_name" if caught is you else "others")
@@ -266,6 +284,7 @@ def on_skip():
         offender = Cat.fetch_cat(secret["offender"])
         witness = Cat.fetch_cat(secret["witness"])
         key = secret["act"]
+        level = secret.get("level")
         other_clan = _clan_by_name(secret["clan"])
         if not _alive_in_clan(offender) or key not in ACTS or game.clan.age - secret["moon"] > FORGET_AFTER:
             game.clan.code_secrets.remove(secret)
@@ -273,11 +292,11 @@ def on_skip():
         if witness is None or witness.dead:
             game.clan.code_secrets.remove(secret)
             if witness is not None and random() < DEATHBED_CHANCE:
-                report(offender, witness, key, other_clan, "deathbed")
+                report(offender, witness, key, other_clan, "deathbed", level=level)
             continue
         if _like(witness, offender) < FALLING_OUT_LIKE and witness.status.alive_in_player_clan:
             game.clan.code_secrets.remove(secret)
-            report(offender, witness, key, other_clan, "falling_out")
+            report(offender, witness, key, other_clan, "falling_out", level=level)
             continue
         # gossip
         spread = 0.05 + witness.personality.sociability / 16 * 0.10 + (0.05 if secret["held"] else 0)
@@ -288,7 +307,7 @@ def on_skip():
                 core.change_reputation(offender, -randint(1, 2))
                 if len(secret["knowers"]) >= OUT_AT_KNOWERS:
                     game.clan.code_secrets.remove(secret)
-                    report(offender, None, key, other_clan, "out")
+                    report(offender, None, key, other_clan, "out", level=level)
                     continue
                 if you in (offender, witness):
                     _post("gossip", offender, witness, key, other_clan)

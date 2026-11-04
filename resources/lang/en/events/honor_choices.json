@@ -1,0 +1,75 @@
+{
+    "badge": "Your cat has a choice",
+    "let_decide": "Let %{name} decide",
+    "acts": {
+        "lie_leader": {
+            "prompt": "r_c asks where you were last night. The truth would get you in trouble.",
+            "options": ["Lie", "Tell part of the truth", "Tell the truth"],
+            "between_breaks": true,
+            "between": "You tell r_c part of it. It isn't a lie, exactly.",
+            "resist": "You tell r_c the truth. {PRONOUN/r_c/subject/CAP} {VERB/r_c/look/looks} at you for a long moment, then {VERB/r_c/nod/nods}."
+        },
+        "gathering_fight": {
+            "prompt": "At the Gathering, an o_c_n cat sneers at c_n, and at you. Your claws itch.",
+            "options": ["Strike", "Snap back with words", "Walk away"],
+            "between_breaks": false,
+            "between": "You snap back sharp enough to make the o_c_n cat flinch, but your claws stay sheathed.",
+            "resist": "You turn your back on the o_c_n cat. The truce holds, and a few of your Clanmates notice."
+        },
+        "pass_secrets": {
+            "prompt": "An o_c_n cat finds you alone near the border. They want to know where c_n's patrols go, and they'll make it worth your while.",
+            "options": ["Tell them everything", "Tell them something useless", "Refuse and leave"],
+            "between_breaks": true,
+            "between": "You tell the o_c_n cat a patrol route that c_n hasn't used in moons, and leave before they can ask more.",
+            "resist": "You tell the o_c_n cat to go back to their own territory, and you don't look back."
+        },
+        "neglect_kit": {
+            "prompt": "You hear a kit crying near the border. It smells of o_c_n.",
+            "options": ["Keep walking", "Tell your patrol and let them decide", "Carry it to its Clan's border"],
+            "between_breaks": false,
+            "between": "You tell your patrol about the kit. What happens next isn't up to you.",
+            "resist": "You carry the kit to the o_c_n border and call until one of their warriors comes for it."
+        },
+        "hunt_border": {
+            "prompt": "Hunger gnaws at you. The pile is bare, and o_c_n's border is close.",
+            "options": ["Hunt across the border", "Take one bite, then turn back", "Go home hungry"],
+            "between_breaks": true,
+            "between": "You slip across, snatch one mouse, and are back on your own side before you've finished it.",
+            "resist": "You turn away from the border. Your belly aches all the way home."
+        },
+        "hide_sign": {
+            "prompt": "StarClan sends you a sign, and you don't like what it means.",
+            "options": ["Keep it to yourself", "Tell r_c only part of it", "Tell r_c everything"],
+            "between_breaks": true,
+            "between": "You tell r_c some of what StarClan showed you, and keep the worst of it back.",
+            "resist": "You tell r_c everything StarClan showed you, even the part you wish you hadn't seen."
+        },
+        "bend_sign": {
+            "prompt": "The sign is clear, but r_c won't like it, and neither do you.",
+            "options": ["Tell r_c it means something else", "Say you aren't sure yet", "Tell r_c what it really means"],
+            "between_breaks": true,
+            "between": "You tell r_c the sign isn't clear yet. It is.",
+            "resist": "You tell r_c exactly what the sign means, and watch {PRONOUN/r_c/object} take it in."
+        },
+        "carry_messages": {
+            "prompt": "An o_c_n cat asks you to carry a message to someone in c_n.",
+            "options": ["Carry it in secret", "Carry it, but tell r_c", "Refuse"],
+            "between_breaks": false,
+            "between": "You carry the message, and tell r_c about it first.",
+            "resist": "You tell the o_c_n cat that c_n's business goes through c_n's leader."
+        },
+        "hide_news": {
+            "prompt": "You hear something r_c should know. It would mean trouble for a cat you care about.",
+            "options": ["Keep it to yourself", "Tell r_c in a few days", "Tell r_c now"],
+            "between_breaks": true,
+            "between": "You wait a few days before telling r_c. It's not quite keeping it from {PRONOUN/r_c/object}.",
+            "resist": "You tell r_c right away, even though it hurts to."
+        }
+    },
+    "witness": {
+        "prompt": "You saw m_c [act]. What do you do?",
+        "options": ["Tell r_c", "Keep it to yourself", "Talk to m_c"],
+        "listen": "m_c's ears flatten. {PRONOUN/m_c/subject/CAP} {VERB/m_c/promise/promises} it won't happen again.",
+        "bristle": "m_c tells you to mind your own business."
+    }
+}

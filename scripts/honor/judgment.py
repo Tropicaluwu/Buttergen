@@ -75,20 +75,24 @@ def step_for(points) -> str:
 
 # ------------------------------------------------------------------ waiting for judgment
 
-def queue(cat, key, other_clan=None):
+def _points(key, level=None) -> int:
+    return LEVEL_POINTS[level or ACTS[key]["level"]]
+
+
+def queue(cat, key, other_clan=None, level=None):
     """called when a misdeed comes out. Two misdeeds before the judgment are judged together,
-    as the worse one plus a point"""
+    as the worse one plus a point. level overrides the act's own (a half-done act is minor)"""
     clan_name = other_clan.name if other_clan else None
     if not _alive_in_clan(cat) or key not in ACTS or cat.status.rank == CatRank.LEADER:
         return
     for entry in game.clan.code_judgments:
         if entry["cat"] == cat.ID:
             entry["extra"] = entry.get("extra", 0) + 1
-            if LEVEL_POINTS[ACTS[key]["level"]] > LEVEL_POINTS[ACTS[entry["act"]]["level"]]:
-                entry["act"], entry["clan"] = key, clan_name
+            if _points(key, level) > _points(entry["act"], entry.get("level")):
+                entry["act"], entry["clan"], entry["level"] = key, clan_name, level
             return
     game.clan.code_judgments.append(
-        {"cat": cat.ID, "act": key, "extra": 0, "moon": game.clan.age, "clan": clan_name})
+        {"cat": cat.ID, "act": key, "extra": 0, "moon": game.clan.age, "clan": clan_name, "level": level})
 
 
 def _judge_for(cat):
@@ -124,9 +128,9 @@ def _clan_push(cat) -> int:
     return 0
 
 
-def points_for(cat, judge, key, extra=0):
+def points_for(cat, judge, key, extra=0, level=None):
     """(points, deputy_push, clan_push)"""
-    points = LEVEL_POINTS[ACTS[key]["level"]] + extra
+    points = _points(key, level) + extra
     points += sum(1 for moon, _ in cat.code_record if game.clan.age - moon <= RECORD_MOONS)
     points += round((judge.personality.lawfulness - 8) / 8)
     like = _like(judge, cat)
@@ -200,7 +204,7 @@ def judge(entry) -> bool:
     if judge_cat is None:
         return False
     key = entry["act"]
-    points, deputy_push, clan_push = points_for(cat, judge_cat, key, entry.get("extra", 0))
+    points, deputy_push, clan_push = points_for(cat, judge_cat, key, entry.get("extra", 0), entry.get("level"))
     step = step_for(points)
     if step == EXILE and cat is _you():
         step = SHUNNING  # step 6 adds exiling your cat

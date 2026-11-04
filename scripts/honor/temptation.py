@@ -273,6 +273,13 @@ def act_once(cat, full_moon: bool):
     if not options:
         return None
     _, key, other, oc = weighted(options)
+    if cat is game.clan.your_cat:
+        # step 5: a serious or grave act becomes your choice (one a moon)
+        from scripts.honor import choices
+
+        if choices.is_big(key) and choices.can_offer():
+            choices.offer_temptation(key, other, oc)
+            return None
     return do_act(cat, key, other, oc)
 
 
@@ -282,8 +289,11 @@ def on_skip(full_moon: bool):
     """called once every skip (every moon, or every week with weekskip)"""
     if not game.clan:
         return
+    # step 5: a choice nobody made last skip is made by your cat
+    from scripts.honor import choices, judgment, witness
+
+    choices.on_skip_start()
     # step 4: misdeeds that came out before this skip are judged at the full moon
-    from scripts.honor import judgment, witness
 
     judgment.on_skip(full_moon)
     # step 3: old secrets spread, get called in or come out

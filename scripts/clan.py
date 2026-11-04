@@ -188,6 +188,9 @@ class Clan:
         self.code_secrets = []
         # cats waiting for the leader's judgment (scripts/honor/judgment.py)
         self.code_judgments = []
+        # your cat's waiting choice, and the moon the last one came up (scripts/honor/choices.py)
+        self.code_choice = None
+        self.code_choice_moon = None
         self.achievements = []
         self.talks = []
         self.focus = ""
@@ -1108,6 +1111,8 @@ class Clan:
             "affair": self.affair,
             "code_secrets": self.code_secrets,
             "code_judgments": self.code_judgments,
+            "code_choice": self.code_choice,
+            "code_choice_moon": self.code_choice_moon,
             "custom_pronouns": self.custom_pronouns,
             "clan_age": self.clan_age,
         }
@@ -1681,6 +1686,8 @@ class Clan:
             game.clan.affair = clan_data["affair"]
         game.clan.code_secrets = list(clan_data.get("code_secrets", []))
         game.clan.code_judgments = list(clan_data.get("code_judgments", []))
+        game.clan.code_choice = clan_data.get("code_choice")
+        game.clan.code_choice_moon = clan_data.get("code_choice_moon")
 
         if "exile_return" in clan_data:
             game.clan.exile_return = clan_data["exile_return"]
