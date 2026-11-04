@@ -45,6 +45,10 @@ FALLING_OUT_LIKE = -40
 FAVOR_CHANCE = 0.15
 # other cats' keep and hold events show this often, so the events don't fill up
 SHOW_OTHERS_QUIET = 1 / 3
+# your cat is this much likelier to be the one who sees, so witness choices come up (step 5)
+YOU_WITNESS_WEIGHT = 3
+# the chance your cat notices a Clanmate's misdeed, seen by anyone else or not (it becomes your choice)
+YOU_NOTICE = 0.35
 
 
 def texts() -> dict:
@@ -148,6 +152,8 @@ def pick_witness(offender, key):
                 w += 1
             else:
                 w = 0.3
+        if cat is _you():
+            w *= YOU_WITNESS_WEIGHT
         weights.append(w)
     if not pool:
         return None
@@ -196,13 +202,31 @@ def add_secret(offender, witness, key, other_clan, held=False, level=None):
     })
 
 
+def _you_saw_too(offender, witness, key, other_clan, level):
+    """step 5: your cat may have seen it as well, and gets the choice of what to do"""
+    from scripts.honor import choices
+
+    you = _you()
+    if (you is None or you in (offender, witness) or not _alive_in_clan(you)
+            or you.status.rank.is_baby() or you.status.rank == CatRank.LEADER):
+        return
+    if random() < YOU_NOTICE and choices.can_offer():
+        choices.offer_witness(offender, key, other_clan, level)
+        return True
+    return False
+
+
 def after_break(offender, key, other_clan, level=None):
     """called after a cat breaks the code. level overrides the act's own (a half-done act is minor)"""
     where = WHERE.get(key)
-    if where is None or random() >= SEE_CHANCE[where]:
+    if where is None:
+        return
+    # step 5: your cat may notice, whoever else does
+    noticed = where != "public" and _you_saw_too(offender, None, key, other_clan, level)
+    if random() >= SEE_CHANCE[where]:
         return
     witness = pick_witness(offender, key)
-    if witness is None:
+    if witness is None or (noticed and witness is _you()):
         return
     if where == "public":
         report(offender, witness, key, other_clan, "report", level=level)

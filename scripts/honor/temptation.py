@@ -30,6 +30,9 @@ from scripts.honor.acts import (
 )
 
 MAX_TEMPTATION = 100
+# step 5: serious and grave acts count this much more when your cat picks what to do
+BIG_FOR_YOU = ("serious", "grave")
+BIG_WEIGHT_FOR_YOU = 2
 # chance per moon that your cat has a code event
 YOUR_CHANCE = {"rare": 1 / 6, "normal": 1 / 3.5, "often": 1 / 2}
 # how many other cats have one per moon
@@ -202,6 +205,9 @@ def options_for(cat, full_moon: bool) -> list:
             if oc is None:
                 continue
         weight = sum(cat.temptation.get(c, 0) for c in a["causes"])
+        if cat is game.clan.your_cat and a["kind"] == "break" and a["level"] in BIG_FOR_YOU:
+            # step 5: the big temptations, the ones that become your choice, come up more for your cat
+            weight *= BIG_WEIGHT_FOR_YOU
         if weight > 0:
             out.append((weight, key, other, oc))
     return out
