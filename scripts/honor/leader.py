@@ -123,10 +123,11 @@ def drift():
 
 # ------------------------------------------------------------------ breaking the code
 
-def after_break(leader, key, other_clan=None, level=None):
-    """called after a leader breaks the code: StarClan may send the healers an omen"""
-    if random() < OMEN_CHANCE[level or ACTS[key]["level"]]:
-        omen(leader)
+def after_break(cat, key, other_clan=None, level=None):
+    """called after a leader breaks the code (or anyone a grave misdeed, with Watchful Stars):
+    StarClan may send the healers an omen. Weakened Stars halves the chance, Forsaken stops it"""
+    if random() < OMEN_CHANCE[level or ACTS[key]["level"]] * core.card("omen_factor"):
+        omen(cat, key, other_clan)
 
 
 def misdeed_in_judgment(leader, key):
@@ -147,7 +148,8 @@ def feelings(leader, cat, step, ladder):
     like = _like(leader, cat)
     t = texts()
     you = leader is _you()
-    if like > FEELINGS_AT and random() < FEELINGS_CHANCE:
+    # step 8c: never with Iron Code
+    if like > FEELINGS_AT and core.card("favorites_off") and random() < FEELINGS_CHANCE:
         _post(choice(t["favorite_off"]["you" if you else "others"]), leader, cat)
         misdeed_in_judgment(leader, "favorite_off")
         return None, ""
@@ -168,8 +170,9 @@ def healers() -> list:
     return [c for c in clanmates() if c.status.rank == CatRank.MEDICINE_CAT]
 
 
-def omen(leader):
-    """StarClan is troubled by the leader. Every healer in the Clan sees it and decides"""
+def omen(leader, key=None, other_clan=None):
+    """StarClan is troubled by the leader (or, with Watchful Stars, any cat). Every healer in the
+    Clan sees it and decides"""
     from scripts.honor import choices
 
     told = False
@@ -178,14 +181,14 @@ def omen(leader):
             continue
         if healer is _you():
             if choices.can_offer():
-                choices.offer_omen(leader)
+                choices.offer_omen(leader, key, other_clan)
                 continue
             option = decide(healer, leader)
         else:
             option = decide(healer, leader)
         if option == TELL and told:
             continue  # the Clan already knows
-        told = resolve(healer, leader, option) == TELL or told
+        told = resolve(healer, leader, option, key, other_clan) == TELL or told
 
 
 def decide(healer, leader) -> str:
@@ -199,8 +202,10 @@ def decide(healer, leader) -> str:
     return weighted_choice(OMEN_OPTIONS, weights)[0]
 
 
-def resolve(healer, leader, option):
-    """what the healer does with the omen. Returns the option carried out"""
+def resolve(healer, leader, option, key=None, other_clan=None):
+    """what the healer does with the omen. Returns the option carried out. leader is the cat
+    StarClan is troubled by: with Watchful Stars it can be anyone, and telling the Clan makes
+    their misdeed come out"""
     from scripts.honor import temptation
 
     if not _alive_in_clan(healer) or not _alive_in_clan(leader):
@@ -211,6 +216,11 @@ def resolve(healer, leader, option):
         return KEEP
     t = texts()["omen"]
     you = _you()
+    if option == TELL and not is_leader(leader) and key:
+        from scripts.honor import witness
+
+        witness.report(leader, healer, key, other_clan, "omen", naming=False)
+        return TELL
     if option == TELL:
         change_trust(leader, -randint(*OMEN_TRUST_LOSS))
         variant = "tell_you" if healer is you else "tell_leader_you" if leader is you else "tell"

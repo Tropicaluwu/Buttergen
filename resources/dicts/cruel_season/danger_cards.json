@@ -39,7 +39,15 @@
       "death_related.murder.deputy_murder_modifier": 40,
       "relationship.deputy_to_leader_neg_buff": true,
       "relationship.deputy_envy_leader_influence": 3,
-      "death_related.murder.deputy_prefer_leader": true
+      "death_related.murder.deputy_prefer_leader": true,
+      "buttergen.honor.deputy_dark_when_broken": 2.0,
+      "buttergen.honor.deputy_dark_base_when_broken": 4
+    }
+  },
+  "no_way_back": {
+    "card_art": "danger/for_the_throne.png",
+    "modifiers": {
+      "buttergen.honor.exiles_come_home": false
     }
   },
   "plague_ridden": {

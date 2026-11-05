@@ -33,8 +33,12 @@ class HonorExileWindow(GameWindow):
         t = exile.texts()["window"]
         self.the_cat = cat
         self.profile_screen = profile_screen
-        options = [("home", None, _with_wait(t, _label(t["home"], cat), exile.moons_until_home(cat)),
-                    exile.moons_until_home(cat) == 0)]
+        if exile.can_come_home():
+            options = [("home", None, _with_wait(t, _label(t["home"], cat), exile.moons_until_home(cat)),
+                        exile.moons_until_home(cat) == 0)]
+        else:
+            # step 8c: No Way Back
+            options = [("home", None, _label(t["home_never"], cat), False)]
         if game.clan.clancount == "multiclan":
             for clan in game.clan.all_other_clans:
                 if exile._leader_of(clan) is None:

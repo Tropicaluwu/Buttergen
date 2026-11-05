@@ -17,6 +17,7 @@ from scripts.events_module.event_information import EventInformation
 from scripts.events_module.text_adjust import event_text_adjust
 from scripts.game_structure import game
 from scripts.game_structure.localization import load_lang_resource
+from scripts.honor import core
 
 # moons to wait before asking to come home, by why the cat was exiled
 WAIT = {"minor": 2, "serious": 4, "grave": 8, "shunning": 4}
@@ -73,6 +74,11 @@ def info(cat):
         cat.code_exile = {"moon": game.clan.age, "level": "shunning", "rank": None,
                           "next_home": game.clan.age, "refused": {}}
     return cat.code_exile
+
+
+def can_come_home() -> bool:
+    """step 8c: never with No Way Back"""
+    return bool(core.card("exiles_come_home"))
 
 
 def moons_until_home(cat) -> int:
@@ -186,7 +192,7 @@ def _welcome(cat, group_ID):
 
 def ask_home(cat):
     """the cat asks to come back to your Clan. Returns the event text"""
-    if not is_exiled(cat) or moons_until_home(cat):
+    if not is_exiled(cat) or moons_until_home(cat) or not can_come_home():
         return None
     leader = _leader_of(game.clan)
     if random() * 100 < home_chance(cat):
@@ -222,5 +228,5 @@ def on_full_moon():
         clans = open_clans(cat)
         if clans and random() < 0.5:
             ask_clan(cat, choice(clans))
-        elif not moons_until_home(cat):
+        elif not moons_until_home(cat) and can_come_home():
             ask_home(cat)

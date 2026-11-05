@@ -46,7 +46,7 @@ REPUTATION_LOSS = {"minor": (3, 5), "serious": (8, 12), "grave": (15, 25)}
 # what reporting gives the witness, it's following the code
 REPORT_HONOR, REPORT_REPUTATION = 2, 1
 FORGET_AFTER = 24
-OUT_AT_KNOWERS = 4
+OUT_AT_KNOWERS = 4  # Whispers changes it (core.card("secret_out_at"))
 NAME_OTHERS_CHANCE = 0.3
 DEATHBED_CHANCE = 0.4
 FALLING_OUT_LIKE = -40
@@ -187,12 +187,21 @@ def decide(witness, offender, key) -> str:
         "keep": 0.25 + max(0, like) / 100,
         "hold": 0.05 + (1 - law) * 0.25 + max(0, -witness.honor) / 200 + max(0, -like) / 200,
     }
+    what = _pick(scores)
+    if what == "report" and random() >= core.card("report_factor"):
+        # step 8c: Fading Code, a witness who would report keeps quiet or holds it instead
+        del scores["report"]
+        what = _pick(scores)
+    return what
+
+
+def _pick(scores) -> str:
     roll = random() * sum(scores.values())
     for what, score in scores.items():
         roll -= score
         if roll <= 0:
             return what
-    return "report"
+    return next(iter(scores))
 
 
 # ------------------------------------------------------------------ after a broken rule
@@ -347,12 +356,13 @@ def on_skip():
             continue
         # gossip
         spread = 0.05 + witness.personality.sociability / 16 * 0.10 + (0.05 if secret["held"] else 0)
+        spread *= core.card("secret_spread_factor")  # step 8c: Whispers
         if random() < spread * scale:
             new = [c for c in _clanmates(offender) if c.ID not in secret["knowers"]]
             if new:
                 secret["knowers"].append(choice(new).ID)
                 core.change_reputation(offender, -randint(1, 2))
-                if len(secret["knowers"]) >= OUT_AT_KNOWERS:
+                if len(secret["knowers"]) >= core.card("secret_out_at"):
                     game.clan.code_secrets.remove(secret)
                     report(offender, None, key, other_clan, "out", level=level)
                     continue

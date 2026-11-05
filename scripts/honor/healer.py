@@ -37,7 +37,8 @@ def texts() -> dict:
 
 
 def on() -> bool:
-    return bool(game.clan) and core.healer_mates_break_code()
+    # step 8c: with Heartless nobody takes mates, so the toggle does nothing
+    return bool(game.clan) and core.healer_mates_break_code() and bool(core.card("healer_mates"))
 
 
 def is_healer(cat) -> bool:

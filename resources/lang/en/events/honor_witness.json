@@ -144,6 +144,17 @@
             "You're done keeping quiet for m_c. {PRONOUN/m_c/subject/CAP} will answer at the next full moon for what {PRONOUN/m_c/subject} did moons ago."
         ]
     },
+    "omen": {
+        "others": [
+            "r_c tells the Clan what StarClan showed {PRONOUN/r_c/object}: m_c [act]."
+        ],
+        "you_did": [
+            "r_c tells the Clan what StarClan showed {PRONOUN/r_c/object}: you [act you]."
+        ],
+        "you_saw": [
+            "You tell the Clan what StarClan showed you: m_c [act]."
+        ]
+    },
     "naming": {
         "others": [
             "Caught, m_c tries to share the blame, and tells the leader that r_c [act r_c] too."

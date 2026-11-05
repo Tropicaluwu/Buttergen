@@ -98,8 +98,9 @@ def offer_mate(other):
     _offer({"kind": MATE, "other": other.ID})
 
 
-def offer_omen(leader):
-    _offer({"kind": OMEN, "leader": leader.ID})
+def offer_omen(cat, key=None, other_clan=None):
+    """"leader" is the cat StarClan is troubled by: the leader, or anyone with Watchful Stars"""
+    _offer({"kind": OMEN, "leader": cat.ID, "act": key, "clan": other_clan.name if other_clan else None})
 
 
 def offer_call(leader):
@@ -210,7 +211,11 @@ def personality_witness(witness, offender, key) -> str:
         0.25 + max(0, like) / 100,
         0.1 + witness.personality.sociability / 16 * 0.3 + (0.15 if like > 0 else 0),
     ]
-    return weighted_choice((REPORT, KEEP, TALK), weights)[0]
+    option = weighted_choice((REPORT, KEEP, TALK), weights)[0]
+    if option == REPORT and random() >= core.card("report_factor"):
+        # step 8c: Fading Code
+        option = weighted_choice((KEEP, TALK), weights[1:])[0]
+    return option
 
 
 def resolve(option):
@@ -232,7 +237,7 @@ def resolve(option):
         you, leader = _you(), Cat.fetch_cat(c["leader"])
         if option == DECIDE:
             option = leader_mod.decide(you, leader)
-        leader_mod.resolve(you, leader, option)
+        leader_mod.resolve(you, leader, option, c.get("act"), _clan(c.get("clan")))
         return option
     if c["kind"] in (MATE, KITS):
         return _resolve_healer(c, option)

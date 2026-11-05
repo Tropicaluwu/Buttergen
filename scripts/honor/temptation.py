@@ -119,11 +119,20 @@ def build(cat, scale: float):
         hunger += 5
     romance, _ = _crush_clan(cat)
     longing = min(15, romance / 4) if romance > 10 else 0
+    if not core.card("longing_temptation"):
+        longing = 0  # step 8c: Heartless
     dislike, _ = _worst_grudge(cat)
     grudge = min(12, dislike / 5) if dislike > 30 else 0
     restless = 1 + max(0, 9 - cat.personality.lawfulness) * 1.2 + (3 if cat.moons < 18 else 0)
     dark = (8 if cat.joined_df else 0) + (4 if cat.lock_faith == "dark forest" else 0)
     dark += 3 if cat.dark_forest_affinity > cat.starclan_affinity else 0
+    if cat.status.rank == CatRank.DEPUTY:
+        # step 8c: Anything For The Throne, while the leader's trust is broken
+        from scripts.honor.challenge import broken
+
+        leader = game.clan.leader
+        if leader and not leader.dead and broken(leader):
+            dark = (dark + core.card("deputy_dark_base_when_broken")) * core.card("deputy_dark_when_broken")
     gains = {HUNGER: hunger, LONGING: longing, GRUDGE: grudge, RESTLESS: restless, DARK: dark}
     for cause, amount in gains.items():
         t[cause] = min(MAX_TEMPTATION, t.get(cause, 0) + amount * scale * honor_mult)
@@ -266,8 +275,9 @@ def do_act(cat, key, other, other_clan):
         from scripts.honor import witness
 
         witness.after_break(cat, key, other_clan)
-        # step 8: StarClan may send the healers an omen about a leader
-        if leader.is_leader(cat):
+        # step 8: StarClan may send the healers an omen about a leader, and with Watchful Stars
+        # (step 8c) about anyone's grave misdeed
+        if leader.is_leader(cat) or (a["level"] == "grave" and core.card("omens_for_everyone")):
             leader.after_break(cat, key, other_clan)
     elif a["kind"] == "follow" and leader.is_leader(cat):
         # step 8: a leader's good deed is seen by the Clan
@@ -341,11 +351,13 @@ def on_skip(full_moon: bool):
 
     frequency = core.code_frequency()
     you = game.clan.your_cat
-    if you in cats and random() < YOUR_CHANCE[frequency] * scale:
+    # step 8c: Fading Code makes code events more common
+    factor = core.card("code_event_factor")
+    if you in cats and random() < min(1.0, YOUR_CHANCE[frequency] * factor) * scale:
         act_once(you, full_moon)
 
     low, high = CLAN_EVENTS[frequency]
-    count = randint(low, high)
+    count = round(randint(low, high) * factor)
     if weekskip.on():
         count = sum(1 for _ in range(count) if random() < scale)
     pool = [c for c in cats if c is not you]

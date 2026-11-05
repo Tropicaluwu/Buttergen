@@ -11,6 +11,7 @@ Everyone starts at 0. Old saves start at 0 too.
 
 from scripts.cat.enums import CatRank
 from scripts.clan_package.settings import get_clan_setting
+from scripts.config import get_config
 from scripts.game_structure.localization import load_lang_resource
 
 LOW, HIGH = -100, 100
@@ -107,3 +108,10 @@ def code_frequency() -> str:
 
 def healer_mates_break_code() -> bool:
     return bool(get_clan_setting("healer mates break the code"))
+
+
+# ------------------------------------------------------------------ cruel season cards (step 8c)
+
+def card(name):
+    """a [buttergen.honor] value from the game config, as the Clan's cruel season cards set it"""
+    return get_config("buttergen.honor." + name)

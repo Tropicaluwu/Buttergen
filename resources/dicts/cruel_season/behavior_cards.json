@@ -111,7 +111,9 @@
     "card_art": "behavior/mate_breakup.png",
     "modifiers": {
       "mates.allow_manual": false,
-      "mates.allow_mating": false
+      "mates.allow_mating": false,
+      "buttergen.honor.longing_temptation": false,
+      "buttergen.honor.healer_mates": false
     }
   },
   "clumsy_paws": {
@@ -132,14 +134,22 @@
     "modifiers": {
       "death_related.max_leader_lives": 5,
       "death_related.min_leader_lives": 1,
-      "death_related.leader_lives_nr": [1,2,3,4,5]
+      "death_related.leader_lives_nr": [1,2,3,4,5],
+      "buttergen.honor.omen_factor": 0.5
     }
   },
   "forsaken": {
     "card_art": "behavior/forsaken.png",
     "modifiers": {
       "death_related.max_leader_lives": 1,
-      "death_related.min_leader_lives": 1
+      "death_related.min_leader_lives": 1,
+      "buttergen.honor.omen_factor": 0
+    }
+  },
+  "watchful_stars": {
+    "card_art": "behavior/weakened_stars.png",
+    "modifiers": {
+      "buttergen.honor.omens_for_everyone": true
     }
   },
   "burnout": {

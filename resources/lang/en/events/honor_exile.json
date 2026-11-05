@@ -32,6 +32,7 @@
     "window": {
         "title": "Where will you go?",
         "home": "Ask c_n to let you come home",
+        "home_never": "c_n will never take you back",
         "clan": "Ask o_c_n to take you in",
         "wait_one": "%{option} (1 more moon)",
         "wait": "%{option} (%{moons} more moons)"

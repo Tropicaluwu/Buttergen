@@ -8,5 +8,7 @@
     "genetics": [ "wildtype_cats", "realistic_genotypes", "all_purebreds" ],
     "illness_chance": [ "radioactive", "miasma" ],
     "no_mates": ["heartless", "mate_breakup"],
-    "leader_life_count": ["weak_stars", "forsaken"]
+    "leader_life_count": ["weak_stars", "forsaken"],
+    "honor_code": ["iron_code", "fading_code"],
+    "starclan_watch": ["watchful_stars", "forsaken"]
 }

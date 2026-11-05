@@ -1913,3 +1913,28 @@ white_shape_torties_chance = 0.15
 white_shape_patch_chance = 0.8
 # chance each copy of tortie shaped white patches is had by a cat with no known parents
 tortie_shape_white_chance = 0.05
+
+# BUTTERGEN: the honor system (scripts/honor/). Cruel season cards change these
+[buttergen.honor]
+# Heartless turns these off: no longing for cats in other Clans, and the healer mates toggle does nothing
+longing_temptation = true
+healer_mates = true
+# StarClan's omens about a leader: Weakened Stars halves them, Forsaken stops them
+omen_factor = 1.0
+# Watchful Stars: omens can come for any cat's grave misdeed, not only the leader's
+omens_for_everyone = false
+# Anything For The Throne: how fast the deputy's dark temptation builds while the leader's trust is broken
+deputy_dark_when_broken = 1.0
+# and how much it builds a moon before that, for a deputy with no Dark Forest ties
+deputy_dark_base_when_broken = 0
+# Iron Code: judgments this many steps harsher, and whether leaders can let a favorite off
+harsher_judgments = 0
+favorites_off = true
+# Fading Code: how often code events happen, and how often witnesses report
+code_event_factor = 1.0
+report_factor = 1.0
+# Whispers: how fast secrets spread, and how many cats know before a secret is out
+secret_spread_factor = 1.0
+secret_out_at = 4
+# No Way Back: whether exiled cats can ask to come home
+exiles_come_home = true

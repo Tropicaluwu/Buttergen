@@ -214,6 +214,9 @@ def judge(entry) -> bool:
     key = entry["act"]
     points, deputy_push, clan_push = points_for(cat, judge_cat, key, entry.get("extra", 0), entry.get("level"))
     step = step_for(points)
+    # step 8c: Iron Code makes every judgment harsher
+    harsher = int(core.card("harsher_judgments"))
+    step = LADDER[min(len(LADDER) - 1, LADDER.index(step) + harsher)]
     # step 8: a leader may let a favorite off, or punish out of spite
     from scripts.honor import leader
 

@@ -9,8 +9,8 @@
     "all_purebreds": "All cats will be purebred.",
     "lean_meat": "The fresh-kill has gone scrawny and thin. All cats will need to eat more prey to survive.",
     "hunters_tribute": "Nothing comes free, not even the hunt. The Clan will lose a portion of its fresh-kill each moon.",
-    "forsaken": "The stars have turned away. Leaders will only be given one life.",
-    "for_the_throne": "Ambition rules. Deputies are more likely to murder the leader.",
+    "forsaken": "The stars have turned away. Leaders will only be given one life, and StarClan sends no omens.",
+    "for_the_throne": "Ambition rules. Deputies are more likely to murder the leader, and their darker urges grow twice as fast while the Clan's trust in the leader is broken.",
     "resolute": "The deputy stands firm in their goals: duration before warrior focus can change is doubled.",
     "fated_paths": "Pawsteps are placed according to Silverpelt's design. Mates and ranks cannot be changed manually.",
     "public_enemy": "The other Clans do not welcome new neighbors. All Clans will start as hostile.",
@@ -32,8 +32,8 @@
     "always_leaf-fall": "The leaves are perpetually the oranges and yellows of leaf-fall.",
     "always_leaf-bare": "The lack of resources that accompany leaf-bare never seem to relent.",
     "underpopulated": "Large litters are less common. How will the Clan continue with so few to carry it's legacy?",
-    "heartless": "Survival makes no room for romance. Cats cannot take mates.",
-    "weak_stars": "StarClan's power is faltering. New leaders will receive a random number of lives from 1 to 5.",
+    "heartless": "Survival makes no room for romance. Cats cannot take mates, or long for cats in other Clans.",
+    "weak_stars": "StarClan's power is faltering. New leaders will receive a random number of lives from 1 to 5, and StarClan's omens come half as often.",
     "clumsy_paws": "The Clan is all paws and no grace. Skills and experience come slowly.",
     "malicious_aura": "Cats do not trust so easily. The Clan will permanently be seen as hostile by outsiders.",
     "longer_illnesses": "The territory here seems contaminated, leaving the Clan in a constant state of disease. Condition duration is increased.",
@@ -45,6 +45,11 @@
     "miasma": "A toxic smog hangs over the Clan, allowing illness to run rampant. The chance of illness is increased.",
     "crowfood": "Freshkill in this territory never seems to preserve quite right. Freshkill will rot much quicker.",
     "disorganized": "The Clan scrambles as they struggle to find a common goal. Patrols will always be of a random type.",
-    "no_prior_knowledge": "The founders of the Clan seem to run on hopes and dreams, rather than talent. All starting cat skills are set to the lowest tier."
+    "no_prior_knowledge": "The founders of the Clan seem to run on hopes and dreams, rather than talent. All starting cat skills are set to the lowest tier.",
+    "iron_code": "The code is law, and the law is unforgiving. Every judgment is one step harsher, and leaders never let a favorite off.",
+    "fading_code": "The old ways mean little here. Cats break the warrior code twice as often, and witnesses report it half as often.",
+    "whispers": "Nothing stays secret for long. Secrets spread twice as fast, and come out once three cats know.",
+    "watchful_stars": "StarClan sees all. StarClan can send omens about any cat's gravest misdeeds, not only the leader's.",
+    "no_way_back": "Once cast out, always cast out. Exiled cats can never come home, though they can still ask another Clan."
   }
 }
