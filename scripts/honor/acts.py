@@ -10,13 +10,17 @@ Each act:
   "liked", "disliked", "clanmate", "queen"), or None
 - other_clan: needs another Clan for o_c_n
 - full_moon: only on a full moon (Gatherings)
+- hungry: only when the Clan doesn't have enough food
+
+Step 8: leaders. Their misdeeds are never judged, they cost the leader Clan trust instead
+(scripts/honor/leader.py).
 """
 
 from scripts.cat.enums import CatRank
 
 R = CatRank
 APPRENTICES = {R.APPRENTICE, R.MEDICINE_APPRENTICE, R.MEDIATOR_APPRENTICE, R.QUEEN_APPRENTICE}
-# everyone from apprentice up, leaders wait for step 8
+# everyone from apprentice up but the leader (step 8 adds leaders to the shared acts by name)
 EVERYONE = APPRENTICES | {R.WARRIOR, R.MEDICINE_CAT, R.MEDIATOR, R.QUEEN, R.DEPUTY, R.ELDER}
 WORKING = EVERYONE - {R.ELDER}
 WARRIORS = {R.WARRIOR, R.APPRENTICE, R.DEPUTY}
@@ -24,14 +28,15 @@ HEALERS = {R.MEDICINE_CAT, R.MEDICINE_APPRENTICE}
 MEDIATORS = {R.MEDIATOR, R.MEDIATOR_APPRENTICE}
 QUEENS = {R.QUEEN, R.QUEEN_APPRENTICE}
 KITS = {R.KITTEN}
+LEADER = {R.LEADER}
 
 HUNGER, LONGING, GRUDGE, RESTLESS, DARK, DUTY = "hunger", "longing", "grudge", "restless", "dark", "duty"
 CAUSES = (HUNGER, LONGING, GRUDGE, RESTLESS, DARK)
 
 
-def act(kind, roles, causes, level=None, other=None, other_clan=False, full_moon=False):
+def act(kind, roles, causes, level=None, other=None, other_clan=False, full_moon=False, hungry=False):
     return {"kind": kind, "level": level, "roles": roles, "causes": causes, "other": other,
-            "other_clan": other_clan, "full_moon": full_moon}
+            "other_clan": other_clan, "full_moon": full_moon, "hungry": hungry}
 
 
 def brk(level, roles, causes, **kw):
@@ -48,11 +53,11 @@ ACTS = {
     "healer_mate": brk("serious", frozenset(), ()),
     "healer_kits": brk("serious", frozenset(), ()),
     # everyone from apprentice up
-    "eat_first": brk("minor", EVERYONE, (HUNGER,)),
+    "eat_first": brk("minor", EVERYONE | LEADER, (HUNGER,)),
     "sneak_out": brk("minor", EVERYONE, (RESTLESS, LONGING)),
     "skip_duties": brk("minor", WORKING, (RESTLESS,)),
     "lie_leader": brk("serious", EVERYONE - {R.DEPUTY}, (GRUDGE, DARK), other="leader"),
-    "gathering_fight": brk("serious", EVERYONE, (GRUDGE,), other_clan=True, full_moon=True),
+    "gathering_fight": brk("serious", EVERYONE | LEADER, (GRUDGE,), other_clan=True, full_moon=True),
     "pass_secrets": brk("grave", EVERYONE, (DARK,), other_clan=True),
     "twoleg_food": brk("minor", EVERYONE, (HUNGER, RESTLESS)),
     "neglect_kit": brk("serious", EVERYONE, (GRUDGE, DARK), other_clan=True),
@@ -100,6 +105,16 @@ ACTS = {
     "unfair_patrols": brk("minor", {R.DEPUTY}, (GRUDGE,), other="disliked"),
     "hide_news": brk("serious", {R.DEPUTY}, (GRUDGE, DARK), other="leader"),
     "fair_patrols": fol({R.DEPUTY}),
+    # step 8: leaders. favorite_off and spite have no roles: they happen inside a judgment
+    # (scripts/honor/judgment.py), when the leader's feelings get the better of them
+    "favorite_off": brk("serious", frozenset(), ()),
+    "spite": brk("serious", frozenset(), ()),
+    "ignore_sign": brk("serious", LEADER, (GRUDGE, DARK), other="healer"),
+    "secret_meeting": brk("serious", LEADER, (LONGING,), other_clan=True),
+    "claim_land": brk("serious", LEADER, (GRUDGE,), other_clan=True),
+    "lead_dawn": fol(LEADER),
+    "eat_last": fol(LEADER, hungry=True),
+    "leader_vigil": fol(LEADER, other="dead"),
 }
 
 # honor lost for breaking the code, by level

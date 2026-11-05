@@ -25,7 +25,12 @@
         "unfair_patrols": ["gave a Clanmate the worst patrols out of spite", "gave a Clanmate the worst patrols out of spite"],
         "hide_news": ["kept news from the leader", "kept news from the leader"],
         "healer_mate": ["broke a healer's vow and took a mate", "broke a healer's vow and took a mate"],
-        "healer_kits": ["broke a healer's vow and had kits", "broke a healer's vow and had kits"]
+        "healer_kits": ["broke a healer's vow and had kits", "broke a healer's vow and had kits"],
+        "favorite_off": ["let a favorite off without a sentence", "let a favorite off without a sentence"],
+        "spite": ["punished a Clanmate harder than they deserved", "punished a Clanmate harder than they deserved"],
+        "ignore_sign": ["ignored a sign from StarClan", "ignored a sign from StarClan"],
+        "secret_meeting": ["met o_c_n's leader in secret", "met o_c_n's leader in secret"],
+        "claim_land": ["claimed o_c_n's land out of pride", "claimed o_c_n's land out of pride"]
     },
     "report": {
         "others": [
@@ -37,6 +42,24 @@
         ],
         "you_saw": [
             "You tell the leader that m_c [act]."
+        ],
+        "others_leader": [
+            "r_c tells the deputy and the senior warriors that m_c [act]. Whispers spread through the camp."
+        ],
+        "you_did_leader": [
+            "r_c saw you. By evening the whole camp knows that you [act you]."
+        ],
+        "you_saw_leader": [
+            "You tell the deputy and the senior warriors that m_c [act]. Whispers spread through the camp."
+        ],
+        "others_by_leader": [
+            "r_c saw that m_c [act]. m_c will answer for it at the next full moon."
+        ],
+        "you_did_by_leader": [
+            "r_c saw you. You'll answer to {PRONOUN/r_c/object} at the next full moon."
+        ],
+        "you_saw_by_leader": [
+            "You saw that m_c [act]. {PRONOUN/m_c/subject/CAP} will answer to you at the next full moon."
         ]
     },
     "keep": {
@@ -101,6 +124,24 @@
         ],
         "you_saw": [
             "You're done keeping quiet for m_c. You tell the leader what {PRONOUN/m_c/subject} did moons ago."
+        ],
+        "others_leader": [
+            "After falling out with m_c, r_c tells the Clan that m_c [act] moons ago."
+        ],
+        "you_did_leader": [
+            "r_c is angry with you, and tells the Clan what you did moons ago."
+        ],
+        "you_saw_leader": [
+            "You're done keeping quiet for m_c. You tell the Clan what {PRONOUN/m_c/subject} did moons ago."
+        ],
+        "others_by_leader": [
+            "After falling out with m_c, r_c brings up what m_c did moons ago. m_c will answer for it at the next full moon."
+        ],
+        "you_did_by_leader": [
+            "r_c is angry with you, and brings up what you did moons ago. You'll answer for it at the next full moon."
+        ],
+        "you_saw_by_leader": [
+            "You're done keeping quiet for m_c. {PRONOUN/m_c/subject/CAP} will answer at the next full moon for what {PRONOUN/m_c/subject} did moons ago."
         ]
     },
     "naming": {
@@ -112,6 +153,24 @@
         ],
         "you_name": [
             "Caught, you tell the leader what r_c did too. If you're going down, you're not going alone."
+        ],
+        "others_leader": [
+            "Caught, m_c tries to share the blame, and tells the Clan that r_c [act r_c] too."
+        ],
+        "others_by_leader": [
+            "Caught, m_c tries to share the blame, and tells the Clan that r_c [act r_c] too."
+        ],
+        "you_named_leader": [
+            "Caught, m_c tries to share the blame, and tells the Clan what you did."
+        ],
+        "you_named_by_leader": [
+            "Caught, m_c tries to share the blame, and tells the Clan what you did."
+        ],
+        "you_name_leader": [
+            "Caught, you tell the Clan what r_c did too. If you're going down, you're not going alone."
+        ],
+        "you_name_by_leader": [
+            "Caught, you tell the Clan what r_c did too. If you're going down, you're not going alone."
         ]
     },
     "deathbed": {

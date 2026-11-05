@@ -359,5 +359,53 @@
         "others": [
             "m_c organizes the patrols fairly this moon."
         ]
+    },
+    "ignore_sign": {
+        "you": [
+            "r_c brings you a sign from StarClan. You tell {PRONOUN/r_c/object} you'll think on it, and you don't."
+        ],
+        "others": [
+            "r_c brings m_c a sign from StarClan. m_c says {PRONOUN/m_c/subject}'ll think on it, and never does."
+        ]
+    },
+    "secret_meeting": {
+        "you": [
+            "You meet o_c_n's leader at the border at night. Nobody can know."
+        ],
+        "others": [
+            "m_c slips out of camp at night to meet o_c_n's leader at the border."
+        ]
+    },
+    "claim_land": {
+        "you": [
+            "You lead a patrol across the o_c_n border and mark it as c_n's. It wasn't yours to take."
+        ],
+        "others": [
+            "m_c leads a patrol across the o_c_n border and marks the land as c_n's."
+        ]
+    },
+    "lead_dawn": {
+        "you": [
+            "You lead the dawn patrol yourself. A leader should."
+        ],
+        "others": [
+            "m_c leads the dawn patrol {PRONOUN/m_c/self}."
+        ]
+    },
+    "eat_last": {
+        "you": [
+            "The pile is thin. You wait until every cat has eaten before you take anything."
+        ],
+        "others": [
+            "m_c waits until every cat has eaten before {PRONOUN/m_c/subject} {VERB/m_c/take/takes} anything."
+        ]
+    },
+    "leader_vigil": {
+        "you": [
+            "You sit vigil for r_c all night beside the Clan."
+        ],
+        "others": [
+            "m_c sits vigil for r_c all night."
+        ]
     }
 }

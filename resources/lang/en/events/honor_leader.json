@@ -1,0 +1,38 @@
+{
+    "favorite_off": {
+        "you": [
+            "You know what r_c did. You let it go anyway."
+        ],
+        "others": [
+            "m_c hears what r_c did, and lets it go without a word."
+        ]
+    },
+    "spite": {
+        "you": [
+            "You could go easier on r_c. You don't."
+        ],
+        "others": [
+            "m_c has never liked r_c, and it shows in {PRONOUN/m_c/poss} judgment."
+        ]
+    },
+    "omen": {
+        "tell": [
+            "r_c tells the Clan that StarClan is troubled by m_c. Cats glance at {PRONOUN/m_c/object} when {PRONOUN/m_c/subject} {VERB/m_c/pass/passes}."
+        ],
+        "tell_you": [
+            "You tell the Clan that StarClan is troubled by m_c. Cats glance at {PRONOUN/m_c/object} when {PRONOUN/m_c/subject} {VERB/m_c/pass/passes}."
+        ],
+        "tell_leader_you": [
+            "r_c tells the Clan that StarClan is troubled by you. Cats glance at you when you pass."
+        ],
+        "alone": [
+            "r_c takes m_c aside and tells {PRONOUN/m_c/object} what StarClan showed. m_c is quiet for a long time."
+        ],
+        "alone_you": [
+            "You take m_c aside and tell {PRONOUN/m_c/object} what StarClan showed you. m_c is quiet for a long time."
+        ],
+        "alone_leader_you": [
+            "r_c takes you aside. StarClan is troubled by you."
+        ]
+    }
+}

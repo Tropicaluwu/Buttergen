@@ -55,10 +55,10 @@ def clanmates(exclude=None) -> list:
 
 
 def can_act(cat) -> bool:
-    """living Clan cats from kit up. Leaders wait for step 8"""
+    """living Clan cats from kit up, leaders too (step 8)"""
     if cat.dead or not cat.status.alive_in_player_clan:
         return False
-    return cat.status.rank not in (CatRank.NEWBORN, CatRank.LEADER)
+    return cat.status.rank != CatRank.NEWBORN
 
 
 def other_clan_cats() -> list:
@@ -141,6 +141,12 @@ def find_other(cat, need):
         return leader if ok else None
     if need == "mentor":
         return Cat.fetch_cat(cat.mentor) if cat.mentor else None
+    if need == "dead":
+        # step 8: a Clanmate who died this moon, for the leader's vigil
+        group = cat.status.group_ID
+        dead = [c for c in Cat.all_cats_list
+                if c.dead and c.dead_for <= 1 and c.status.get_last_living_group() == group]
+        return choice(dead) if dead else None
     if need == "apprentice":
         apps = [Cat.fetch_cat(i) for i in cat.apprentice]
         apps = [a for a in apps if a and not a.dead]
@@ -191,6 +197,8 @@ def options_for(cat, full_moon: bool) -> list:
             continue
         if a["full_moon"] and not full_moon:
             continue
+        if a.get("hungry") and not _hungry():
+            continue
         done = cat.code_done.get(key)
         if done is not None and now - done < COOLDOWN_MOONS:
             continue
@@ -211,6 +219,11 @@ def options_for(cat, full_moon: bool) -> list:
         if weight > 0:
             out.append((weight, key, other, oc))
     return out
+
+
+def _hungry() -> bool:
+    pile = getattr(game.clan, "freshkill_pile", None)
+    return pile is not None and not pile.clan_has_enough_food()
 
 
 def weighted(options):
@@ -247,10 +260,18 @@ def do_act(cat, key, other, other_clan):
     else:
         game.cur_events_list.append(event)
     # step 3: someone may have seen it
+    from scripts.honor import leader
+
     if a["kind"] == "break":
         from scripts.honor import witness
 
         witness.after_break(cat, key, other_clan)
+        # step 8: StarClan may send the healers an omen about a leader
+        if leader.is_leader(cat):
+            leader.after_break(cat, key, other_clan)
+    elif a["kind"] == "follow" and leader.is_leader(cat):
+        # step 8: a leader's good deed is seen by the Clan
+        leader.good_deed(cat)
     return text
 
 
@@ -309,6 +330,10 @@ def on_skip(full_moon: bool):
         healer.on_full_moon()
     # step 3: old secrets spread, get called in or come out
     witness.on_skip()
+    # step 8: the leader's Clan trust drifts back toward steady
+    from scripts.honor import leader
+
+    leader.on_skip()
     scale = 1 / weekskip.WEEKS_IN_MOON if weekskip.on() else 1.0
     cats = [c for c in clanmates() if can_act(c)]
     for cat in cats:

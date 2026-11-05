@@ -64,6 +64,27 @@
             "between_breaks": true,
             "between": "You wait a few days before telling r_c. It's not quite keeping it from {PRONOUN/r_c/object}.",
             "resist": "You tell r_c right away, even though it hurts to."
+        },
+        "ignore_sign": {
+            "prompt": "r_c brings you a sign from StarClan. It asks something of you that you don't want to give.",
+            "options": ["Ignore it", "Do only part of what it asks", "Heed the sign"],
+            "between_breaks": true,
+            "between": "You do part of what the sign asks, and leave the rest undone.",
+            "resist": "You thank r_c, and do what StarClan asks, even though you'd rather not."
+        },
+        "secret_meeting": {
+            "prompt": "o_c_n's leader sends word: meet at the border tonight, alone.",
+            "options": ["Go alone, and tell no one", "Go, but bring your deputy", "Refuse to go"],
+            "between_breaks": false,
+            "between": "You go to the border, but you bring your deputy. Whatever o_c_n's leader wanted, they don't say it in front of a witness.",
+            "resist": "You send word back: c_n's leader doesn't meet anyone in secret."
+        },
+        "claim_land": {
+            "prompt": "The o_c_n border has always felt too close to c_n's camp. A strip of their land would make the Clan stronger.",
+            "options": ["Lead a patrol and claim it", "Raise it at the next Gathering", "Leave the border where it is"],
+            "between_breaks": false,
+            "between": "You'll raise the border at the next Gathering, where every Clan can hear it.",
+            "resist": "You leave the border where it is. It isn't yours to move."
         }
     },
     "healer_mate": {
@@ -80,7 +101,13 @@
     "witness": {
         "prompt": "You saw m_c [act]. What do you do?",
         "options": ["Tell r_c", "Keep it to yourself", "Talk to m_c"],
+        "options_leader": ["Tell the deputy and the senior warriors", "Keep it to yourself", "Talk to m_c"],
+        "options_as_leader": ["Deal with it at the full moon", "Keep it to yourself", "Talk to m_c"],
         "listen": "m_c's ears flatten. {PRONOUN/m_c/subject/CAP} {VERB/m_c/promise/promises} it won't happen again.",
         "bristle": "m_c tells you to mind your own business."
+    },
+    "omen": {
+        "prompt": "StarClan shows you something about m_c. They're troubled by {PRONOUN/m_c/object}.",
+        "options": ["Tell the Clan", "Tell r_c alone", "Keep it to yourself"]
     }
 }

@@ -214,6 +214,12 @@ def judge(entry) -> bool:
     key = entry["act"]
     points, deputy_push, clan_push = points_for(cat, judge_cat, key, entry.get("extra", 0), entry.get("level"))
     step = step_for(points)
+    # step 8: a leader may let a favorite off, or punish out of spite
+    from scripts.honor import leader
+
+    step, spite_line = leader.feelings(judge_cat, cat, step, LADDER)
+    if step is None:
+        return True
     from scripts.honor.witness import _clan_by_name
 
     other_clan = _clan_by_name(entry.get("clan"))
@@ -221,6 +227,8 @@ def judge(entry) -> bool:
         # the other Clan is gone, so name any of them
         other_clan = choice(game.clan.all_other_clans) if game.clan.all_other_clans else None
     text = _sentence_text(step, cat, key, deputy_push, clan_push)
+    if spite_line:
+        text = spite_line + " " + text
     apply(cat, judge_cat, step, clan_push, entry.get("level") or ACTS[key]["level"])
     _post(text, cat, judge_cat, other_clan=other_clan)
     if step == SHUNNING:

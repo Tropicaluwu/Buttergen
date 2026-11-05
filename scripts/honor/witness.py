@@ -6,6 +6,11 @@ out later through gossip, a falling-out, the witness naming them when caught, or
 dying. Secrets older than 24 moons are forgotten.
 
 Your cat picks for themself as a witness until step 5 adds the choice button.
+
+Step 8: leaders see misdeeds too, and a leader's own misdeed coming out isn't judged, it costs
+the leader Clan trust (scripts/honor/leader.py). Texts with the leader as the offender use the
+"_leader" lines of a group, and with the leader as the witness the "_by_leader" lines, where
+the group has them.
 """
 
 from random import choice, randint, random
@@ -24,6 +29,9 @@ from scripts.honor.acts import ACTS
 SEE_CHANCE = {"public": 1.0, "camp": 0.45, "border": 0.25, "secret": 0.12}
 WHERE = {
     "gathering_fight": "public",
+    # step 8: leaders
+    "favorite_off": "camp", "spite": "camp", "ignore_sign": "secret", "secret_meeting": "secret",
+    "claim_land": "border",
     "eat_first": "camp", "skip_duties": "camp", "app_eat_first": "camp", "disobey_mentor": "camp",
     "favorite_herbs": "camp", "leave_den": "camp", "kits_wander": "camp", "best_nest": "camp",
     "spread_rumors": "camp", "unfair_patrols": "camp", "twist_words": "camp",
@@ -100,6 +108,12 @@ def _post(group, offender, witness, key, other_clan, variant=None, named_key=Non
             variant = "you_saw"
         else:
             variant = "others"
+    from scripts.honor.leader import is_leader
+
+    if is_leader(offender) and variant + "_leader" in lines:
+        variant += "_leader"
+    elif is_leader(witness) and variant + "_by_leader" in lines:
+        variant += "_by_leader"
     if variant not in lines:
         return None
     text = choice(lines[variant])
@@ -123,10 +137,7 @@ def _post(group, offender, witness, key, other_clan, variant=None, named_key=Non
 def _clanmates(exclude):
     from scripts.honor.temptation import clanmates
 
-    return [
-        c for c in clanmates(exclude=exclude)
-        if not c.status.rank.is_baby() and c.status.rank != CatRank.LEADER
-    ]
+    return [c for c in clanmates(exclude=exclude) if not c.status.rank.is_baby()]
 
 
 def pick_witness(offender, key):
@@ -209,7 +220,7 @@ def _you_saw_too(offender, witness, key, other_clan, level):
 
     you = _you()
     if (you is None or you in (offender, witness) or not _alive_in_clan(you)
-            or you.status.rank.is_baby() or you.status.rank == CatRank.LEADER):
+            or you.status.rank.is_baby()):
         return
     if random() < YOU_NOTICE and choices.can_offer():
         choices.offer_witness(offender, key, other_clan, level)
@@ -258,12 +269,12 @@ def report(offender, witness, key, other_clan, group, naming=True, level=None):
     """the offender's misdeed comes out. witness is None when the whole Clan finds out"""
     core.change_reputation(offender, -randint(*REPUTATION_LOSS[_level(key, level)]))
     # step 4: the leader judges it at the next full moon
-    from scripts.honor import healer, judgment
+    from scripts.honor import healer
 
     if key in healer.HEALER_ACTS:
         healer.mark_known(offender)
 
-    judgment.queue(offender, key, other_clan, level)
+    came_out(offender, key, other_clan, level)
     leader = game.clan.leader
     if _alive_in_clan(leader) and leader is not offender:
         _nudge(leader, offender, respect=-randint(3, 8), trust=-randint(3, 8))
@@ -275,6 +286,16 @@ def report(offender, witness, key, other_clan, group, naming=True, level=None):
     _post(group, offender, witness, key, other_clan)
     if naming:
         name_others(offender)
+
+
+def came_out(cat, key, other_clan, level=None):
+    """step 4: judged at the next full moon. Step 8: a leader loses Clan trust instead"""
+    from scripts.honor import judgment, leader
+
+    if leader.is_leader(cat):
+        leader.misdeed_out(cat, key, level)
+    else:
+        judgment.queue(cat, key, other_clan, level)
 
 
 def name_others(caught):
@@ -289,9 +310,7 @@ def name_others(caught):
         return
     key, other_clan, level = secret["act"], _clan_by_name(secret["clan"]), secret.get("level")
     core.change_reputation(named, -randint(*REPUTATION_LOSS[_level(key, level)]))
-    from scripts.honor import judgment
-
-    judgment.queue(named, key, other_clan, level)
+    came_out(named, key, other_clan, level)
     _nudge(named, caught, like=-randint(8, 14))
     you = _you()
     variant = "you_named" if named is you else ("you_name" if caught is you else "others")

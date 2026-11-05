@@ -21,6 +21,8 @@ from scripts.honor.acts import ACTS, HONOR_LOSS
 TEMPTATION, WITNESS = "temptation", "witness"
 # step 7: a healer's romance, and what to do with a healer's kits
 MATE, KITS = "mate", "kits"
+# step 8: an omen about the leader, for your cat as a healer
+OMEN = "omen"
 GIVE, BETWEEN, RESIST = "give", "between", "resist"
 REPORT, KEEP, TALK = "report", "keep", "talk"
 DECIDE = "decide"
@@ -58,6 +60,7 @@ def pending():
         or (c["kind"] == WITNESS and not _alive_in_clan(Cat.fetch_cat(c["offender"])))
         or (c["kind"] == MATE and not _alive_in_clan(Cat.fetch_cat(c["other"])))
         or (c["kind"] == KITS and not [k for k in (Cat.fetch_cat(i) for i in c["kits"]) if k and not k.dead])
+        or (c["kind"] == OMEN and not _alive_in_clan(Cat.fetch_cat(c["leader"])))
     )
     if gone:
         game.clan.code_choice = None
@@ -93,6 +96,10 @@ def offer_mate(other):
     _offer({"kind": MATE, "other": other.ID})
 
 
+def offer_omen(leader):
+    _offer({"kind": OMEN, "leader": leader.ID})
+
+
 def offer_kits(kits, healers):
     _offer({"kind": KITS, "kits": [k.ID for k in kits], "healers": [h.ID for h in healers]})
 
@@ -122,7 +129,15 @@ def window_text():
     you = _you()
     t = texts()
     oc = _clan(c.get("clan"))
-    if c["kind"] == MATE:
+    if c["kind"] == OMEN:
+        from scripts.honor import leader as leader_mod
+
+        leader = Cat.fetch_cat(c["leader"])
+        o = t["omen"]
+        prompt = _render(o["prompt"], leader, leader, None)
+        options = [(opt, _render(label, leader, leader, None))
+                   for opt, label in zip(leader_mod.OMEN_OPTIONS, o["options"])]
+    elif c["kind"] == MATE:
         other = Cat.fetch_cat(c["other"])
         m = t["healer_mate"]
         prompt = _render(m["prompt"], you, other, None)
@@ -141,11 +156,16 @@ def window_text():
     else:
         from scripts.honor.witness import _phrase
 
+        from scripts.honor.leader import is_leader
+
         offender = Cat.fetch_cat(c["offender"])
         w = t["witness"]
         leader = _leader_or(None)
+        # step 8: as the leader you judge it yourself, and a leader's misdeed goes to the Clan
+        labels = w["options_leader" if is_leader(offender) else "options_as_leader" if is_leader(you)
+                   else "options"]
         prompt = _render(w["prompt"].replace("[act]", _phrase(c["act"], False)), offender, leader, oc)
-        options = [(o, _render(label, offender, leader, oc)) for o, label in zip((REPORT, KEEP, TALK), w["options"])]
+        options = [(o, _render(label, offender, leader, oc)) for o, label in zip((REPORT, KEEP, TALK), labels)]
     options.append((DECIDE, t["let_decide"].replace("%{name}", str(you.name))))
     return prompt, options
 
@@ -180,6 +200,14 @@ def resolve(option):
     if not c:
         return None
     game.clan.code_choice = None
+    if c["kind"] == OMEN:
+        from scripts.honor import leader as leader_mod
+
+        you, leader = _you(), Cat.fetch_cat(c["leader"])
+        if option == DECIDE:
+            option = leader_mod.decide(you, leader)
+        leader_mod.resolve(you, leader, option)
+        return option
     if c["kind"] in (MATE, KITS):
         return _resolve_healer(c, option)
     if c["kind"] == TEMPTATION:
