@@ -1267,8 +1267,10 @@ class Cat:
 
         return text
 
-    def generate_lead_ceremony(self):
-        """Create a leader ceremony and add it to the history"""
+    def generate_lead_ceremony(self, lives=None):
+        """Create a leader ceremony and add it to the history.
+        BUTTERGEN: lives is how many lives StarClan gives, when it isn't the usual (a challenge moves
+        the old leader's remaining lives to the deputy, scripts/honor/challenge.py)"""
 
         load_leader_ceremonies()
         # LG: the name before becoming leader. A cat that's already leader (a founder, another Clan's leader,
@@ -1277,6 +1279,8 @@ class Cat:
             self.history.prev_names.append(str(self.name))
 
         num_of_lives_to_give = min(max(get_config("death_related.min_leader_lives"), choice(get_config("death_related.leader_lives_nr"))), get_config("death_related.max_leader_lives"))
+        if lives:
+            num_of_lives_to_give = max(1, int(lives))
         self.status.fetch_clan_object().leader_lives = num_of_lives_to_give
 
         # determine which dict we're pulling from

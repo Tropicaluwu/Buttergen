@@ -109,5 +109,13 @@
     "omen": {
         "prompt": "StarClan shows you something about m_c. They're troubled by {PRONOUN/m_c/object}.",
         "options": ["Tell the Clan", "Tell r_c alone", "Keep it to yourself"]
+    },
+    "challenge_call": {
+        "prompt": "c_n no longer trusts m_c, and neither do you. The warrior code lets a Clan challenge a leader who has lost its trust.",
+        "options": ["Call for a challenge", "Stay quiet"]
+    },
+    "challenge_vote": {
+        "prompt": "r_c has called for a challenge against m_c. The Clan votes.",
+        "options": ["Support the challenge", "Stand by m_c"]
     }
 }

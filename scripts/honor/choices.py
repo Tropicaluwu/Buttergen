@@ -23,6 +23,8 @@ TEMPTATION, WITNESS = "temptation", "witness"
 MATE, KITS = "mate", "kits"
 # step 8: an omen about the leader, for your cat as a healer
 OMEN = "omen"
+# step 8b: calling for a challenge against the leader, and the Clan's vote
+CALL, VOTE = "challenge_call", "challenge_vote"
 GIVE, BETWEEN, RESIST = "give", "between", "resist"
 REPORT, KEEP, TALK = "report", "keep", "talk"
 DECIDE = "decide"
@@ -60,7 +62,7 @@ def pending():
         or (c["kind"] == WITNESS and not _alive_in_clan(Cat.fetch_cat(c["offender"])))
         or (c["kind"] == MATE and not _alive_in_clan(Cat.fetch_cat(c["other"])))
         or (c["kind"] == KITS and not [k for k in (Cat.fetch_cat(i) for i in c["kits"]) if k and not k.dead])
-        or (c["kind"] == OMEN and not _alive_in_clan(Cat.fetch_cat(c["leader"])))
+        or (c["kind"] in (OMEN, CALL, VOTE) and not _alive_in_clan(Cat.fetch_cat(c["leader"])))
     )
     if gone:
         game.clan.code_choice = None
@@ -100,6 +102,14 @@ def offer_omen(leader):
     _offer({"kind": OMEN, "leader": leader.ID})
 
 
+def offer_call(leader):
+    _offer({"kind": CALL, "leader": leader.ID})
+
+
+def offer_vote(leader, challenger):
+    _offer({"kind": VOTE, "leader": leader.ID, "challenger": challenger.ID})
+
+
 def offer_kits(kits, healers):
     _offer({"kind": KITS, "kits": [k.ID for k in kits], "healers": [h.ID for h in healers]})
 
@@ -129,7 +139,16 @@ def window_text():
     you = _you()
     t = texts()
     oc = _clan(c.get("clan"))
-    if c["kind"] == OMEN:
+    if c["kind"] in (CALL, VOTE):
+        from scripts.honor import challenge
+
+        leader = Cat.fetch_cat(c["leader"])
+        challenger = Cat.fetch_cat(c["challenger"]) if c.get("challenger") else None
+        part = t[c["kind"]]
+        keys = (challenge.CALL, challenge.QUIET) if c["kind"] == CALL else (challenge.SUPPORT, challenge.STAND)
+        prompt = _render(part["prompt"], leader, challenger, None)
+        options = [(o, _render(label, leader, challenger, None)) for o, label in zip(keys, part["options"])]
+    elif c["kind"] == OMEN:
         from scripts.honor import leader as leader_mod
 
         leader = Cat.fetch_cat(c["leader"])
@@ -200,6 +219,13 @@ def resolve(option):
     if not c:
         return None
     game.clan.code_choice = None
+    if c["kind"] in (CALL, VOTE):
+        from scripts.honor import challenge
+
+        leader = Cat.fetch_cat(c["leader"])
+        if c["kind"] == CALL:
+            return challenge.resolve_call(leader, option)
+        return challenge.resolve_vote(leader, option)
     if c["kind"] == OMEN:
         from scripts.honor import leader as leader_mod
 

@@ -7,6 +7,8 @@ healer decides whether to tell the Clan, tell the leader alone, or keep it to th
 Inside a judgment, a leader's feelings can get the better of them: about 1 in 4 times they let a
 favorite off, or punish a cat they dislike one step harder.
 
+Challenges are in scripts/honor/challenge.py (step 8b).
+
 A leader's Clan trust rises a little with each good deed, and drifts 1 back toward "steady" every
 3 moons that nothing changes it.
 
@@ -229,6 +231,10 @@ def resolve(healer, leader, option):
 
 # ------------------------------------------------------------------ every skip
 
-def on_skip():
+def on_skip(full_moon: bool):
     if game.clan:
         drift()
+        # step 8b: challenging a leader whose trust is broken
+        from scripts.honor import challenge
+
+        challenge.on_skip(full_moon)
