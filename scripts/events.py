@@ -1516,6 +1516,45 @@ def _share_your_look(kit, sibling):
             tints.append(shown)
     return tints
 
+def _pair_fits(kit_pair, parent_pairs):
+    if not _is_pair(kit_pair) or not all(_is_pair(pair) for pair in parent_pairs):
+        return True
+    a, b = kit_pair
+    if len(parent_pairs) == 1:
+        return a in parent_pairs[0] or b in parent_pairs[0]
+    p, q = parent_pairs
+    return (a in p and b in q) or (b in p and a in q)
+
+
+def _sex_fits(kit_sex, parent_sexes):
+    """the X genes: a son's comes from his mother, a daughter gets one from each parent"""
+    kit_x = [x for x in kit_sex if x != "Y"]
+    son = "Y" in kit_sex
+    mothers = [[x for x in p if x != "Y"] for p in parent_sexes if "Y" not in p]
+    fathers = [[x for x in p if x != "Y"] for p in parent_sexes if "Y" in p]
+    if len(mothers) > 1 or len(fathers) > 1 or (son and len(kit_x) != 1) or (not son and len(kit_x) != 2):
+        return True  # same sex parents or rare sex genes: not checked
+    if son:
+        return not mothers or kit_x[0] in mothers[0]
+    if mothers and fathers:
+        m, f = mothers[0], fathers[0]
+        return (kit_x[0] in m and kit_x[1] in f) or (kit_x[1] in m and kit_x[0] in f)
+    one = (mothers or fathers)[0]
+    return kit_x[0] in one or kit_x[1] in one
+
+
+def could_be_parents(kit, parents):
+    """True if these cats could have had this kit (every gene pair and the X genes)"""
+    parents = [p for p in parents if p]
+    if not parents:
+        return True
+    genes = [p.phenotype for p in parents]
+    for gene in PARENT_GENE_PAIRS:
+        if not _pair_fits(kit.phenotype[gene], [g[gene] for g in genes]):
+            return False
+    return _sex_fits(kit.phenotype.sexgene, [g.sexgene for g in genes])
+
+
 
 def get_acc_name(acc):
     """grabs accessory names for display in the customiser"""
@@ -1729,6 +1768,8 @@ def generate_birth_event():
             and cat.age.can_have_mate()
             and is_gender_compatible
             and is_relation_compatible
+            # a birth parent has to be able to have had your cat
+            and (adoptive or could_be_parents(game.clan.your_cat, [cat, other_parent]))
         )
         return valid
 
@@ -1767,12 +1808,18 @@ def generate_birth_event():
             if not parent1:
                 birth_type = BirthType.NO_PARENTS
                 parent1 = generate_outsider_parent(dead=True)
-            elif parent1.mate:
+            elif parent1.mate and could_be_parents(
+                game.clan.your_cat, [parent1, Cat.fetch_cat(parent1.mate[-1])]
+            ):
                 parent2 = Cat.fetch_cat(parent1.mate[-1])
                 birth_type = BirthType.TWO_PARENTS
 
         elif birth_type == BirthType.TWO_PARENTS:
             parent1 = pick_valid_parent()
+            if not parent1:
+                # nobody in the Clan could have had your cat
+                birth_type = BirthType.NO_PARENTS
+                return birth_type, generate_outsider_parent(dead=True), None, []
             parent2 = pick_valid_parent(parent1)
             if parent2 and parent2.ID not in parent1.mate:
                 parent1.set_mate(parent2)
