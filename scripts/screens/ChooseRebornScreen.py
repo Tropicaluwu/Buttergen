@@ -418,7 +418,7 @@ class ChooseRebornScreen(Screens):
         self.fav = {}
 
         # cats with a label under each, see cat_list_filter
-        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 402, self.cat_filter, fav=self.fav, cell_h=72)
+        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 402, fav=self.fav, cell_h=72)
 
     def update_tabs(self):
         if self.selected_cat and self.selected_cat.status.is_outsider:

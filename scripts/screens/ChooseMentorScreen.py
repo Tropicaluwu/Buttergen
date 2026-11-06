@@ -593,7 +593,7 @@ class ChooseMentorScreen(Screens):
         self.fav = {}
 
         # cats with a label under each, see cat_list_filter
-        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 385, self.cat_filter, fav=self.fav, columns=8)
+        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 385, fav=self.fav, columns=8)
 
     def update_buttons(self):
         """Updates the status of buttons."""

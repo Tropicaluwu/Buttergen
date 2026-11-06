@@ -1,12 +1,4 @@
-"""
-Organizing bar for screens where you pick a cat out of a long list (murder, affair, mentor, deputy, gifts...):
-a group dropdown (your Clan, each other Clan, loners, rogues, kittypets), a sort dropdown, a name search,
-and a small label under each cat saying where they're from or what they are.
-
-A screen makes a CatListFilter, passes its full list of cats through apply(), lets process_event() see its
-events (it returns True when the list needs redrawing) and kills it when the screen closes. draw_grid() draws
-a page of cats with their labels the same way on every screen.
-"""
+"""Group, sort and search bar for screens where a cat is picked from a long list."""
 
 import pygame
 import pygame_gui
@@ -62,24 +54,8 @@ def group_label(key) -> str:
     return str(clan.name) if clan else "Others"
 
 
-def cat_label(cat, mixed=False) -> str:
-    """short text under a cat. their rank, or when the list mixes groups, which group they're from
-    (a Clan's name without "Clan", loner, rogue, kittypet)"""
-    if cat.dead:
-        return "dead"
-    if not mixed:
-        return str(cat.status.rank)
-    key = group_key(cat)
-    if cat.status.group and cat.status.group.is_any_clan_group():
-        clan = game.clan if key == str(game.clan.group_ID) else next(
-            (c for c in game.clan.all_other_clans if str(c.group_ID) == key), None
-        )
-        return str(clan.name).removesuffix("Clan") if clan else "Clan"
-    return str(cat.status.social)
-
-
 def pov_key() -> str:
-    """the group of the cat you're playing, the dropdown starts there"""
+    """the group of the player's cat, where the dropdown starts"""
     you = game.clan.your_cat if game.clan else None
     return group_key(you) if you else "all"
 
@@ -185,18 +161,12 @@ class CatListFilter:
         return False
 
 
-def draw_grid(buttons: dict, cats, left, top, cat_filter=None, container=None, fav: dict = None, cell_h=CELL_H,
-              columns=COLUMNS):
-    """draws a page of cats into buttons (killing what was there), each with a label under it.
-    fav: the screen's favourite markers, drawn behind favourite cats like before
-    cell_h: row height, for screens with less room
-    columns: cats a row, for screens with a narrower list"""
+def draw_grid(buttons: dict, cats, left, top, container=None, fav: dict = None, cell_h=CELL_H, columns=COLUMNS):
+    """draws a page of cats into buttons, each with its name under it (fav: the screen's favorite markers)"""
     if fav is not None:
         for marker in fav.values():
             marker.kill()
         fav.clear()
-    # with every group showing, the label says where a cat is from
-    mixed = bool(cat_filter and cat_filter.show_groups and cat_filter.group == "all")
     for element in buttons.values():
         element.kill()
     buttons.clear()
@@ -225,7 +195,7 @@ def draw_grid(buttons: dict, cats, left, top, cat_filter=None, container=None, f
         # a one line label, so long names can't wrap and grow a scroll bar
         label = pygame_gui.elements.UILabel(
             ui_scale(pygame.Rect((x - 7, y + 50), (64, 22))),
-            shorten_text_to_fit(cat_label(cat, mixed), 60, 13),
+            shorten_text_to_fit(str(cat.name), 60, 13),
             object_id="#text_box_22_horizcenter",
             manager=MANAGER,
             container=container,

@@ -467,7 +467,7 @@ class AffairScreen(Screens):
         self.fav = {}
 
         # cats with a label under each, see cat_list_filter
-        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 385, self.cat_filter, fav=self.fav)
+        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 385, fav=self.fav)
 
     def get_valid_cats(self):
         """Get a list of valid mates for the current cat"""

@@ -3804,7 +3804,7 @@ class MurderScreen(Screens):
         self.cat_list_buttons = {}
 
         # cats with a label under each, see cat_list_filter
-        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 446, self.cat_filter, cell_h=68)
+        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 446, cell_h=68)
             
     def update_cat_list2(self):
         """Updates the cat sprite buttons. """
@@ -3842,7 +3842,7 @@ class MurderScreen(Screens):
         self.cat_list_buttons = {}
 
         # cats with a label under each, see cat_list_filter
-        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 446, self.cat_filter, cell_h=68)
+        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 446, cell_h=68)
 
     def get_valid_cats(self):
         valid_mentors = []

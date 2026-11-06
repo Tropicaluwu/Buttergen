@@ -900,7 +900,7 @@ class GiftScreen(Screens):
         self.cat_list_buttons = {}
 
         # cats with a label under each, see cat_list_filter
-        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 385, self.cat_filter)
+        cat_list_filter.draw_grid(self.cat_list_buttons, display_cats, 100, 385)
 
     def update_accessory_list(self):
         """Updates the cat sprite buttons."""
