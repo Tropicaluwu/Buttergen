@@ -8,7 +8,7 @@ import pygame
 import pygame_gui
 from pygame_gui.core import ObjectID
 
-from scripts.cat import gene_menus, physical_traits, tint_genes
+from scripts.cat import gene_menus, patch_genes, physical_traits, tint_genes
 from scripts.cat.cats import Cat
 from scripts.cat.conditions.gain_conditions import gain_permanent_condition
 from scripts.cat.enums import CatAge, CatRank, CatSocial
@@ -137,6 +137,7 @@ class CustomCatScreen(MakeClanScreenBase):
         self.search_text = ""
         self.previous_search_text = "search"
         self.acc_limit = ACC_PAGE
+        self.tortie_shape_limit = ACC_PAGE
 
         self.tortie_enabled = False
         self.current_selection_buttons = {}
@@ -1133,7 +1134,13 @@ class CustomCatScreen(MakeClanScreenBase):
                 pelt_y_pos = self.add_gene_option_rows("Tortie color", pelt_y_pos)
 
             elif self.current_selection == "tortie_patches":
-                for patch in LegacyPelt.tortie_patches:
+                patches = list(LegacyPelt.tortie_patches)
+                extra = 0
+                if patch_genes.copies(self.custom_cat.phenotype, "white_shape_torties"):
+                    shapes = gene_menus.white_shapes_in_tortie()
+                    patches += shapes[:self.tortie_shape_limit]
+                    extra = len(shapes) - self.tortie_shape_limit
+                for patch in patches:
                     self.tortie_patches_buttons[patch] = TickBox(
                         ui_scale(pygame.Rect((x_pos, pelt_y_pos + 4), (34, 34))),
                         "",
@@ -1145,6 +1152,16 @@ class CustomCatScreen(MakeClanScreenBase):
                         gene_menus.patch_name(patch),
                         ui_scale(pygame.Rect((x_pos + 32, pelt_y_pos), (200, 34))),
                         object_id=get_text_box_theme("#text_box_30_horizleft"),
+                        container=self.elements["scroll_container"],
+                        manager=MANAGER
+                    )
+                    pelt_y_pos += 40
+                if extra > 0:
+                    self.elements["tortie_more"] = UISurfaceImageButton(
+                        ui_scale(pygame.Rect((x_pos, pelt_y_pos), (170, 30))),
+                        f"Show more ({extra})",
+                        get_button_dict(ButtonStyles.SQUOVAL, (170, 30)),
+                        object_id="@buttonstyles_squoval",
                         container=self.elements["scroll_container"],
                         manager=MANAGER
                     )
@@ -1584,7 +1601,7 @@ class CustomCatScreen(MakeClanScreenBase):
     GENE_MENUS = {m.label: m for _, menus in gene_menus.TABS for m in menus}
     GENE_MENUS.update({m.label: m for m in gene_menus.EXTRA_MENUS})
     # (pangere isn't white, but pale markings look a lot like it)
-    WHITE_GENE_MENUS = ["Dark white patches", "White", "Blue-eyed white", "Roan (karpati)", "Pangere"]
+    WHITE_GENE_MENUS = ["Dark white patches", "Tortie shapes in white", "White shapes in tortie", "White", "Blue-eyed white", "Roan (karpati)", "Pangere"]
     WHITE_GROUPS = gene_menus.white_patch_groups()
 
     def gene_section(self):
@@ -2004,6 +2021,8 @@ class CustomCatScreen(MakeClanScreenBase):
             vitiligo = [p for p in (white_pattern if isinstance(white_pattern, list) else [])
                         if p in LegacyPelt.vitiligo_markings]
             genes.white_pattern = vitiligo + list(self.white_picks)
+            if set(self.white_picks) & set(gene_menus.tortie_shapes_in_white()):
+                patch_genes.set_copies(genes, "tortie_shape_white", max(1, patch_genes.copies(genes, "tortie_shape_white")))
             # the white genes match how much white was picked, so kits get about that much
             if "W" not in genes.white:
                 genes.white, grade = gene_menus.white_genes_for(self.white_picks)
@@ -2108,6 +2127,8 @@ class CustomCatScreen(MakeClanScreenBase):
                     cat.chimerapheno.chimerapattern = [marking]
                 else:
                     genes.tortiepattern = {"0": [marking]}
+                if marking in gene_menus.white_shapes_in_tortie():
+                    patch_genes.set_copies(genes, "white_shape_torties", max(1, patch_genes.copies(genes, "white_shape_torties")))
             elif not genes.tortiepattern and not cat.chimerapheno:
                 genes.tortiepattern = {"0": [marking or "ONE"]}
         else:
@@ -2497,6 +2518,11 @@ class CustomCatScreen(MakeClanScreenBase):
                 self.update_custom_cat_pages()
                 self.update_sprite()
                 self.update_disabled_buttons()
+            if "tortie_more" in self.elements and event.ui_element == self.elements["tortie_more"]:
+                self.tortie_shape_limit += ACC_PAGE
+                self.update_custom_cat_pages()
+                self.update_disabled_buttons()
+                return
             if "acc_more" in self.elements and event.ui_element == self.elements["acc_more"]:
                 container = self.elements.get("scroll_container")
                 bar = getattr(container, "vert_scroll_bar", None)

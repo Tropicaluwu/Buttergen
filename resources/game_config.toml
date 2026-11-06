@@ -1914,6 +1914,13 @@ white_shape_patch_chance = 0.8
 tortie_shape_white_chance = 0.05
 
 # BUTTERGEN: the honor system (scripts/honor/). Cruel season cards change these
+[buttergen.family]
+# your cat's siblings (when the parents are made up): the chance each one shares your cat's color,
+# a tortie sibling of a tortie cat's chance, and the chance for each of your cat's special looks
+color_chance = 0.5
+tortie_color_chance = 0.6
+look_chance = 0.5
+
 [buttergen.honor]
 # Heartless turns these off: no longing for cats in other Clans, and the healer mates toggle does nothing
 longing_temptation = true

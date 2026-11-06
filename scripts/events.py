@@ -1477,8 +1477,44 @@ def match_sibling_to_kit(kit, sibling):
     """A kit born to made up parents shares your cat's pattern and white"""
     for gene in FAMILY_LOOK:
         setattr(sibling.phenotype, gene, deepcopy(kit.phenotype[gene]))
+    tints = _share_your_look(kit, sibling)
     _redraw_from_genes(sibling)
+    for attr in tints:
+        setattr(sibling.pelt, attr, getattr(kit.pelt, attr))
     _copy_white(kit, sibling)
+
+
+# BUTTERGEN: your cat's color genes a sibling can share
+SIBLING_COLOR = ["eumelanin", "dilute", "dilutemd", "pinkdilute", "silver", "ext", "corin", "pointgene"]
+
+
+def _share_your_look(kit, sibling):
+    """BUTTERGEN: a sibling may share your cat's color and special looks. Returns the shown tints to copy"""
+    from scripts.cat import gene_menus
+
+    rules = get_config("buttergen.family")
+    kit_genes, genes = kit.phenotype, sibling.phenotype
+    both_tortie = gene_menus.get_tortie(kit_genes) != "No" and gene_menus.get_tortie(genes) != "No"
+    if random.random() < rules["tortie_color_chance" if both_tortie else "color_chance"]:
+        for gene in SIBLING_COLOR:
+            setattr(genes, gene, deepcopy(kit_genes[gene]))
+        kit_x = [x for x in kit_genes.sexgene if x != "Y"]
+        if kit_x and len(genes.sexgene) == 2:
+            genes.sexgene = [random.choice(kit_x), "Y"] if "Y" in genes.sexgene else (kit_x * 2)[:2]
+    for attr in ("physical_traits", "special_eyes", "patch_genes"):
+        theirs = dict(getattr(genes, attr, None) or {})
+        for name, copies in (getattr(kit_genes, attr, None) or {}).items():
+            if random.random() < rules["look_chance"]:
+                theirs[name] = copies
+        setattr(genes, attr, theirs)
+    tints = []
+    kit_tints = getattr(kit_genes, "tint_genes", None) or {}
+    for kind, shown in (("tint", "tint"), ("white_tint", "white_patches_tint")):
+        if kind in kit_tints and random.random() < rules["look_chance"]:
+            genes.tint_genes = dict(getattr(genes, "tint_genes", None) or {})
+            genes.tint_genes[kind] = list(kit_tints[kind])
+            tints.append(shown)
+    return tints
 
 
 def get_acc_name(acc):

@@ -1,8 +1,4 @@
-"""the gene menus of the custom cat maker (from the LifeGen Genetics Cat Maker). Each
-menu sets the genes that make that look, and reads the current choice back from the genes, so the
-menus and the genes never disagree.
-
-Menus are grouped into tabs (see TABS at the bottom). SHORT has shorter names for the lists."""
+"""The cat maker's gene menus: each one sets the genes for a look and reads it back from them."""
 
 import colorsys
 import re
@@ -914,6 +910,22 @@ def set_dark_patches(genes, value):
     patch_genes.set_copies(genes, "dark_white", 2 if value == "Yes" else 0)
 
 
+def get_tortie_shapes(genes):
+    return "Yes" if patch_genes.copies(genes, "tortie_shape_white") else "No"
+
+
+def set_tortie_shapes(genes, value):
+    patch_genes.set_copies(genes, "tortie_shape_white", 1 if value == "Yes" else 0)
+
+
+def get_white_shapes(genes):
+    return "Yes" if patch_genes.copies(genes, "white_shape_torties") else "No"
+
+
+def set_white_shapes(genes, value):
+    patch_genes.set_copies(genes, "white_shape_torties", 1 if value == "Yes" else 0)
+
+
 def menu(label, options, read, write, **kwargs):
     return Menu(label, options, read, write, **kwargs)
 
@@ -1095,6 +1107,8 @@ EXTRA_MENUS = [
     menu("Tortie pattern", ["Same as cat"] + list(PATTERNS), lambda genes: OTHER, lambda genes, value: None),
     # out of TABS on purpose: a menu in the White tab rolls the cat's white patches again
     menu("Dark white patches", ["No", "Yes"], get_dark_patches, set_dark_patches),
+    menu("Tortie shapes in white", ["No", "Yes"], get_tortie_shapes, set_tortie_shapes),
+    menu("White shapes in tortie", ["No", "Yes"], get_white_shapes, set_white_shapes),
 ]
 
 
@@ -1143,7 +1157,25 @@ def white_patch_groups():
     result = [(heading, names) for heading, names in groups.items() if names]
     result.append(("Whole body and other", other))
     result.append(("Color spots", [f"break/{name}" for name in _files("sprites/genemod/break white")]))
+    result.append(("Tortie shapes", tortie_shapes_in_white()))
     return result
+
+
+def tortie_shapes_in_white():
+    """BUTTERGEN: tortie patch shapes a white patch can take (Mink's Torties), the ones not already white"""
+    from scripts.cat import patch_swap
+
+    white = set(patch_swap.WHITE_LOW + patch_swap.WHITE_MID + patch_swap.WHITE_HIGH)
+    return [name for name in patch_swap.TORTIE if name not in white]
+
+
+def white_shapes_in_tortie():
+    """BUTTERGEN: white patch shapes a tortie patch can take (Mink's Torties), the ones not already tortie"""
+    from scripts.cat import patch_swap
+
+    tortie = set(patch_swap.TORTIE)
+    return list(dict.fromkeys(n for n in patch_swap.WHITE_LOW + patch_swap.WHITE_MID + patch_swap.WHITE_HIGH
+                              if n not in tortie))
 
 
 # tortie patches whose sprite names don't read well, only for the cat maker's list
