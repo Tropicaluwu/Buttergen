@@ -1,16 +1,11 @@
-"""Buttergen: is there a newer version on GitHub?
-
-ClanGen's own updater asks ClanGen's update server, which knows nothing about Buttergen,
-so this asks GitHub instead. It runs in the background once per game start, so the start screen
-never waits for it, and it quietly gives up without internet.
-"""
+"""Buttergen: checks GitHub for a newer version in the background."""
 import re
 import threading
 from configparser import ConfigParser
 
-# which branch has the newest version of each channel. Stable players download the main
+# which branch has the newest version of each channel. Stable players download the stable
 # branch (the green Code button), dev builds the dev branch. Each only hears about its own channel.
-BRANCHES = {"stable": "main", "dev": "dev"}
+BRANCHES = {"stable": "stable", "dev": "dev"}
 REPO = "Tropicaluwu/Buttergen"
 
 # filled in by the check: the newest version ("v1.1.2"), if it's newer than this one
