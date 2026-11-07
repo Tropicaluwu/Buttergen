@@ -1,20 +1,4 @@
-"""BUTTERGEN: every act a cat can do, following or breaking the warrior code.
-Texts are in resources/lang/en/events/honor_acts.json under the same keys.
-
-Each act:
-- kind: "follow", "break", or "mischief" (kits, no honor change)
-- level: "minor", "serious" or "grave" for breaking
-- roles: the ranks that can do it
-- causes: which temptations lead to it (following acts come from "duty")
-- other: who r_c is ("leader", "mentor", "elder", "healer", "sick", "apprentice",
-  "liked", "disliked", "clanmate", "queen"), or None
-- other_clan: needs another Clan for o_c_n
-- full_moon: only on a full moon (Gatherings)
-- hungry: only when the Clan doesn't have enough food
-
-Step 8: leaders. Their misdeeds are never judged, they cost the leader Clan trust instead
-(scripts/honor/leader.py).
-"""
+"""BUTTERGEN: every act that follows or breaks the warrior code. Texts: events/honor_acts.json."""
 
 from scripts.cat.enums import CatRank
 

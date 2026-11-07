@@ -1,17 +1,4 @@
-"""BUTTERGEN: witnesses and secrets (honor system step 3).
-
-When a cat breaks the code, someone may see. The witness reports it, keeps the secret, or
-holds it over the offender. Kept and held secrets live in game.clan.code_secrets and can come
-out later through gossip, a falling-out, the witness naming them when caught, or the witness
-dying. Secrets older than 24 moons are forgotten.
-
-Your cat picks for themself as a witness until step 5 adds the choice button.
-
-Step 8: leaders see misdeeds too, and a leader's own misdeed coming out isn't judged, it costs
-the leader Clan trust (scripts/honor/leader.py). Texts with the leader as the offender use the
-"_leader" lines of a group, and with the leader as the witness the "_by_leader" lines, where
-the group has them.
-"""
+"""BUTTERGEN: witnesses and secrets (honor step 3)."""
 
 from random import choice, randint, random
 
@@ -90,8 +77,6 @@ def _clan_by_name(name):
     return None
 
 
-# ------------------------------------------------------------------ text
-
 def _phrase(key, you: bool, who="m_c") -> str:
     them, yours = texts()["acts"][key]
     return yours if you else them.replace("m_c", who)
@@ -131,8 +116,6 @@ def _post(group, offender, witness, key, other_clan, variant=None, named_key=Non
         game.cur_events_list.append(event)
     return text
 
-
-# ------------------------------------------------------------------ who sees
 
 def _clanmates(exclude):
     from scripts.honor.temptation import clanmates
@@ -203,8 +186,6 @@ def _pick(scores) -> str:
             return what
     return next(iter(scores))
 
-
-# ------------------------------------------------------------------ after a broken rule
 
 def _level(key, level=None) -> str:
     return level or ACTS[key]["level"]
@@ -325,8 +306,6 @@ def name_others(caught):
     variant = "you_named" if named is you else ("you_name" if caught is you else "others")
     _post("naming", caught, named, None, other_clan, variant=variant, named_key=key)
 
-
-# ------------------------------------------------------------------ every skip
 
 def on_skip():
     """secrets age, spread, get called in, or come out"""

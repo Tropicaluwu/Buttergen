@@ -53,7 +53,7 @@ TABS = [
     ("health", "Health & life"),
 ]
 
-# ranks you can hand out from the editor, outsider ranks are left to the normal game
+# ranks the editor can hand out, outsider ranks are left to the normal game
 EDITABLE_RANKS = [
     CatRank.NEWBORN,
     CatRank.KITTEN,

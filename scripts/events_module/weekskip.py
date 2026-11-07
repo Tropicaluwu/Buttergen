@@ -1,15 +1,4 @@
-"""BUTTERGEN: skipping by weeks instead of moons, from Rowan's idea.
-
-With the "weekskip" Clan setting on, every skip is a week and every 4th one is also a full moon.
-- Every week: relationships, chats, thoughts, your cat's own events, and talking, flirting and
-  patrolling open up again.
-- Every week, but each roll only 1 week in 4 on average: big events like deaths, injuries,
-  illnesses, new cats, accessories and murders, so they come as often per moon as without weeks.
-- Only on the full moon: anything that counts time, like aging, pregnancies and births, healing,
-  ceremonies, experience, fresh-kill and herbs, outbreaks, seasons and the Clan's age.
-
-The week is kept in game.clan.weeks (0 to 3, 0 is the full moon).
-"""
+"""BUTTERGEN: skipping by weeks instead of moons (the weekskip Clan setting), from Rowan's idea."""
 from contextlib import contextmanager
 from random import randint, random
 
@@ -65,9 +54,8 @@ def age_text(moons: int) -> str:
 
 
 # ------------------------------------------------------------------ prey and herbs
-# With weeks on you can hunt and gather every week, so what comes in during a week counts for a
-# quarter, and a moon of weekly patrols brings in what one patrol a moon did. The Clan's own moon
-# gathering (auto fresh-kill, focus, the healers' herbs) runs inside moon_work() and isn't cut.
+# with weeks on, a week's hunting and gathering counts for a quarter. moon_work() (auto fresh-kill,
+# focus, the healers' herbs) runs once a moon and isn't cut
 _moon_work = 0
 
 

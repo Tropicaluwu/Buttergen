@@ -40,18 +40,18 @@
     },
     "gathering_fight": {
         "you": [
-            "Under the full moon, an o_c_n cat says one word too many, and you're on them before you can think. The truce is broken."
+            "Under the full moon, a cat from o_c_n says one word too many, and you're on them before you can think. The truce is broken."
         ],
         "others": [
-            "m_c picks a fight with an o_c_n cat at the Gathering, breaking the truce."
+            "m_c picks a fight with a cat from o_c_n at the Gathering, breaking the truce."
         ]
     },
     "pass_secrets": {
         "you": [
-            "You tell an o_c_n cat where c_n's patrols go and when. You don't let yourself think about what they'll do with it."
+            "You tell a cat from o_c_n where c_n's patrols go and when. You don't let yourself think about what they'll do with it."
         ],
         "others": [
-            "m_c meets an o_c_n cat at the border and tells them more about c_n than any warrior should."
+            "m_c meets a cat from o_c_n at the border and tells them more about c_n than any warrior should."
         ]
     },
     "twoleg_food": {
@@ -88,7 +88,7 @@
     },
     "help_kit": {
         "you": [
-            "You find an o_c_n kit stuck near the border, crying for its mother. You carry it back to the o_c_n scent line and wait until its Clan comes."
+            "You find a kit from o_c_n stuck near the border, crying for its mother. You carry it back to the o_c_n scent line and wait until its Clan comes."
         ],
         "others": [
             "m_c finds a lost o_c_n kit near the border and makes sure it gets home safely."
@@ -106,10 +106,10 @@
     },
     "let_trespasser": {
         "you": [
-            "You find an o_c_n cat on your side of the border. You know them, a little. You look the other way."
+            "You find a cat from o_c_n on your side of the border. You know them, a little. You look the other way."
         ],
         "others": [
-            "m_c finds an o_c_n cat trespassing and lets them leave without a word."
+            "m_c finds a cat from o_c_n trespassing and lets them leave without a word."
         ]
     },
     "markers_lapse": {
@@ -274,7 +274,7 @@
     },
     "carry_messages": {
         "you": [
-            "An o_c_n cat asks you to carry a message to someone in c_n, and you say yes without telling your leader."
+            "A cat from o_c_n asks you to carry a message to someone in c_n, and you say yes without telling your leader."
         ],
         "others": [
             "m_c has been carrying messages between c_n and o_c_n without the leader knowing."

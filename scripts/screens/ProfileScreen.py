@@ -282,6 +282,14 @@ class ProfileScreen(Screens):
                 from scripts.ui.windows.honor_exile import HonorExileWindow
 
                 HonorExileWindow(self.the_cat, self)
+            elif (
+                "switch_clan" in self.profile_elements
+                and event.ui_element == self.profile_elements["switch_clan"]
+            ):
+                # BUTTERGEN: ask to join another Clan, the warrior code's way (honor system step 9)
+                from scripts.ui.windows.honor_switch import HonorSwitchWindow
+
+                HonorSwitchWindow(self.the_cat, self)
             elif event.ui_element == self.back_button:
                 self.close_current_tab()
                 self.change_screen(game.last_screen_forProfile)
@@ -1844,6 +1852,13 @@ class ProfileScreen(Screens):
                             "#half_moon_button",
                         ): "You may attend the half-moon gathering every six moons"
                     }
+                )
+            # BUTTERGEN: your cat can ask to join another Clan by a task (honor system step 9)
+            from scripts.honor import switching
+
+            if self.the_cat == game.clan.your_cat and switching.you_can_ask():
+                work_button_dict.update(
+                    {("switch_clan", "#exile_return_button"): "Ask to join another Clan"}
                 )
         elif self.the_cat.status.is_exiled(CatGroup.PLAYER_CLAN_ID):
             work_button_dict.update(

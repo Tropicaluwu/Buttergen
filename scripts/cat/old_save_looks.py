@@ -1,9 +1,4 @@
-"""Buttergen: saves from v0.1 and v0.2 can hold looks that aren't in the game anymore.
-
-Runs on each cat while a save loads, before the cat is built. Patches that are gone are taken off,
-a tortie keeps being a tortie with a patch the game has, and accessories that are gone come off the
-cat and out of its inventory. Everything else about the cat stays the same.
-"""
+"""Buttergen: takes looks that aren't in the game anymore off cats from v0.1 and v0.2 saves."""
 from random import Random
 
 from scripts.cat.pelts import Pelt

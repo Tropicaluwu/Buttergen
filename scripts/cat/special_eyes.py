@@ -1,9 +1,4 @@
-"""BUTTERGEN: special eye colors as a rare recessive gene, from Beetle's Eyes.
-
-A cat with two copies of one has those eyes instead of its usual eye color (its own eye genes stay,
-and pass on as usual). Kept in genotype.special_eyes as {name: copies}. The colors are in
-resources/dicts/special_eyes.json. The chances are in game_config.toml, [buttergen.eyes].
-"""
+"""BUTTERGEN: special eye colors as a rare recessive gene, from Beetle's Eyes."""
 from random import choice, random
 
 import ujson

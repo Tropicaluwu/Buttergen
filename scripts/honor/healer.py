@@ -1,13 +1,4 @@
-"""BUTTERGEN: the healer mates toggle (honor system step 7).
-
-With "healer mates break the code" on, healers (and healer apprentices) take mates and have kits
-less often, and when they do it breaks the code: a secret only the mate knows. The Clan can find
-out (more likely while kits are on the way), and the healer is judged, never less than a demotion.
-Whoever gives birth to a healer's kits decides: raise them, give them to a queen, or say they
-were found. With the toggle off, nothing here happens.
-
-cat.code_healer = {"secret": [mate IDs the Clan doesn't know about], "known": [mate IDs it does]}
-"""
+"""BUTTERGEN: the healer mates toggle (honor step 7)."""
 
 from random import choice, choices as weighted_choice, randint, random
 
@@ -72,8 +63,6 @@ def _post(text, cats, top=False, other_clan=None):
     return text
 
 
-# ------------------------------------------------------------------ becoming mates
-
 def gate(cat_a, cat_b) -> bool:
     """romance is about to make these two mates. False stops it (this moon). With your cat
     involved it becomes your choice, or your cat decides if a choice can't be offered now"""
@@ -137,8 +126,6 @@ def _count_existing():
                     rec["secret"].append(mate_id)
 
 
-# ------------------------------------------------------------------ being found out
-
 def _expecting(cat) -> bool:
     data = getattr(game.clan, "pregnancy_data", {}) or {}
     if cat.ID in data:
@@ -191,8 +178,6 @@ def kit_chance(chance, cat, second_parent):
     parents = [cat] + [c for c in (second_parent or []) if isinstance(c, Cat)]
     return chance * KIT_CHANCE_FACTOR if any(is_healer(c) for c in parents) else chance
 
-
-# ------------------------------------------------------------------ kits
 
 def _foster(bearer, healers):
     """a queen (or any grown she-cat, then any grown cat) to raise the kits"""

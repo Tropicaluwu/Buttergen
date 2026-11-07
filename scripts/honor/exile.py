@@ -1,12 +1,4 @@
-"""BUTTERGEN: exile and coming back (honor system step 6).
-
-A cat exiled from your Clan (by a judgment, or by LifeGen's shunning) keeps a record of when and
-why. After a wait that depends on why, they can ask to come home, or, in multi clan mode, ask
-another Clan to take them in. The chances depend on the leader who answers, the Clan's feelings,
-ties to that Clan, how the Clans get along, and what the cat offers.
-
-Your cat asks through the profile's return button. Other exiled cats ask on their own now and then.
-"""
+"""BUTTERGEN: exile and coming back (honor step 6)."""
 
 from random import choice, random
 
@@ -43,8 +35,6 @@ def _like(cat_from, cat_to) -> int:
     rel = cat_from.relationships.get(cat_to.ID) if cat_from and cat_to else None
     return rel.like if rel else 0
 
-
-# ------------------------------------------------------------------ the record
 
 def _prior_rank(cat):
     try:
@@ -97,8 +87,6 @@ def open_clans(cat) -> list:
 def clan_wait(cat, clan) -> int:
     return max(0, info(cat).get("refused", {}).get(clan.group_ID, 0) - game.clan.age)
 
-
-# ------------------------------------------------------------------ the chances
 
 def _leader_of(clan):
     if clan is game.clan:
@@ -164,8 +152,6 @@ def clan_chance(cat, clan) -> int:
     return max(LOWEST, min(HIGHEST, chance))
 
 
-# ------------------------------------------------------------------ asking
-
 def _post(key, cat, leader, other_clan=None):
     you = _you()
     lines = texts()[key]["you" if cat is you else "others"]
@@ -214,8 +200,6 @@ def ask_clan(cat, clan):
     info(cat).setdefault("refused", {})[clan.group_ID] = game.clan.age + RETRY_CLAN
     return _post("clan_no", cat, leader, clan)
 
-
-# ------------------------------------------------------------------ every full moon
 
 def on_full_moon():
     """other exiled cats ask on their own, now and then"""

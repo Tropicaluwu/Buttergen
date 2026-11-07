@@ -1,0 +1,144 @@
+{
+    "ask": {
+        "others": ["At the Gathering, m_c asks r_c if {PRONOUN/m_c/subject} can join o_c_n."],
+        "you": ["At the Gathering, you ask r_c if you can join o_c_n. Your Clanmates go quiet."]
+    },
+    "ask_in": {
+        "others": ["At the Gathering, m_c of o_c_n asks r_c if {PRONOUN/m_c/subject} can join c_n."],
+        "r_you": ["At the Gathering, m_c of o_c_n asks you if {PRONOUN/m_c/subject} can join c_n."]
+    },
+    "refused": {
+        "others": ["r_c refuses. m_c comes home to a Clan that knows {PRONOUN/m_c/subject} tried to leave."],
+        "you": ["r_c refuses. On the way home, nobody walks next to you."]
+    },
+    "refused_in": {
+        "others": ["r_c refuses to let m_c join c_n, and m_c goes home to o_c_n."],
+        "r_you": ["You refuse to let m_c join c_n, and {PRONOUN/m_c/subject} {VERB/m_c/go/goes} home to o_c_n."]
+    },
+    "task_hunt": {
+        "others": ["r_c agrees, if m_c can feed o_c_n for a moon."],
+        "you": ["r_c agrees, if you can feed o_c_n for a moon."]
+    },
+    "task_fight": {
+        "others": ["r_c agrees, if m_c can drive the fox off o_c_n's land."],
+        "you": ["r_c agrees, if you can drive the fox off o_c_n's land."]
+    },
+    "task_sick": {
+        "others": ["r_c agrees, if m_c can see o_c_n's sick through the moon."],
+        "you": ["r_c agrees, if you can see o_c_n's sick through the moon."]
+    },
+    "task_kit": {
+        "others": ["r_c agrees, if m_c can find the o_c_n kit who went missing."],
+        "you": ["r_c agrees, if you can find the o_c_n kit who went missing."]
+    },
+    "task_loyalty": {
+        "others": ["r_c agrees, but first asks m_c where c_n's patrols go."],
+        "you": ["r_c agrees, but first asks you where c_n's patrols go."]
+    },
+    "task_hunt_in": {
+        "others": ["r_c agrees, if m_c can feed c_n for a moon."],
+        "r_you": ["You agree, if m_c can feed c_n for a moon."]
+    },
+    "task_fight_in": {
+        "others": ["r_c agrees, if m_c can drive the fox off c_n's land."],
+        "r_you": ["You agree, if m_c can drive the fox off c_n's land."]
+    },
+    "task_sick_in": {
+        "others": ["r_c agrees, if m_c can see c_n's sick through the moon."],
+        "r_you": ["You agree, if m_c can see c_n's sick through the moon."]
+    },
+    "task_kit_in": {
+        "others": ["r_c agrees, if m_c can find the c_n kit who went missing."],
+        "r_you": ["You agree, if m_c can find the c_n kit who went missing."]
+    },
+    "task_loyalty_in": {
+        "others": ["r_c agrees, but first asks m_c where o_c_n's patrols go."],
+        "r_you": ["You agree, but first you ask m_c where o_c_n's patrols go."]
+    },
+    "effort_all": {
+        "you": ["You throw yourself into the task. Whatever it takes."]
+    },
+    "effort_enough": {
+        "you": ["You do what the task needs, and not a whisker more."]
+    },
+    "loyalty_pass": {
+        "others": ["m_c refuses to say a word about {PRONOUN/m_c/poss} old Clan's patrols. r_c nods slowly. That was the right answer."],
+        "you": ["You refuse to say a word about c_n's patrols. r_c nods slowly. That was the right answer."]
+    },
+    "loyalty_little": {
+        "others": ["m_c tells r_c a little about c_n's patrols. It isn't enough to pass, and it's more than {PRONOUN/m_c/subject} should have said."],
+        "you": ["You tell r_c a little about c_n's patrols. It isn't enough to pass, and it's more than you should have said."]
+    },
+    "done": {
+        "others": ["m_c did what o_c_n asked. StarClan has given its blessing, and m_c belongs to o_c_n now."],
+        "you": ["You did it. StarClan has given its blessing. You belong to o_c_n now."]
+    },
+    "done_in": {
+        "others": ["m_c did what c_n asked. StarClan has given its blessing, and m_c belongs to c_n now."],
+        "r_you": ["m_c did what you asked. StarClan has given its blessing, and m_c belongs to c_n now."]
+    },
+    "failed": {
+        "others": ["m_c couldn't do what o_c_n asked, and comes home to c_n."],
+        "you": ["You couldn't do it. You come home to c_n, and everyone knows why you were gone."]
+    },
+    "failed_in": {
+        "others": ["m_c couldn't do what c_n asked, and goes home to o_c_n."],
+        "r_you": ["m_c couldn't do what you asked, and goes home to o_c_n."]
+    },
+    "you_lose": {
+        "you": ["r_c is leaving c_n for o_c_n. You knew this might happen. It doesn't help."]
+    },
+    "follow": {
+        "others": ["m_c can't bear to stay in c_n without r_c, and asks to follow {PRONOUN/r_c/object} to o_c_n."],
+        "you": ["You can't stay in c_n without r_c. At the next Gathering, you'll ask to follow {PRONOUN/r_c/object} to o_c_n."],
+        "r_you": ["m_c asks to follow you to o_c_n."]
+    },
+    "stay": {
+        "others": ["m_c stays in c_n. r_c is in o_c_n now, but they're still mates."],
+        "you": ["You stay in c_n. r_c is in o_c_n now, but you're still mates."],
+        "r_you": ["m_c stays in c_n. You're still mates, with a border between you."]
+    },
+    "follow_in": {
+        "others": ["m_c can't bear to stay in o_c_n without r_c, and will ask to join c_n too."]
+    },
+    "stay_in": {
+        "others": ["m_c stays in o_c_n. r_c is in c_n now, but they're still mates."]
+    },
+    "queued": {
+        "you": ["At the next Gathering, you'll ask r_c if you can join o_c_n."]
+    },
+    "choices": {
+        "ask": {
+            "prompt": "m_c of o_c_n asks to join c_n. What will you ask of {PRONOUN/m_c/object}?",
+            "tasks": {
+                "hunt": "Feed c_n for a moon",
+                "fight": "Drive the fox off our land",
+                "sick": "See our sick through the moon",
+                "kit": "Find our missing kit",
+                "loyalty": "Tell us where o_c_n's patrols go (a loyalty test)"
+            },
+            "refuse": "Refuse"
+        },
+        "effort": {
+            "prompt_hunt": "o_c_n is counting on you to feed them for a moon.",
+            "prompt_fight": "There's a fox on o_c_n's land, and it's yours to drive out.",
+            "prompt_sick": "o_c_n's sick are in your paws for a moon.",
+            "prompt_kit": "A kit from o_c_n is missing, and you're the one looking.",
+            "options": ["Give it everything", "Do just enough"]
+        },
+        "loyalty": {
+            "prompt": "r_c asks you where c_n's patrols go. This is the test.",
+            "options": ["Refuse to tell", "Tell them a little", "Tell them everything"]
+        },
+        "follow": {
+            "prompt": "m_c belongs to o_c_n now. You could ask to follow {PRONOUN/m_c/object}.",
+            "options": ["Ask to follow m_c", "Stay in c_n"]
+        }
+    },
+    "window": {
+        "title": "Which Clan will you ask?",
+        "clan": "Ask o_c_n's leader at the next Gathering",
+        "wait_one": "%{option} (1 more moon)",
+        "wait": "%{option} (%{moons} more moons)"
+    }
+}

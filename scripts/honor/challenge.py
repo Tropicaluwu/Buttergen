@@ -1,25 +1,4 @@
-"""BUTTERGEN: challenging a leader, the warrior code's way (honor system step 8b).
-
-Only when the leader's Clan trust is "broken" (-40 or lower):
-a) Each moon there's a 15% chance a Clan cat calls for a challenge: most likely a lawful cat with
-   high honor who dislikes the leader. Never the deputy. Your cat can be the one (a choice).
-b) The Clan votes the same moon: every cat from apprentice up but the leader, healers included.
-   It needs three-quarters. Your cat's vote is a choice. If it fails, the challenger loses
-   reputation, the leader likes them much less and may take away the Clan's trust in them.
-c) At the next Gathering (the next full moon) the other leaders decide, by majority. In multi
-   clan mode they're the real leaders, otherwise it's a roll for each Clan. If they refuse, the
-   leader wins a little trust back.
-d) StarClan moves the leader's remaining lives to the deputy, who becomes leader through the
-   normal leader ceremony. The old leader becomes a warrior. No deputy: it waits for one.
-
-At most one challenge at a time, and not the same leader again for 12 moons after a failed one.
-
-The state lives in game.clan.code_leader (scripts/honor/leader.py):
-  "skips": a counter, so the Gathering is always a later skip than the vote
-  "challenge": {"leader", "challenger", "stage": "vote" / "gathering" / "lives", "at": skip}
-  "cooldown": {"leader", "until": Clan age}
-  "whispered": your cat as leader has heard the whispers since trust broke
-"""
+"""BUTTERGEN: challenging a leader whose Clan trust is broken (honor step 8b)."""
 
 from random import choice, randint, random
 
@@ -89,8 +68,6 @@ def can_challenge(leader) -> bool:
     return not (cd and cd.get("leader") == leader.ID and game.clan.age < cd.get("until", 0))
 
 
-# ------------------------------------------------------------------ a) calling for it
-
 def voters(leader) -> list:
     from scripts.honor.temptation import clanmates
 
@@ -134,8 +111,6 @@ def call(challenger, leader):
         return
     vote(leader, challenger, your_vote=None)
 
-
-# ------------------------------------------------------------------ b) the vote
 
 def kin_or_friend(cat, leader) -> bool:
     if leader.ID in cat.mate or _like(cat, leader) > 30:
@@ -199,8 +174,6 @@ def _failed(leader, challenger):
         _post("lost_trust", leader, challenger)
 
 
-# ------------------------------------------------------------------ c) the Gathering
-
 def _other_leader_agrees(clan) -> bool:
     from scripts.honor.exile import _leader_of
 
@@ -229,8 +202,6 @@ def gathering(leader, challenger):
     return False
 
 
-# ------------------------------------------------------------------ d) the lives move
-
 def move_lives(leader):
     """False while there's no deputy to take them"""
     from scripts.events_module.ceremony.perform_ceremony import trigger_ceremony
@@ -253,8 +224,6 @@ def move_lives(leader):
     _end()
     return True
 
-
-# ------------------------------------------------------------------ every skip
 
 def on_skip(full_moon: bool):
     rec = _record()
@@ -309,8 +278,6 @@ def _whispers(leader):
         rec["whispered"] = True
         _post("whispers", leader, None)
 
-
-# ------------------------------------------------------------------ your cat's choices
 
 def resolve_call(leader, option):
     you = _you()

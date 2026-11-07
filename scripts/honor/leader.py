@@ -1,19 +1,4 @@
-"""BUTTERGEN: leaders and the warrior code (honor system step 8a).
-
-Nobody judges a leader. When a leader's misdeed comes out, the Clan's trust in them drops instead.
-StarClan may also send the healers an omen when a leader breaks the code, seen or not, and each
-healer decides whether to tell the Clan, tell the leader alone, or keep it to themself.
-
-Inside a judgment, a leader's feelings can get the better of them: about 1 in 4 times they let a
-favorite off, or punish a cat they dislike one step harder.
-
-Challenges are in scripts/honor/challenge.py (step 8b).
-
-A leader's Clan trust rises a little with each good deed, and drifts 1 back toward "steady" every
-3 moons that nothing changes it.
-
-game.clan.code_leader = {"leader": leader ID, "trust_moon": the Clan age trust last changed}
-"""
+"""BUTTERGEN: leaders in the honor system: Clan trust, StarClan omens, feelings in judgments (step 8a)."""
 
 from random import choice, choices as weighted_choice, randint, random
 
@@ -76,8 +61,6 @@ def _post(text, main_cat, random_cat, other_clan=None, important=True):
     return text
 
 
-# ------------------------------------------------------------------ Clan trust
-
 def _record():
     rec = getattr(game.clan, "code_leader", None)
     if not isinstance(rec, dict):
@@ -121,8 +104,6 @@ def drift():
         rec["trust_moon"] = game.clan.age
 
 
-# ------------------------------------------------------------------ breaking the code
-
 def after_break(cat, key, other_clan=None, level=None):
     """called after a leader breaks the code (or anyone a grave misdeed, with Watchful Stars):
     StarClan may send the healers an omen. Weakened Stars halves the chance, Forsaken stops it"""
@@ -161,8 +142,6 @@ def feelings(leader, cat, step, ladder):
         return ladder[ladder.index(step) + 1], line
     return step, ""
 
-
-# ------------------------------------------------------------------ StarClan omens
 
 def healers() -> list:
     from scripts.honor.temptation import clanmates
@@ -203,9 +182,7 @@ def decide(healer, leader) -> str:
 
 
 def resolve(healer, leader, option, key=None, other_clan=None):
-    """what the healer does with the omen. Returns the option carried out. leader is the cat
-    StarClan is troubled by: with Watchful Stars it can be anyone, and telling the Clan makes
-    their misdeed come out"""
+    """what the healer does with the omen about a cat. Returns the option carried out"""
     from scripts.honor import temptation
 
     if not _alive_in_clan(healer) or not _alive_in_clan(leader):
@@ -238,8 +215,6 @@ def resolve(healer, leader, option, key=None, other_clan=None):
     _post(choice(t[variant]), leader, healer, important=you in (healer, leader))
     return ALONE
 
-
-# ------------------------------------------------------------------ every skip
 
 def on_skip(full_moon: bool):
     if game.clan:

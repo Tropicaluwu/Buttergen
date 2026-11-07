@@ -10,14 +10,14 @@
             "resist": "You tell r_c the truth. {PRONOUN/r_c/subject/CAP} {VERB/r_c/look/looks} at you for a long moment, then {VERB/r_c/nod/nods}."
         },
         "gathering_fight": {
-            "prompt": "At the Gathering, an o_c_n cat sneers at c_n, and at you. Your claws itch.",
+            "prompt": "At the Gathering, a cat from o_c_n sneers at c_n, and at you. Your claws itch.",
             "options": ["Strike", "Snap back with words", "Walk away"],
             "between_breaks": false,
             "between": "You snap back sharp enough to make the o_c_n cat flinch, but your claws stay sheathed.",
             "resist": "You turn your back on the o_c_n cat. The truce holds, and a few of your Clanmates notice."
         },
         "pass_secrets": {
-            "prompt": "An o_c_n cat finds you alone near the border. They want to know where c_n's patrols go, and they'll make it worth your while.",
+            "prompt": "A cat from o_c_n finds you alone near the border. They want to know where c_n's patrols go, and they'll make it worth your while.",
             "options": ["Tell them everything", "Tell them something useless", "Refuse and leave"],
             "between_breaks": true,
             "between": "You tell the o_c_n cat a patrol route that c_n hasn't used in moons, and leave before they can ask more.",
@@ -52,7 +52,7 @@
             "resist": "You tell r_c exactly what the sign means, and watch {PRONOUN/r_c/object} take it in."
         },
         "carry_messages": {
-            "prompt": "An o_c_n cat asks you to carry a message to someone in c_n.",
+            "prompt": "A cat from o_c_n asks you to carry a message to someone in c_n.",
             "options": ["Carry it in secret", "Carry it, but tell r_c", "Refuse"],
             "between_breaks": false,
             "between": "You carry the message, and tell r_c about it first.",

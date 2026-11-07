@@ -1,16 +1,4 @@
-"""BUTTERGEN: judgments (honor system step 4).
-
-When a misdeed comes out (scripts/honor/witness.py), the cat waits for judgment. At the next full
-moon the leader (or the deputy, with no leader) adds up points and picks a step on the ladder:
-
-    warning --> extra duties --> lost trust --> demotion --> shunning --> exile
-
-Extra duties and demotion are flavor only. Lost trust is real: the cat isn't picked as a mentor or
-the new deputy while it lasts, unless nobody else could be. Shunning and exile are LifeGen's own.
-Your cat stops at shunning until step 6 (exile and coming back).
-
-Every skip, a few Clanmates also react to cats with a strong reputation.
-"""
+"""BUTTERGEN: judgments at the full moon and the sentences they give (honor step 4)."""
 
 from random import choice, randint, random, sample
 
@@ -73,8 +61,6 @@ def step_for(points) -> str:
     return EXILE
 
 
-# ------------------------------------------------------------------ waiting for judgment
-
 def _points(key, level=None) -> int:
     return LEVEL_POINTS[level or ACTS[key]["level"]]
 
@@ -103,8 +89,6 @@ def _judge_for(cat):
         return deputy
     return None
 
-
-# ------------------------------------------------------------------ the sentence
 
 def _clan_push(cat) -> int:
     """-1 if the Clan asks for mercy, +1 if it wants a harsh sentence"""
@@ -274,8 +258,6 @@ def apply(cat, judge_cat, step, clan_push=0, level=None):
                 nudge(cat, other, like=-randint(2, 4))
 
 
-# ------------------------------------------------------------------ sentences being served
-
 def sentence(cat):
     """the timed sentence the cat is serving, or None"""
     s = getattr(cat, "code_sentence", None)
@@ -328,8 +310,6 @@ def tick_sentences():
                 _post(choice(lines), cat, _judge_for(cat), important=False)
 
 
-# ------------------------------------------------------------------ reputation reactions
-
 def reputation_reactions(scale: float):
     from scripts.honor.temptation import clanmates, nudge
 
@@ -344,8 +324,6 @@ def reputation_reactions(scale: float):
         for other in sample(others, min(len(others), randint(*REACTORS))):
             nudge(other, cat, trust=sign * randint(*REACT_AMOUNT), respect=sign * randint(*REACT_AMOUNT))
 
-
-# ------------------------------------------------------------------ every skip
 
 def on_skip(full_moon: bool):
     """called at the start of every skip, before new misdeeds come out, so a misdeed is judged at

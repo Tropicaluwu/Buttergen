@@ -1,12 +1,4 @@
-"""BUTTERGEN: your cat's choices (honor system step 5).
-
-Two kinds of moment become a choice: your cat about to do a serious or grave act, and your cat
-witnessing a Clanmate break the code. At most one per moon. The skip never stops: a "Your cat has
-a choice" button shows on the events screen, and if you skip again without opening it, your cat
-decides by personality at the start of that skip.
-
-Your cat never holds a secret over anyone, even when deciding alone.
-"""
+"""BUTTERGEN: your cat's choices and the events screen badge (honor step 5)."""
 
 from random import choice, choices as weighted_choice, randint, random
 
@@ -25,6 +17,9 @@ MATE, KITS = "mate", "kits"
 OMEN = "omen"
 # step 8b: calling for a challenge against the leader, and the Clan's vote
 CALL, VOTE = "challenge_call", "challenge_vote"
+# step 9: switching Clans (scripts/honor/switching.py)
+SWITCH_ASK, SWITCH_EFFORT, SWITCH_LOYALTY, SWITCH_FOLLOW = "switch_ask", "switch_effort", "switch_loyalty", "switch_follow"
+SWITCH_KINDS = (SWITCH_ASK, SWITCH_EFFORT, SWITCH_LOYALTY, SWITCH_FOLLOW)
 GIVE, BETWEEN, RESIST = "give", "between", "resist"
 REPORT, KEEP, TALK = "report", "keep", "talk"
 DECIDE = "decide"
@@ -44,13 +39,15 @@ def _alive_in_clan(cat) -> bool:
     return bool(cat) and not cat.dead and cat.status.alive_in_player_clan
 
 
+def _alive(cat) -> bool:
+    return bool(cat) and not cat.dead
+
+
 def _clan(name):
     from scripts.honor.witness import _clan_by_name
 
     return _clan_by_name(name)
 
-
-# ------------------------------------------------------------------ the waiting choice
 
 def pending():
     """the choice waiting for you, or None"""
@@ -63,6 +60,7 @@ def pending():
         or (c["kind"] == MATE and not _alive_in_clan(Cat.fetch_cat(c["other"])))
         or (c["kind"] == KITS and not [k for k in (Cat.fetch_cat(i) for i in c["kits"]) if k and not k.dead])
         or (c["kind"] in (OMEN, CALL, VOTE) and not _alive_in_clan(Cat.fetch_cat(c["leader"])))
+        or (c["kind"] in SWITCH_KINDS and not _alive(Cat.fetch_cat(c["cat"])))
     )
     if gone:
         game.clan.code_choice = None
@@ -111,6 +109,23 @@ def offer_vote(leader, challenger):
     _offer({"kind": VOTE, "leader": leader.ID, "challenger": challenger.ID})
 
 
+def offer_switch_ask(cat, target, bonus=0, follow=None):
+    _offer({"kind": SWITCH_ASK, "cat": cat.ID, "to": target, "bonus": bonus, "follow": follow})
+
+
+def offer_switch_effort(cat, target, task):
+    _offer({"kind": SWITCH_EFFORT, "cat": cat.ID, "to": target, "task": task})
+
+
+def offer_switch_loyalty(cat, target):
+    _offer({"kind": SWITCH_LOYALTY, "cat": cat.ID, "to": target})
+
+
+def offer_switch_follow(cat, target):
+    """cat is the mate who switched, your cat decides whether to follow"""
+    _offer({"kind": SWITCH_FOLLOW, "cat": cat.ID, "to": target})
+
+
 def offer_kits(kits, healers):
     _offer({"kind": KITS, "kits": [k.ID for k in kits], "healers": [h.ID for h in healers]})
 
@@ -119,8 +134,6 @@ def is_big(key) -> bool:
     a = ACTS.get(key)
     return bool(a) and a["kind"] == "break" and a["level"] in ("serious", "grave")
 
-
-# ------------------------------------------------------------------ what the window shows
 
 def _render(text, main_cat, random_cat, other_clan):
     return event_text_adjust(Cat, text, main_cat=main_cat, random_cat=random_cat, clan=game.clan,
@@ -140,7 +153,11 @@ def window_text():
     you = _you()
     t = texts()
     oc = _clan(c.get("clan"))
-    if c["kind"] in (CALL, VOTE):
+    if c["kind"] in SWITCH_KINDS:
+        from scripts.honor import switching
+
+        prompt, options = switching.window_text(c, _render, None)
+    elif c["kind"] in (CALL, VOTE):
         from scripts.honor import challenge
 
         leader = Cat.fetch_cat(c["leader"])
@@ -190,8 +207,6 @@ def window_text():
     return prompt, options
 
 
-# ------------------------------------------------------------------ deciding
-
 def _personality_temptation(cat, key) -> str:
     law = cat.personality.lawfulness / 16
     pull = min(1.0, sum(cat.temptation.get(c, 0) for c in ACTS[key]["causes"]) / 60)
@@ -224,6 +239,10 @@ def resolve(option):
     if not c:
         return None
     game.clan.code_choice = None
+    if c["kind"] in SWITCH_KINDS:
+        from scripts.honor import switching
+
+        return switching.resolve_choice(c, option)
     if c["kind"] in (CALL, VOTE):
         from scripts.honor import challenge
 
@@ -331,15 +350,11 @@ def resolve_witness(you, offender, key, oc, option, level=None):
     return text
 
 
-# ------------------------------------------------------------------ every skip
-
 def on_skip_start():
     """a choice left waiting through a whole skip is made by your cat"""
     if pending():
         resolve(DECIDE)
 
-
-# ------------------------------------------------------------------ the events screen
 
 def show_badge(screen):
     """adds or removes the badge on the events screen"""

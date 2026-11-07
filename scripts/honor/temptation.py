@@ -1,16 +1,4 @@
-"""BUTTERGEN: temptation and the code events it leads to (honor system step 2).
-
-Every skip each Clan cat's temptations build from what's going on around them (hunger,
-longing for a cat in another Clan, grudges, restlessness, Dark Forest ties), and their duty
-builds from lawfulness and honor. How many events happen is set by the Clan setting
-(Rare / Normal / Often). Who acts, and what they do, comes from their temptations: the most
-tempted cats act, and they act on what tempts them most. Acting resets that temptation.
-
-With weekskip on, temptation builds a quarter as fast per week and each event gets a 1 in 4
-roll per week, so the totals per moon match moon skipping.
-
-Nobody sees a broken rule yet, witnesses come in step 3.
-"""
+"""BUTTERGEN: temptation and the code events it leads to (honor step 2)."""
 
 from random import choice, randint, random
 
@@ -42,8 +30,6 @@ CLAN_EVENTS = {"rare": (0, 1), "normal": (1, 3), "often": (2, 4)}
 def texts() -> dict:
     return load_lang_resource("events/honor_acts.json")
 
-
-# ------------------------------------------------------------------ who's around
 
 def clanmates(exclude=None) -> list:
     cats = []
@@ -85,8 +71,6 @@ def nudge(cat_from, cat_to, **stats):
         for stat, amount in stats.items():
             setattr(rel, stat, getattr(rel, stat) + amount)
 
-
-# ------------------------------------------------------------------ temptation
 
 def _crush_clan(cat):
     """the other Clan of the cat this one likes most romantically, if it's over 10"""
@@ -139,8 +123,6 @@ def build(cat, scale: float):
     duty = 2 + cat.personality.lawfulness * 0.8 + max(0, cat.honor) / 15
     t[DUTY] = min(MAX_TEMPTATION, t.get(DUTY, 0) + duty * scale)
 
-
-# ------------------------------------------------------------------ picking an act
 
 def find_other(cat, need):
     """r_c for an act, or None if nobody fits"""
@@ -245,8 +227,6 @@ def weighted(options):
     return options[-1]
 
 
-# ------------------------------------------------------------------ doing it
-
 def do_act(cat, key, other, other_clan):
     a = ACTS[key]
     you = cat is game.clan.your_cat
@@ -320,8 +300,6 @@ def act_once(cat, full_moon: bool):
     return do_act(cat, key, other, oc)
 
 
-# ------------------------------------------------------------------ every skip
-
 def on_skip(full_moon: bool):
     """called once every skip (every moon, or every week with weekskip)"""
     if not game.clan:
@@ -344,6 +322,10 @@ def on_skip(full_moon: bool):
     from scripts.honor import leader
 
     leader.on_skip(full_moon)
+    # step 9: switching Clans by a task (multi clan mode)
+    from scripts.honor import switching
+
+    switching.on_skip(full_moon)
     scale = 1 / weekskip.WEEKS_IN_MOON if weekskip.on() else 1.0
     cats = [c for c in clanmates() if can_act(c)]
     for cat in cats:

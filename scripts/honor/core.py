@@ -1,13 +1,4 @@
-"""BUTTERGEN: the base of the honor system.
-
-- honor: how well the cat really follows the warrior code, -100 to 100. Only StarClan and the
-  Dark Forest see it.
-- reputation: what the Clan knows about it, -100 to 100. Breaking the code unseen costs honor
-  but not reputation.
-- clan_trust: how much the Clan trusts its leader, deputy and healers in that role, -100 to 100.
-
-Everyone starts at 0. Old saves start at 0 too.
-"""
+"""BUTTERGEN: honor, reputation and Clan trust, the base of the honor system."""
 
 from scripts.cat.enums import CatRank
 from scripts.clan_package.settings import get_clan_setting
@@ -95,8 +86,6 @@ def profile_lines(cat) -> str:
     return out
 
 
-# ------------------------------------------------------------------ Clan settings
-
 def code_frequency() -> str:
     """"rare", "normal" or "often", from the two linked Clan settings"""
     if get_clan_setting("rare code events"):
@@ -109,8 +98,6 @@ def code_frequency() -> str:
 def healer_mates_break_code() -> bool:
     return bool(get_clan_setting("healer mates break the code"))
 
-
-# ------------------------------------------------------------------ cruel season cards (step 8c)
 
 def card(name):
     """a [buttergen.honor] value from the game config, as the Clan's cruel season cards set it"""

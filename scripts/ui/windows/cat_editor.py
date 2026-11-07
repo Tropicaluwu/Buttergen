@@ -162,13 +162,7 @@ class CatEditorWindow(EditorWindowBase):
     """Cat editor: change faith, relationships and mates for a cat."""
 
     def __init__(self, cat, target=None, on_close=None, section="all"):
-        """
-        :param cat: the cat being edited
-        :param target: optionally start on this cat's relationship instead of the cat picker
-        :param on_close: called after the window closes (defaults to refreshing the profile screen)
-        :param section: "faith" (only faith), "relationship" (only the relationship with another cat)
-                        or "all" (both)
-        """
+        """section: "faith", "relationship" or "all". target: start on this cat's relationship"""
         self.section = section
         if section == "faith":
             rect = pygame.Rect((170, 190), (460, 300))

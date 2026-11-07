@@ -1,13 +1,4 @@
-"""BUTTERGEN: genes for white and tortie patches, from Simple Dark Patches and Mink's Torties.
-
-dark_white: recessive. Two copies turn the cat's white patches dark. One copy only shows on a cat
-with a mustache patch.
-white_shape_torties: dominant. The cat's tortie patches can use white patch shapes.
-tortie_shape_white: dominant. The cat's white patches gain a tortie patch shape.
-
-Kept in genotype.patch_genes as {name: copies}. The chances are in game_config.toml,
-[buttergen.patch_genes].
-"""
+"""BUTTERGEN: genes for white and tortie patches, from Simple Dark Patches and Mink's Torties."""
 from random import random
 
 GENES = ("dark_white", "white_shape_torties", "tortie_shape_white")

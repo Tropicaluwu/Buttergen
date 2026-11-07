@@ -1,13 +1,4 @@
-"""BUTTERGEN: coat tints and white patch tints as genes.
-
-Every cat has two copies of each, one from each parent, kept in genotype.tint_genes as
-{"tint": [a, b], "white_tint": [a, b]}. A tint only shows on coat colors it fits (the lists in
-sprites/dicts/tint.json and white_patches_tint.json). If both copies fit, one shows, and the cat
-keeps that one for life (pelt.tint). If neither fits, the coat rolls a fitting tint like before,
-but the cat still passes on the copies it carries.
-
-Cats with no parents roll their shown tint as before, and carry a second one that fits their color.
-"""
+"""BUTTERGEN: coat tints and white patch tints as inherited genes."""
 from random import choice
 
 KINDS = ("tint", "white_tint")
@@ -57,9 +48,7 @@ def pick(genes, kind, fitting, roll):
 
 
 def keep_shown(genes, pelt, only_missing=False):
-    """A cat whose shown tint was set by hand (cat maker, editor) carries it in place of one
-    of its copies, so the cat passes it on. only_missing: just fill in a cat from an older
-    save, whose tint becomes both its copies."""
+    """a tint set by hand (cat maker, editor) becomes one of the cat's copies, so it's passed on"""
     for kind, shown in (("tint", pelt.tint), ("white_tint", pelt.white_patches_tint)):
         shown = _name(shown)
         pair = copies_of(genes, kind)

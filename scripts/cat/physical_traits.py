@@ -1,11 +1,4 @@
-"""BUTTERGEN: physical traits (saber teeth, manes, ear tufts...) as genes, from Inheritable
-Physical Traits by Snow.
-
-A cat carries 0, 1 or 2 copies of each trait, kept in genotype.physical_traits as {name: copies}
-(only the traits they carry). Which traits there are, whether each is dominant, recessive or
-acquired, and what they look like in words are in resources/dicts/physical_traits.json.
-The chances are in game_config.toml, [buttergen.traits].
-"""
+"""BUTTERGEN: physical traits as inherited genes, from Inheritable Physical Traits by Snow."""
 from random import random
 
 import ujson

@@ -193,6 +193,8 @@ class Clan:
         self.code_choice_moon = None
         # the leader's Clan trust record (scripts/honor/leader.py)
         self.code_leader = {}
+        # cats switching Clans by a task (scripts/honor/switching.py)
+        self.code_switch = {}
         self.achievements = []
         self.talks = []
         self.focus = ""
@@ -1121,6 +1123,7 @@ class Clan:
             "code_choice": self.code_choice,
             "code_choice_moon": self.code_choice_moon,
             "code_leader": self.code_leader,
+            "code_switch": self.code_switch,
             "custom_pronouns": self.custom_pronouns,
             "clan_age": self.clan_age,
         }
@@ -1697,6 +1700,7 @@ class Clan:
         game.clan.code_choice = clan_data.get("code_choice")
         game.clan.code_choice_moon = clan_data.get("code_choice_moon")
         game.clan.code_leader = dict(clan_data.get("code_leader") or {})
+        game.clan.code_switch = dict(clan_data.get("code_switch") or {})
 
         if "exile_return" in clan_data:
             game.clan.exile_return = clan_data["exile_return"]
