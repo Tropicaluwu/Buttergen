@@ -8,6 +8,7 @@ Fixes:
 - The dens menu opens with a click too, not just by hovering
 - StarClan and Dark Forest guides show in the cat list the first time it's opened
 - Small, medium and large Clans start with 10, 15 and 20 cats (a large Clan could start with only 4)
+- The Clan size and age buttons show what was really picked (they showed Medium and Old, while the Clan came out Small and New)
 - Taking names out or bringing them back in the names menu no longer jumps the list to the top
 - The names menu lists the names cats get from their looks, color and biome too, so those can be taken out (before, taken out names could still show up)
 - Names menu: buttons to take out or bring back every name a search shows, a show button (all names, the main list or names from looks), and names sorted A to Z
