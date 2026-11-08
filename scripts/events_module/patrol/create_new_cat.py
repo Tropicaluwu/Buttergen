@@ -412,7 +412,7 @@ def _assign_name(created_cat: Cat):
         name = choice(Name.names_dict[selected_category])
         created_cat.change_name(new_prefix=name, new_suffix="")
         if selected_category == "normal prefixes" and get_clan_setting("modded names") and get_clan_setting('new prefixes') and random() < 0.9:
-            created_cat.name.give_prefix(Cat, created_cat.status.fetch_clan_object(game.clan).biome, no_suffix=True)
+            created_cat.name.give_prefix(created_cat, created_cat.status.fetch_clan_object(game.clan).biome, no_suffix=True)
         
 
 def _assign_backstory(created_cat, option_dict):

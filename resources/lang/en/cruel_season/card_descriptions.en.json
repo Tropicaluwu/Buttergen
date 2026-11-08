@@ -9,6 +9,7 @@
     "all_purebreds": "All cats will be purebred.",
     "lean_meat": "The fresh-kill has gone scrawny and thin. All cats will need to eat more prey to survive.",
     "hunters_tribute": "Nothing comes free, not even the hunt. The Clan will lose a portion of its fresh-kill each moon.",
+    "healers_tribute": "The healers' paws grow heavy with burden. The Clan will lose a portion of its herbs each moon.",
     "forsaken": "The stars have turned away. Leaders will only be given one life, and StarClan sends no omens.",
     "for_the_throne": "Ambition rules. Deputies are more likely to murder the leader, and their darker urges grow twice as fast while the Clan's trust in the leader is broken.",
     "resolute": "The deputy stands firm in their goals: duration before warrior focus can change is doubled.",
@@ -51,6 +52,7 @@
     "fading_code": "The old ways mean little here. Cats break the warrior code twice as often, and witnesses report it half as often.",
     "whispers": "Nothing stays secret for long. Secrets spread twice as fast, and come out once three cats know.",
     "watchful_stars": "StarClan sees all. StarClan can send omens about any cat's gravest misdeeds, not only the leader's.",
-    "no_way_back": "Once cast out, always cast out. Exiled cats can never come home, though they can still ask another Clan."
+    "no_way_back": "Once cast out, always cast out. Exiled cats can never come home, though they can still ask another Clan.",
+    "hostile_environs": "The world has no kindness in store for the Clan. Patrols will be more difficult."
   }
 }
