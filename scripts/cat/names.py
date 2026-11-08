@@ -248,6 +248,17 @@ class Name:
     def other_game_names(cls, key):
         """The prefixes or suffixes the game also gives besides the main list (by looks, color,
         biome, pelt, animal), so the Names window can show them and they can be taken out"""
+        cache = cls.__dict__.get("_other_names_cache")
+        if cache is None or cache[0] is not cls.default_names:
+            cache = (cls.default_names, {})
+            cls._other_names_cache = cache
+        if key in cache[1]:
+            return cache[1][key]
+        cache[1][key] = cls._find_other_game_names(key)
+        return cache[1][key]
+
+    @classmethod
+    def _find_other_game_names(cls, key):
         if key == "normal_prefixes":
             groups = ["colour_prefixes", "biome_prefixes", "pelt_prefixes", "animal_prefixes"]
             mod_file = "alt_prefixes.json"
