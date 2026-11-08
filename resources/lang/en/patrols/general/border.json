@@ -9430,6 +9430,16 @@
                     "This is it! p_l sees {PRONOUN/p_l/poss} friend sneaking up to the border. p_l eagerly rushes up to say hello, only to be surprised when they blurt out that they want to join p_l in c_n. It will take a lot of explaining back at camp, and the older cats might not approve...but p_l knows it's worth it."
                 ],
                 "exp_gained": 10,
+                "join": [
+                    {
+                        "cats": [
+                            "n_c0"
+                        ],
+                        "new_status": [
+                            "apprentice"
+                        ]
+                    }
+                ],
                 "involved_cats": {
                     "n_c0": {
                         "can_create_new_cat": {},
@@ -9484,6 +9494,16 @@
                     "This is it! p_l eagerly rushes forward, greeting {PRONOUN/p_l/poss} friend with an affectionate headbump. p_l feels {PRONOUN/p_l/poss} heart flutter when the other apprentice blurts out that they want to join {PRONOUN/p_l/object} in c_n. It will take a lot of explaining back at camp, and the older cats might not approve...but p_l knows it's worth it."
                 ],
                 "exp_gained": 10,
+                "join": [
+                    {
+                        "cats": [
+                            "n_c0"
+                        ],
+                        "new_status": [
+                            "apprentice"
+                        ]
+                    }
+                ],
                 "involved_cats": {
                     "n_c0": {
                         "can_create_new_cat": {},
@@ -9628,6 +9648,24 @@
                     "p_l slowly approaches the undergrowth and is surprised to see an injured loner crouched over a litter of kits. The loner explains that o_c_n warriors attacked {PRONOUN/n_c0/object} when {PRONOUN/n_c0/subject} tried crossing their territory. p_l offers to bring the loner and {PRONOUN/n_c0/poss} kits back to camp for treatment, and after a moment of consideration {PRONOUN/n_c0/subject} {VERB/n_c0/agree/agrees}."
                 ],
                 "exp_gained": 20,
+                "join": [
+                    {
+                        "cats": [
+                            "n_c0"
+                        ],
+                        "new_status": [
+                            "warrior"
+                        ]
+                    },
+                    {
+                        "cats": [
+                            "n_c1"
+                        ],
+                        "new_status": [
+                            "kitten"
+                        ]
+                    }
+                ],
                 "condition": [
                     {
                         "cats": [
@@ -9700,6 +9738,16 @@
                     "p_l slowly approaches the undergrowth and is horrified when {PRONOUN/p_l/subject} {VERB/p_l/find/finds} a dead loner, {PRONOUN/n_c0/poss} fur reeking of o_c_n scent. Even worse, the loner was clearly guarding {PRONOUN/n_c0/poss} kits, who are hidden wide-eyed in the undergrowth. The kits explain that 'big, scary cats' attacked them. p_l gathers the kits together, heart heavy as {PRONOUN/p_l/subject} {VERB/p_l/explain/explains} that the patrol will take them somewhere safe."
                 ],
                 "exp_gained": 20,
+                "join": [
+                    {
+                        "cats": [
+                            "n_c1"
+                        ],
+                        "new_status": [
+                            "kitten"
+                        ]
+                    }
+                ],
                 "involved_cats": {
                     "n_c0": {
                         "can_create_new_cat": {},
@@ -9945,6 +9993,16 @@
                     "p_l won't get a better chance than this. {PRONOUN/p_l/subject/CAP} {VERB/p_l/rush/rushes} in and {VERB/p_l/grab/grabs} a single kit by the scruff. {PRONOUN/p_l/subject/CAP} {VERB/p_l/flee/flees} the o_c_n camp, desperate to avoid capture. p_l runs until {PRONOUN/p_l/subject} {VERB/p_l/arrive/arrives} safely home, still carrying the newest member of c_n."
                 ],
                 "exp_gained": 20,
+                "join": [
+                    {
+                        "cats": [
+                            "n_c0"
+                        ],
+                        "new_status": [
+                            "newborn"
+                        ]
+                    }
+                ],
                 "involved_cats": {
                     "n_c0": {
                         "can_create_new_cat": {},

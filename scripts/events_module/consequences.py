@@ -1368,10 +1368,11 @@ def gather_cat_objects(
             continue
 
         found_cat = None
+        # patrols pass no event, so a stray m_c or r_c is skipped instead of crashing
         if abbr == "m_c":
-            found_cat = extra_cat if extra_cat else event.main_cat
+            found_cat = extra_cat if extra_cat else getattr(event, "main_cat", None)
         elif abbr == "r_c":
-            found_cat = event.random_cat
+            found_cat = getattr(event, "random_cat", None)
         # LG: the same cats the patrol text names as o_c1-4
         elif re.match(r"o_c[1-4]$", abbr) and involved_cats and involved_cats.get("patrol_cats"):
             other_cats = [
