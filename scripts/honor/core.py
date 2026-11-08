@@ -71,6 +71,11 @@ def trust_label(cat) -> str:
     return _label(cat.clan_trust, TRUST_LABELS, TRUST_LOWEST, "clan_trust")
 
 
+def with_number(label, value) -> str:
+    """the label with its number, so small changes show: unremarkable (+6)"""
+    return f"{label} ({int(value):+d})"
+
+
 def profile_lines(cat) -> str:
     """the lines for the profile, each ending in a newline, or "" when the cat shows none"""
     if not has_honor(cat):
@@ -78,11 +83,11 @@ def profile_lines(cat) -> str:
     profile = texts()["profile"]
     from scripts.honor.judgment import profile_note
 
-    out = profile["honor_line"].replace("%{honor}", honor_label(cat)).replace(
-        "%{reputation}", reputation_label(cat)
+    out = profile["honor_line"].replace("%{honor}", with_number(honor_label(cat), cat.honor)).replace(
+        "%{reputation}", with_number(reputation_label(cat), cat.reputation)
     ) + profile_note(cat) + "\n"
     if has_clan_trust(cat):
-        out += profile["trust_line"].replace("%{trust}", trust_label(cat)) + "\n"
+        out += profile["trust_line"].replace("%{trust}", with_number(trust_label(cat), cat.clan_trust)) + "\n"
     return out
 
 
