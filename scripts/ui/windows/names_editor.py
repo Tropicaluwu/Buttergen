@@ -224,6 +224,7 @@ class NamesEditorWindow(GameWindow):
         if self.list_box:
             self.list_box.kill()
         self.rows = {}
+        self.row_texts = {}
         self.list_box = UIModifiedScrollingContainer(
             ui_scale(pygame.Rect((190, 140), (470, 335))),
             container=self,
@@ -241,7 +242,7 @@ class NamesEditorWindow(GameWindow):
             else:
                 text = name + {"added": "  (yours)", "out": "  (taken out)", "in": ""}[state]
                 action = {"added": "delete", "out": "bring back", "in": "take out"}[state]
-            pygame_gui.elements.UITextBox(
+            text_box = pygame_gui.elements.UITextBox(
                 text,
                 ui_scale(pygame.Rect((0, y), (320, 34))),
                 object_id=get_text_box_theme("#text_box_30_horizleft"),
@@ -260,6 +261,7 @@ class NamesEditorWindow(GameWindow):
             if state == "out" and only_mine:
                 button.disable()  # (only your names are used: nothing to bring back one by one)
             self.rows[button] = (name, state)
+            self.row_texts[button] = text_box
 
         self.refresh_options()
 
@@ -354,7 +356,8 @@ class NamesEditorWindow(GameWindow):
         self.save_changes()
         self.refresh_list()
 
-    def row_action(self, name, state):
+    def row_action(self, button):
+        name, state = self.rows[button]
         if self.key == "special_suffixes":
             self.editing_rank = name
             endings = dict(self.base_names().get("special_suffixes", {}))
@@ -370,7 +373,14 @@ class NamesEditorWindow(GameWindow):
         else:
             changes["removed"] = [n for n in changes["removed"] if n.lower() != name.lower()]
         self.save_changes()
-        self.refresh_list()
+        if state == "added":
+            self.refresh_list()
+            return
+        # change just this row, so the list stays scrolled where it was
+        new_state = "out" if state == "in" else "in"
+        self.rows[button] = (name, new_state)
+        self.row_texts[button].set_text(name + ("  (taken out)" if new_state == "out" else ""))
+        button.set_text("bring back" if new_state == "out" else "take out")
 
     def process_event(self, event):
         if event.type == pygame_gui.UI_BUTTON_START_PRESS:
@@ -406,7 +416,7 @@ class NamesEditorWindow(GameWindow):
                 self.save_changes()
                 self.refresh_options()
             elif element in self.rows:
-                self.row_action(*self.rows[element])
+                self.row_action(element)
         elif event.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.scope_menu:
             self.scope = None if event.text == ALL_SAVES else event.text
             self.data = custom_names.load(self.scope)
