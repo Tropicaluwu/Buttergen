@@ -1660,7 +1660,7 @@ class CustomCatScreen(MakeClanScreenBase):
                     manager=MANAGER
                 )
                 y_pos += 40
-            if group == "Color spots":
+            if group == "Color spots" and not searching:
                 self.gene_names[("white note", group)] = pygame_gui.elements.UITextBox(
                     "These take white away (a colored ear on a white cat...)",
                     ui_scale(pygame.Rect((0, y_pos), (170, 60))),
