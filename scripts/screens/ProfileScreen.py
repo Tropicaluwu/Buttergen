@@ -68,7 +68,6 @@ from scripts.ui.windows.change_cat_name import ChangeCatNameWindow
 from scripts.ui.windows.change_cat_toggles import CatToggleWindow
 from scripts.ui.windows.cruel_locked_action import CruelLockedAction
 from scripts.ui.windows.kill_cat import KillCat
-from ..ui.windows.change_cat_clan import ChangeCatClanWindow
 from ..ui.windows.cat_editor import CatEditorWindow
 from ..ui.windows.cat_stat_editor import CatStatEditorWindow
 from ..cat_editor_logic import editor_enabled
@@ -660,11 +659,6 @@ class ProfileScreen(Screens):
                 self.build_profile()
             elif event.ui_element == self.affair_button:
                 self.change_screen(GameScreen.AFFAIR)
-            elif (
-                hasattr(self, "change_clan_button")
-                and event.ui_element == self.change_clan_button
-            ):
-                ChangeCatClanWindow(self.the_cat)
             elif event.ui_element == self.exile_cat_button:
                 # exiles a living cat
                 if self.the_cat.status.group.is_any_clan_group():
@@ -3513,33 +3507,14 @@ class ProfileScreen(Screens):
                     ui_scale_dimensions((172, 36)),
                 ),
             )
-            if game.clan.clancount == "multiclan" and get_config("outsiders.change_clan_button"):
-                self.change_clan_button = UISurfaceImageButton(
-                    ui_scale(pygame.Rect((578, 0), (172, 36))),
-                    "screens.profile.change_clan",
-                    get_button_dict(ButtonStyles.LADDER_MIDDLE, (172, 36)),
-                    object_id="@buttonstyles_ladder_middle",
-                    starting_height=2,
-                    manager=MANAGER,
-                    anchors={"top_target": self.exile_cat_button},
-                )
-                self.kill_cat_button = UIImageButton(
-                    ui_scale(pygame.Rect((578, 522), (172, 36))),
-                    "screens.profile.kill_cat" if not self.the_cat.dead else "screens.profile.fade_cat",
-                    object_id="#kill_cat_button",
-                    tool_tip_text="screens.profile.kill_cat_tooltip" if not self.the_cat.dead else "screens.profile.fade_cat_tooltip",
-                    starting_height=2,
-                    manager=MANAGER,
-                )
-            else:
-                self.kill_cat_button = UIImageButton(
-                    ui_scale(pygame.Rect((578, 486), (172, 36))),
-                    "screens.profile.kill_cat" if not self.the_cat.dead else "screens.profile.fade_cat",
-                    object_id="#kill_cat_button",
-                    tool_tip_text="screens.profile.kill_cat_tooltip" if not self.the_cat.dead else "screens.profile.fade_cat_tooltip",
-                    starting_height=2,
-                    manager=MANAGER,
-                )
+            self.kill_cat_button = UIImageButton(
+                ui_scale(pygame.Rect((578, 486), (172, 36))),
+                "screens.profile.kill_cat" if not self.the_cat.dead else "screens.profile.fade_cat",
+                object_id="#kill_cat_button",
+                tool_tip_text="screens.profile.kill_cat_tooltip" if not self.the_cat.dead else "screens.profile.fade_cat_tooltip",
+                starting_height=2,
+                manager=MANAGER,
+            )
             self.exile_layer.disable()
             self.leave_clan_button = UISurfaceImageButton(
                 ui_scale(pygame.Rect((578, 0), (172, 36))),
@@ -3853,8 +3828,6 @@ class ProfileScreen(Screens):
                 self.exile_cat_button.disable()
 
             if self.the_cat.dead:
-                if hasattr(self, "change_clan_button"):
-                    self.change_clan_button.disable()
                 self.exile_cat_button.enable()
                 self.exile_cat_button.join_focus_sets(self.exile_layer)
                 if (
@@ -3901,8 +3874,6 @@ class ProfileScreen(Screens):
                         self.affair_button.hide()
 
             else:
-                if hasattr(self, "change_clan_button"):
-                    self.change_clan_button.enable()
                 # no exile allowed if not in a clan
                 # LG edit
                 if self.the_cat.moons < 1:
@@ -4076,8 +4047,6 @@ class ProfileScreen(Screens):
             if self.cis_trans_button:
                 self.cis_trans_button.kill()
         elif self.open_tab == "dangerous":
-            if hasattr(self, "change_clan_button"):
-               self.change_clan_button.kill()
             self.kill_cat_button.kill()
             self.exile_cat_button.kill()
             self.murder_cat_button.kill()
