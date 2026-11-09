@@ -5,6 +5,9 @@ A development build, so keep a copy of your saves folder before playing.
 New:
 - More name suffixes from Chinch-Bug: more traits now have their own, and so do the Brawler, Fisher and Tunneler skills (with modded names and new suffixes turned on)
 
+Fixes:
+- The cat maker's tint swatches show each tint's own color (pink looks pink, blue looks blue) instead of how it looks on brown fur
+
 <strong>Buttergen v0.4-dev.2</strong>
 
 A development build, so keep a copy of your saves folder before playing.
