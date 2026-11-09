@@ -600,7 +600,37 @@ def eye_type(name):
 
 
 EYE_FAMILIES = ["Blue", "Aqua and teal", "Green", "Yellow and gold", "Orange and copper", "Brown and hazel",
-                "Red and pink", "Purple", "Gray and pale"]
+                "Red and pink", "Purple", "Gray and pale", "Albino"]
+
+
+def eye_kind(name_or_code):
+    """"albino", "blue" or "normal": albino and blue eyes come from other genes than the eye grades"""
+    if " ; " not in str(name_or_code) and name_or_code not in EYES:
+        return "normal"  # BUTTERGEN: special eyes are their own gene
+    code = name_or_code if " ; " in str(name_or_code) else eye_type(name_or_code)
+    pigment = code.split(" ; ")[1]
+    return pigment if pigment in ("albino", "blue") else "normal"
+
+
+def eye_kinds_allowed(genes):
+    """The kinds of eyes these genes can give, like Genemod's EyeColourFinder: albino cats only
+    have albino eyes, cs-pointed cats only blue ones, and blue eyes need white, some points or
+    blue-eyed white"""
+    points = list(genes.pointgene)
+    if "c" in points and points[0] != "C":
+        return {"albino"}
+    if points[0] == "cs":
+        return {"blue"}
+    kinds = {"normal"}
+    if (genes.white[0] not in ("w", "wg", "wsal")
+            or points in (["cb", "cs"], ["cb", "cm"], ["cm", "cm"], ["cm", "c"])
+            or genes.pax3[0] != "NoDBE"):
+        kinds.add("blue")
+    return kinds
+
+
+def eye_allowed(genes, name_or_code):
+    return eye_kind(name_or_code) in eye_kinds_allowed(genes)
 
 
 def eye_family(name):
@@ -612,6 +642,9 @@ def eye_family(name):
         outer = special_eyes.EYES[SPECIAL_BY_LABEL[name]]["outer"]
     elif name in EYES:
         rank, pigment = eye_type(name).split(" ; ")
+        if pigment == "albino":
+            # albino eyes all look alike (pale with a red pupil), so they're one group
+            return "Albino"
         outer = sprites.EYE_DATA[pigment][rank]["outer"]
     else:
         return None
@@ -673,11 +706,16 @@ def apply_maker_eyes(genes):
     eyes = getattr(genes, "maker_eyes", None)
     if not eyes:
         return
-    genes.lefteyetype, genes.righteyetype = eyes["left"], eyes["right"]
-    genes.lefteye, genes.righteye = eye_name(eyes["left"]), eye_name(eyes["right"])
-    genes.extraeye = eyes["sectoral"]
-    genes.extraeyetype = eyes["sectoral_color"]
-    genes.extraeyecolour = eye_name(eyes["sectoral_color"])
+    # an eye the genes can't give anymore (like blue after the white was taken off) stays as
+    # Genemod rolled it for these genes
+    if eye_allowed(genes, eyes["left"]):
+        genes.lefteyetype, genes.lefteye = eyes["left"], eye_name(eyes["left"])
+    if eye_allowed(genes, eyes["right"]):
+        genes.righteyetype, genes.righteye = eyes["right"], eye_name(eyes["right"])
+    if not eyes["sectoral_color"] or eye_allowed(genes, eyes["sectoral_color"]):
+        genes.extraeye = eyes["sectoral"]
+        genes.extraeyetype = eyes["sectoral_color"]
+        genes.extraeyecolour = eye_name(eyes["sectoral_color"])
 
 
 def set_eye_genes(genes, code):

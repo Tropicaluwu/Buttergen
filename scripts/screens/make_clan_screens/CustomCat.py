@@ -1591,7 +1591,8 @@ class CustomCatScreen(MakeClanScreenBase):
         y_pos = self.add_option_rows(label, [o for o in options if o not in gene_menus.EYES], y_pos)
         groups = {}
         for option in options:
-            if option in gene_menus.EYES:
+            # only the eyes this cat's genes can give (albino eyes for albino cats, blue for white...)
+            if option in gene_menus.EYES and gene_menus.eye_allowed(self.custom_cat.phenotype, option):
                 groups.setdefault(gene_menus.eye_family(option), []).append(option)
         # options that aren't colors go first, like None
         y_pos = self.add_option_rows(label, groups.pop(None, []), y_pos)
