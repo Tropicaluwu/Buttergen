@@ -192,6 +192,7 @@ If it's still blocked and the error mentions `Python312\Lib\site-packages`, Wind
 - Cat picking screens you can sort, search and filter by group
 - Cats with their own faith, and flirting with your mate
 - Multi clan mode (optional, picked when you make a new clan), where the other Clans have their own real cats
+- The honor system (dev build): honor, reputation and Clan trust, temptations to break the warrior code, witnesses and secrets, judgments at the full moon, exile and coming home, leader challenges and switching Clans
 - Built on the newest development versions of Genemod, LifeGen and ClanGen
 
 See [changelog.txt](changelog.txt) for what's new.
@@ -201,11 +202,10 @@ See [changelog.txt](changelog.txt) for what's new.
 Buttergen is just getting started. These are on the way, roughly in this order (plans can change):
 
 - **Affairs:** a reworked affairs system
-- **Code and Borders:** living by (or breaking) the warrior code, and murder of other Clans' cats, with honor loss, angry neighbors, exile and even war
+- **Code and Borders:** more patrols where your choice counts for honor, and murder of other Clans' cats, with angry neighbors and even war
 - **Skills and mentors:** seven skills that level up with experience and change how patrols and your choices go, with mentors who teach them
 - **Genes matter:** a cat's genes affect their skills, like camouflage in their biome, coat thickness in the cold, and size and build
 - **Territory:** prey, weather and hazards, and how well your Clan is holding its land
-- **Better Honor system:** witnesses, blackmail, rumors, and redemption
 - **Faith and the afterlife:** dreams, omens, crises of faith, and StarClan and the Dark Forest trying to recruit cats
 - **Diplomacy and war** between the Clans
 - **Healers:** deeper medicine cat gameplay
