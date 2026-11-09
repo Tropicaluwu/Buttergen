@@ -4,11 +4,13 @@ A Warrior Cats game where you play as your own cat, every cat has real, inherita
 
 Updated November 8, 2026.
 
+**This is the dev branch:** the newest features, before they're ready for a stable version. To download it, check that the branch button above the files says **dev**, then use the green **Code** button. For the stable version, go to the [main page](https://github.com/Tropicaluwu/Buttergen).
+
 **Buttergen is in early development.** Things will change, and there may be bugs. If you find one, please report it on the [Issues page](https://github.com/Tropicaluwu/Buttergen/issues).
 
 **Join the Discord server** for help, news and bug reports: [discord.gg/Kxdvk5eXC9](https://discord.gg/Kxdvk5eXC9)
 
-I ask that if you make a fork or a version of this mod built off of my code, you credit me as well as the creators of LifeGen, Genemod, LifeGen Genetics, ClanGen and the mods listed under Credits too.
+I ask that if you make a fork or a version of this mod built off of my code, you credit me as well as the creators of Lifegen, Genemod, Lifegen Genetics, Clangen and the mods listed under Credits too.
 
 ## How to play
 
@@ -193,7 +195,7 @@ If it's still blocked and the error mentions `Python312\Lib\site-packages`, Wind
 - Cats with their own faith, and flirting with your mate
 - Multi clan mode (optional, picked when you make a new clan), where the other Clans have their own real cats
 - The honor system (dev build): honor, reputation and Clan trust, temptations to break the warrior code, witnesses and secrets, judgments at the full moon, exile and coming home, leader challenges and switching Clans
-- Built on the newest development versions of Genemod, LifeGen and ClanGen
+- Built on the newest development versions of Genemod, Lifegen and Clangen
 
 See [changelog.txt](changelog.txt) for what's new.
 
@@ -235,29 +237,29 @@ Buttergen is built on other people's work. Thank you to all of them!
 
 - **Rowan** ([Rowannothere](https://github.com/Rowannothere)): secondary personality traits (and choosing them in the cat maker and cat editor), and the idea and first version of skipping by weeks
 
-### LifeGen
-Made by the **LifeGen team**: playing as your own cat.
+### Lifegen
+Made by the **Lifegen team**: playing as your own cat.
 - GitHub: [sedgestripe/clangen](https://github.com/sedgestripe/clangen)
-- Full list of everyone who worked on it: [LifeGen credits](https://docs.google.com/document/d/1XCm5Eo-y5VA6W9quDMbF3VNyKL7S8_9Tl4c2buuiA8g/edit?usp=sharing)
+- Full list of everyone who worked on it: [Lifegen credits](https://docs.google.com/document/d/1XCm5Eo-y5VA6W9quDMbF3VNyKL7S8_9Tl4c2buuiA8g/edit?usp=sharing)
 
 ### Genemod (Genetics mod)
 Made by **Chinch-Bug** and contributors. Genemod gives every cat real, inheritable genes.
 - GitHub: [Chinch-Bug/clangen-genemod](https://github.com/Chinch-Bug/clangen-genemod)
 
-### LifeGen Genetics
-Buttergen started from **LifeGen Genetics** by Tropicaluwu, which brought LifeGen and Genemod together.
+### Lifegen Genetics
+Buttergen started from **Lifegen Genetics** by Tropicaluwu, which brought Lifegen and Genemod together.
 - GitHub: [Tropicaluwu/Lifegen-Genetics-dev](https://github.com/Tropicaluwu/Lifegen-Genetics-dev)
 
-### ClanGen
-The game everything is built on. Original creator **just-some-cat**, fan edit by **SableSteel** and the ClanGen team.
+### Clangen
+The game everything is built on. Original creator **just-some-cat**, fan edit by **SableSteel** and the Clangen team.
 - GitHub: [ClanGenOfficial/clangen](https://github.com/ClanGenOfficial/clangen)
 - Itch.io: [sablesteel.itch.io/clan-gen-fan-edit](https://sablesteel.itch.io/clan-gen-fan-edit)
 
 ### Dev testers
 Thank you to the Buttergen dev testers for playing early versions and finding bugs!
 
-Buttergen is an unofficial fan project. **Please don't take bug reports from it to the LifeGen, Genemod or ClanGen teams.** They didn't make this version and can't help with it.
+Buttergen is an unofficial fan project. **Please don't take bug reports from it to the Lifegen, Genemod or Clangen teams.** They didn't make this version and can't help with it.
 
 ## License
 
-Code is under the Mozilla Public License 2.0, and the sprites and art are under CC BY-NC 4.0, the same as ClanGen and the mods Buttergen is built on. That means you can share and change them, but not sell them, and you have to credit the artists. See [LICENSE.md](LICENSE.md).
+Code is under the Mozilla Public License 2.0, and the sprites and art are under CC BY-NC 4.0, the same as Clangen and the mods Buttergen is built on. That means you can share and change them, but not sell them, and you have to credit the artists. See [LICENSE.md](LICENSE.md).
