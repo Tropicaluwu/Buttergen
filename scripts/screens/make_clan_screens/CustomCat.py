@@ -138,9 +138,9 @@ class CustomCatScreen(MakeClanScreenBase):
         self.search_text = ""
         self.previous_search_text = "search"
         self.acc_limit = ACC_PAGE
-        self.tortie_shape_limit = ACC_PAGE
 
         self.tortie_enabled = False
+        self.reset_tortie_layers()
         self.current_selection_buttons = {}
         # Page 0
         self.preview_age_buttons = {}
@@ -426,6 +426,7 @@ class CustomCatScreen(MakeClanScreenBase):
         self.extra_pattern = None
         self.saved_tortie = None
         self.base_genes = None
+        self.reset_tortie_layers()
         self.base_chimera = None
         self.base_traits = None
         self.base_marking = None
@@ -1135,38 +1136,7 @@ class CustomCatScreen(MakeClanScreenBase):
                 pelt_y_pos = self.add_gene_option_rows("Tortie color", pelt_y_pos)
 
             elif self.current_selection == "tortie_patches":
-                patches = list(LegacyPelt.tortie_patches)
-                extra = 0
-                if patch_genes.copies(self.custom_cat.phenotype, "white_shape_torties"):
-                    shapes = gene_menus.white_shapes_in_tortie()
-                    patches += shapes[:self.tortie_shape_limit]
-                    extra = len(shapes) - self.tortie_shape_limit
-                for patch in patches:
-                    self.tortie_patches_buttons[patch] = TickBox(
-                        ui_scale(pygame.Rect((x_pos, pelt_y_pos + 4), (34, 34))),
-                        "",
-                        object_id="@unchecked_checkbox_smalltooltip",
-                        container=self.elements["scroll_container"],
-                        manager=MANAGER
-                        )
-                    self.tortie_patches_names[patch] = pygame_gui.elements.UITextBox(
-                        gene_menus.patch_name(patch),
-                        ui_scale(pygame.Rect((x_pos + 32, pelt_y_pos), (200, 34))),
-                        object_id=get_text_box_theme("#text_box_30_horizleft"),
-                        container=self.elements["scroll_container"],
-                        manager=MANAGER
-                    )
-                    pelt_y_pos += 40
-                if extra > 0:
-                    self.elements["tortie_more"] = UISurfaceImageButton(
-                        ui_scale(pygame.Rect((x_pos, pelt_y_pos), (170, 30))),
-                        f"Show more ({extra})",
-                        get_button_dict(ButtonStyles.SQUOVAL, (170, 30)),
-                        object_id="@buttonstyles_squoval",
-                        container=self.elements["scroll_container"],
-                        manager=MANAGER
-                    )
-                    pelt_y_pos += 40
+                pelt_y_pos = self.add_tortie_layer_rows(x_pos, pelt_y_pos)
 
         elif self.page == 2:
 
@@ -2059,6 +2029,108 @@ class CustomCatScreen(MakeClanScreenBase):
             manager=MANAGER
         )
 
+    # tortie layers: born torties stack 1 to 3 shapes (tortie shapes or white shapes), and a shape
+    # can cut the patches out instead of adding them ("rev" in the genes)
+    def reset_tortie_layers(self):
+        self.tortie_layer = 0
+        self.tortie_cut = [False, False, False]
+        self.tortie_extra = [None, None]
+        self.tortie_limit = ACC_PAGE
+
+    @staticmethod
+    def tortie_shape_options(layer):
+        """the shapes a layer can have: the tortie shapes, then the white shapes. Layers 2 and 3 can be empty"""
+        shapes = list(LegacyPelt.tortie_patches)
+        shapes += [w for w in gene_menus.white_shapes() if w not in shapes]
+        return (["None"] if layer else []) + shapes
+
+    def tortie_layer_value(self, layer):
+        if layer == 0:
+            return str(self.custom_cat.legacy_pelt.tortie_marking)
+        return self.tortie_extra[layer - 1] or "None"
+
+    def set_tortie_layer_value(self, layer, value):
+        if layer == 0:
+            self.custom_cat.legacy_pelt.tortie_marking = value
+        else:
+            self.tortie_extra[layer - 1] = None if value == "None" else value
+
+    def add_tortie_layer_rows(self, x_pos, y_pos):
+        """the layer buttons, the cut out box and the layer's shapes (60 at a time)"""
+        container = self.elements["scroll_container"]
+        # the last layer's buttons are gone, so they come off the lists too
+        self.tortie_patches_buttons.clear()
+        self.tortie_patches_names.clear()
+        self.elements["tortie_layer_label"] = pygame_gui.elements.UITextBox(
+            "Layer", ui_scale(pygame.Rect((x_pos, y_pos), (60, 34))),
+            object_id=get_text_box_theme("#text_box_30_horizleft"), container=container, manager=MANAGER)
+        for n in range(3):
+            self.elements[f"tortie_layer{n}"] = UISurfaceImageButton(
+                ui_scale(pygame.Rect((x_pos + 58 + 38 * n, y_pos + 2), (34, 30))), str(n + 1),
+                get_button_dict(ButtonStyles.SQUOVAL, (34, 30)), object_id="@buttonstyles_squoval",
+                container=container, manager=MANAGER,
+                tool_tip_text="Born torties can have up to 3 shapes on top of each other")
+        y_pos += 40
+        tip = "This shape takes the tortie patches away instead of adding them"
+        if self.tortie_layer == 0:
+            tip += " (on layer 1: tortie everywhere but the shape)"
+        self.elements["tortie_cut"] = TickBox(
+            ui_scale(pygame.Rect((x_pos, y_pos + 4), (34, 34))), "",
+            object_id="@unchecked_checkbox_smalltooltip", container=container, manager=MANAGER,
+            tool_tip_text=tip)
+        self.elements["tortie_cut_label"] = pygame_gui.elements.UITextBox(
+            "Cut out", ui_scale(pygame.Rect((x_pos + 32, y_pos), (150, 34))),
+            object_id=get_text_box_theme("#text_box_30_horizleft"), container=container, manager=MANAGER)
+        y_pos += 46
+        options = self.tortie_shape_options(self.tortie_layer)
+        shown = options[:self.tortie_limit]
+        # the picked shape always shows, even when it's past "Show more"
+        picked = self.tortie_layer_value(self.tortie_layer)
+        if picked in options and picked not in shown:
+            shown.append(picked)
+        tortie_count = len(LegacyPelt.tortie_patches) + (1 if self.tortie_layer else 0)
+        for index, patch in enumerate(shown):
+            if options.index(patch) >= tortie_count and "tortie_white_label" not in self.elements:
+                self.elements["tortie_white_label"] = pygame_gui.elements.UITextBox(
+                    "White shapes:", ui_scale(pygame.Rect((x_pos, y_pos), (180, 34))),
+                    object_id=get_text_box_theme("#text_box_30_horizleft"), container=container, manager=MANAGER)
+                y_pos += 36
+            self.tortie_patches_buttons[patch] = TickBox(
+                ui_scale(pygame.Rect((x_pos, y_pos + 4), (34, 34))), "",
+                object_id="@unchecked_checkbox_smalltooltip", container=container, manager=MANAGER)
+            self.tortie_patches_names[patch] = pygame_gui.elements.UITextBox(
+                patch if patch == "None" else gene_menus.patch_name(patch),
+                ui_scale(pygame.Rect((x_pos + 32, y_pos), (200, 34))),
+                object_id=get_text_box_theme("#text_box_30_horizleft"), container=container, manager=MANAGER)
+            y_pos += 40
+        left = len(options) - self.tortie_limit
+        if left > 0:
+            self.elements["tortie_more"] = UISurfaceImageButton(
+                ui_scale(pygame.Rect((x_pos, y_pos), (170, 30))), f"Show more ({left})",
+                get_button_dict(ButtonStyles.SQUOVAL, (170, 30)), object_id="@buttonstyles_squoval",
+                container=container, manager=MANAGER)
+            y_pos += 40
+        return y_pos
+
+    def apply_tortie_layers(self, cat):
+        """the tortie's shapes: layer 1 from the picks (cut out flips it), then layers 2 and 3"""
+        if not self.tortie_enabled:
+            return
+        extras = [("rev" if self.tortie_cut[i + 1] else "") + name for i, name in enumerate(self.tortie_extra) if name]
+        genes = cat.phenotype
+        if cat.chimerapheno is not None and getattr(cat.chimerapheno, "chimerapattern", None):
+            # a chimera's patches are a second cat's color, so they can't be cut out
+            first = str(cat.chimerapheno.chimerapattern[0]).replace("rev", "")
+            cat.chimerapheno.chimerapattern = [first] + [e.replace("rev", "") for e in extras]
+            return
+        current = genes.tortiepattern.get("0") if genes.tortiepattern else None
+        if not current:
+            return
+        first = current[0]
+        if self.tortie_cut[0]:
+            first = first[3:] if first.startswith("rev") else "rev" + first
+        genes.tortiepattern["0"] = [first] + extras
+
     def start_from_cat(self, picked):
         """the cat maker starts as this cat: its genes (hidden ones too), sex, fur, poses,
         scars and accessories. Every list shows its picks, and changes go on top."""
@@ -2097,6 +2169,11 @@ class CustomCatScreen(MakeClanScreenBase):
             pelt.tortie_colour = "GINGER"
             pelt.tortie_marking = marking
             self.base_marking = marking
+            # its other tortie layers (born torties have up to 3)
+            self.reset_tortie_layers()
+            for i, patch in enumerate(list(patches or [])[1:3]):
+                self.tortie_extra[i] = str(patch).replace("rev", "")
+                self.tortie_cut[i + 1] = str(patch).startswith("rev")
         self.picked_traits = set(physical_traits.shown(genes))
         self.base_traits = frozenset(self.picked_traits)
         self.gene_edits = {}
@@ -2313,10 +2390,11 @@ class CustomCatScreen(MakeClanScreenBase):
                         next_index = (current_index + num) % len(colours)
                         self.custom_cat.legacy_pelt.tortie_colour = colours[next_index]
                     elif self.current_selection == "tortie_patches":
-                        pelts = LegacyPelt.tortie_patches
-                        current_index = pelts.index(str(self.custom_cat.legacy_pelt.tortie_marking))
+                        pelts = self.tortie_shape_options(self.tortie_layer)
+                        current = self.tortie_layer_value(self.tortie_layer)
+                        current_index = pelts.index(current) if current in pelts else -1
                         next_index = (current_index + num) % len(pelts)
-                        self.custom_cat.legacy_pelt.tortie_marking = pelts[next_index]
+                        self.set_tortie_layer_value(self.tortie_layer, pelts[next_index])
                     elif self.current_selection == "tortie_pattern":
                         pelts = LegacyPelt.pelt_patterns
                         next_pelt = self.custom_cat.legacy_pelt.tortie_pattern
@@ -2452,7 +2530,8 @@ class CustomCatScreen(MakeClanScreenBase):
                     elif self.current_selection == "tortie_colour":
                         self.custom_cat.legacy_pelt.tortie_colour = random.choice(LegacyPelt.all_pelt_colours)
                     elif self.current_selection == "tortie_patches":
-                        self.custom_cat.legacy_pelt.tortie_marking = random.choice(LegacyPelt.tortie_patches)
+                        self.set_tortie_layer_value(
+                            self.tortie_layer, random.choice(self.tortie_shape_options(self.tortie_layer)))
                 elif self.page == 2:
                     if self.current_selection == "eye_colour":
                         self.custom_cat.legacy_pelt.eye_colour= random.choice(LegacyPelt.all_eye_colours)
@@ -2519,10 +2598,21 @@ class CustomCatScreen(MakeClanScreenBase):
                 self.update_custom_cat_pages()
                 self.update_sprite()
                 self.update_disabled_buttons()
-            if "tortie_more" in self.elements and event.ui_element == self.elements["tortie_more"]:
-                self.tortie_shape_limit += ACC_PAGE
-                self.update_custom_cat_pages()
+            for n in range(3):
+                if f"tortie_layer{n}" in self.elements and event.ui_element == self.elements[f"tortie_layer{n}"]:
+                    self.tortie_layer = n
+                    self.tortie_limit = ACC_PAGE
+                    self.update_custom_cat_pages()
+                    self.update_disabled_buttons()
+                    return
+            if "tortie_cut" in self.elements and event.ui_element == self.elements["tortie_cut"]:
+                self.tortie_cut[self.tortie_layer] = not self.tortie_cut[self.tortie_layer]
+                self.update_sprite()
                 self.update_disabled_buttons()
+                return
+            if "tortie_more" in self.elements and event.ui_element == self.elements["tortie_more"]:
+                self.tortie_limit += ACC_PAGE
+                self.rebuild_keep_scroll()
                 return
             if "acc_more" in self.elements and event.ui_element == self.elements["acc_more"]:
                 container = self.elements.get("scroll_container")
@@ -2720,7 +2810,7 @@ class CustomCatScreen(MakeClanScreenBase):
                         self.update_disabled_buttons()
                 for i in self.tortie_patches_buttons.items():
                     if event.ui_element == self.tortie_patches_buttons[i[0]]:
-                        self.custom_cat.legacy_pelt.tortie_marking = i[0].upper()
+                        self.set_tortie_layer_value(self.tortie_layer, i[0])
                         self.update_sprite()
                         self.update_disabled_buttons()
             elif self.page == 2:
@@ -3023,6 +3113,7 @@ class CustomCatScreen(MakeClanScreenBase):
         legacy = self.custom_cat.legacy_pelt
         return {
             "genes": (dict(self.gene_edits), self.white_picks, self.tortie_enabled, legacy.tortie_marking,
+                      tuple(self.tortie_extra), tuple(self.tortie_cut),
                       frozenset(self.picked_traits), self.custom_cat.gender),
             "gender": self.custom_cat.gender,
             "accessory": tuple(legacy.accessory or ()),
@@ -3224,11 +3315,20 @@ class CustomCatScreen(MakeClanScreenBase):
                 else:
                     self.tortie_colour_buttons[i[0]].disable()
             
+            picked_shape = self.tortie_layer_value(self.tortie_layer)
             for i in self.tortie_patches_buttons.items():
-                if i[0] != self.custom_cat.legacy_pelt.tortie_marking:
+                if i[0] != picked_shape:
                     self.tortie_patches_buttons[i[0]].enable()
                 else:
                     self.tortie_patches_buttons[i[0]].disable()
+            for n in range(3):
+                if f"tortie_layer{n}" in self.elements:
+                    if n == self.tortie_layer:
+                        self.elements[f"tortie_layer{n}"].disable()
+                    else:
+                        self.elements[f"tortie_layer{n}"].enable()
+            if "tortie_cut" in self.elements:
+                self.elements["tortie_cut"].tick(self.tortie_cut[self.tortie_layer])
 
             if "match_tortie" in self.elements:
                 if self.custom_cat.legacy_pelt.name != "Tortie":
@@ -3470,6 +3570,7 @@ class CustomCatScreen(MakeClanScreenBase):
             self.apply_base_genes(self.custom_cat)
         self.apply_trait_picks(self.custom_cat)
         self.apply_gene_edits(self.custom_cat)
+        self.apply_tortie_layers(self.custom_cat)
         random.setstate(state)
 
         # self.custom_cat = Cat(moons=self.custom_cat.moons, pelt=new_pelt, loading_cat=True)

@@ -1122,6 +1122,19 @@ def _sprite_list(path):
         return sprite_names(json.load(file)["sprite_list"])
 
 
+_WHITE_SHAPES = []
+
+
+def white_shapes():
+    """Clangen's white patch shapes, the ones born torties can have as tortie shapes"""
+    if not _WHITE_SHAPES:
+        for size in ("little", "mid", "high", "mostly"):
+            for name in _sprite_list(f"sprites/dicts/white_patches_{size}_sprite_data.json"):
+                if name not in _WHITE_SHAPES:
+                    _WHITE_SHAPES.append(name)
+    return _WHITE_SHAPES
+
+
 def _files(folder):
     return sorted(name[:-4] for name in os.listdir(folder) if name.endswith(".png"))
 
