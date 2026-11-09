@@ -1034,26 +1034,7 @@ class CustomCatScreen(MakeClanScreenBase):
                 # Genemod's real colors (they replace LifeGen's colors)
                 pelt_y_pos = self.add_gene_option_rows("Color", pelt_y_pos)
 
-                tint_x_pos = 256
-                tint_y_pos = 480
-                for tint in [
-                    None, "pink", "gray", "red", "orange", "black",
-                    "yellow", "purple", "blue", "dilute", "warmdilute", "cooldilute"
-                    ]:
-                    if tint is None:
-                        btn = "none"
-                    else:
-                        btn = tint
-                    self.tint_buttons[tint] = UIImageButton(
-                        ui_scale(pygame.Rect((tint_x_pos, tint_y_pos), (40, 40))),
-                        "",
-                        object_id=f"#tint_button_{btn}",
-                        manager=MANAGER
-                        )
-                    tint_x_pos += 45
-                    if tint == "black":
-                        tint_y_pos += 50
-                        tint_x_pos = 256
+                self.add_tint_swatches()
 
             elif self.current_selection == "white_patches":
                 # search bar first
@@ -2146,6 +2127,50 @@ class CustomCatScreen(MakeClanScreenBase):
             first = first[3:] if first.startswith("rev") else "rev" + first
         genes.tortiepattern["0"] = [first] + extras
 
+    # LG: every tint the game gives born cats (Clangen added more than the old buttons had)
+    @staticmethod
+    def all_tints():
+        tints = sprites.cat_tints
+        return ([n for n in tints["tint_colours"] if n != "none"]
+                + [n for n in tints["dilute_tint_colours"] if n != "none"]
+                + list(tints.get("remove_tone_tint_colours", {})))
+
+    @staticmethod
+    def tint_swatch(name, picked):
+        """a square of warm brown fur with the tint on it, the way the game puts it on"""
+        tints = sprites.cat_tints
+        swatch = pygame.Surface((30, 30), pygame.SRCALPHA)
+        swatch.fill((176, 118, 70, 255))
+        layer = pygame.Surface((30, 30))
+        if name in tints["tint_colours"]:
+            layer.fill(tuple(tints["tint_colours"][name]))
+            swatch.blit(layer, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+        elif name in tints["dilute_tint_colours"]:
+            layer.fill(tuple(tints["dilute_tint_colours"][name]))
+            swatch.blit(layer, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
+        else:
+            layer.fill(tuple(tints["remove_tone_tint_colours"][name]))
+            swatch.blit(layer, (0, 0), special_flags=pygame.BLEND_RGB_SUB)
+        pygame.draw.rect(swatch, (250, 240, 205) if picked else (60, 42, 26), swatch.get_rect(), 3 if picked else 2)
+        return swatch
+
+    def add_tint_swatches(self):
+        """the tint buttons: no tint, then a swatch for each tint (its name shows on hover)"""
+        for button in self.tint_buttons.values():
+            button.kill()
+        self.tint_buttons.clear()
+        current = self.custom_cat.legacy_pelt.tint
+        current = None if current in (None, "none") else current
+        for i, name in enumerate([None] + self.all_tints()):
+            rect = ui_scale(pygame.Rect((256 + (i % 8) * 36, 478 + (i // 8) * 38), (30, 30)))
+            if name is None:
+                self.tint_buttons[name] = UIImageButton(
+                    rect, "", object_id="#tint_button_none", manager=MANAGER, tool_tip_text="No tint")
+            else:
+                self.tint_buttons[name] = UISpriteButton(
+                    rect, self.tint_swatch(name, name == current), manager=MANAGER,
+                    tool_tip_text=name.replace("dilute", " dilute").replace("dense", "dense ").strip().capitalize())
+
     def start_from_cat(self, picked):
         """the cat maker starts as this cat: its genes (hidden ones too), sex, fur, poses,
         scars and accessories. Every list shows its picks, and changes go on top."""
@@ -2775,11 +2800,13 @@ class CustomCatScreen(MakeClanScreenBase):
                         self.custom_cat.legacy_pelt.colour = i[0]
                         self.update_sprite()
                         self.update_disabled_buttons()
-                for i in self.tint_buttons.items():
-                    if event.ui_element == self.tint_buttons[i[0]]:
-                        self.custom_cat.legacy_pelt.tint = i[0]
-                        self.update_sprite()
-                        self.update_disabled_buttons()
+                picked_tint = next((name for name, button in self.tint_buttons.items()
+                                    if event.ui_element == button), "no click")
+                if picked_tint != "no click":
+                    self.custom_cat.legacy_pelt.tint = picked_tint
+                    self.update_sprite()
+                    self.add_tint_swatches()
+                    self.update_disabled_buttons()
                 for i in self.white_patches_tint_buttons.items():
                     if event.ui_element == self.white_patches_tint_buttons[i[0]]:
                         self.custom_cat.legacy_pelt.white_patches_tint = i[0]
@@ -3287,8 +3314,10 @@ class CustomCatScreen(MakeClanScreenBase):
                 else:
                     self.pelt_colour_buttons[i[0]].disable()
             
+            current_tint = self.custom_cat.legacy_pelt.tint
+            current_tint = None if current_tint in (None, "none") else current_tint
             for i in self.tint_buttons.items():
-                if i[0] != self.custom_cat.legacy_pelt.tint:
+                if i[0] != current_tint:
                     self.tint_buttons[i[0]].enable()
                 else:
                     self.tint_buttons[i[0]].disable()
