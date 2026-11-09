@@ -2,7 +2,7 @@
 
 A Warrior Cats game where you play as your own cat, every cat has real, inheritable genes so kits look like their parents, and cats come in a huge variety of looks. This is just the beginning, and plenty more features are on the way: see [Planned features](#planned-features) below.
 
-Updated November 8, 2026.
+Updated November 9, 2026.
 
 **This is the dev branch:** the newest features, before they're ready for a stable version. To download it, check that the branch button above the files says **dev**, then use the green **Code** button. For the stable version, go to the [main page](https://github.com/Tropicaluwu/Buttergen).
 
