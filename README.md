@@ -135,7 +135,7 @@ Once your Clans show up in the new version, you can delete the old folder.
 - **Mac: "run.command can't be opened":** see step 3 for Mac (**Open Anyway** in Privacy & Security).
 - **It got stuck or failed the first time:** check your internet connection and start it again. It picks up where it left off.
 - **"DLL load failed" (Windows):** install the [Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe), then start the game again.
-- **"failed to hardlink file" or "incompatible hardlinks" (Windows):** the game folder is inside OneDrive. Move the game folder somewhere outside OneDrive, like **C:\Games**, and start the game again. OneDrive can also get in the way of your saves, so the game is best kept outside it.
+- **"failed to hardlink file" or "incompatible hardlinks" (Windows):** the game folder is (or was) inside OneDrive. Move the game folder somewhere outside OneDrive, like **C:\Games**. Then delete the hidden **.venv** folder inside the game folder, open **PowerShell**, run `uv cache clean`, and start the game again. OneDrive can also get in the way of your saves, so the game is best kept outside it.
 - **"An Application Control policy has blocked this file" or "python.exe - Bad Image" (Windows 11):** this is Windows Smart App Control, not a broken download. See [Blocked by Smart App Control](#blocked-by-smart-app-control).
 - **My Clans are gone after updating:** copy the **saves** folder from the old game folder into the new one (see [Updating](#updating-to-a-new-version)).
 
