@@ -6,6 +6,7 @@ New:
 - More name suffixes from Chinch-Bug: more traits now have their own, and so do the Brawler, Fisher and Tunneler skills (with modded names and new suffixes turned on)
 
 Fixes:
+- White patches picked in the cat maker or cat editor no longer disappear when the save loads (cats that already lost them need them picked again)
 - Fixed a crash when opening the relationships screen in multi clan mode
 - The cat maker's tint swatches show each tint's own color (pink looks pink, blue looks blue) instead of how it looks on brown fur
 
