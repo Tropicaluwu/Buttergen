@@ -4,12 +4,12 @@ from random import choice, random
 import ujson
 
 from scripts.cat import patch_genes
+from scripts.cat.sprites.sprite_names import sprite_names
 
 
 def _names(sheet):
     with open(f"sprites/dicts/{sheet}_sprite_data.json", "r", encoding="utf-8") as read_file:
-        rows = ujson.loads(read_file.read())["sprite_list"]
-    return [name for row in rows for name in row if name]
+        return sprite_names(ujson.loads(read_file.read())["sprite_list"])
 
 
 def _with_combos(sizes):
