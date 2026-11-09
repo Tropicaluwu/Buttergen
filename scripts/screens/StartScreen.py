@@ -357,7 +357,7 @@ class StartScreen(Screens):
         self.error_gethelp = pygame_gui.elements.UITextBox(
             # problems go to Buttergen's GitHub page, not the ClanGen or LifeGen Discord
             "Please report this on the Buttergen GitHub page, with the error message and the "
-            "traceback below (if available). Please don't ask the ClanGen, LifeGen or Genemod teams, they "
+            "traceback below (if available). Please don't ask the Clangen, Lifegen or Genemod teams, they "
             "can't help with it.<br><a href='https://github.com/Tropicaluwu/Buttergen/issues'>Report a problem</a>",
             ui_scale(pygame.Rect((527, 215), (175, 300))),
             object_id="#text_box_22_horizleft",
