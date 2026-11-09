@@ -2004,6 +2004,12 @@ class CustomCatScreen(MakeClanScreenBase):
                 genes.white, genes.pointgene, genes.whitegrade, genes.vitiligo, None, genes.pax3, genes)
         else:
             genes.white_pattern = white_pattern
+        if cat.chimerapheno and is_chimera:
+            # the chimera's patches have the cat's own white on them (it was the freshly rolled white,
+            # so the white under the patches changed with every pick, like an eye color)
+            cat.chimerapheno.white_pattern = deepcopy(genes.white_pattern)
+            cat.chimerapheno.white = list(genes.white)
+            cat.chimerapheno.whitegrade = genes.whitegrade
         random.setstate(state)
         # fur length can change, and the poses go with it
         cat.pelt.length = Pelt(genes).length
