@@ -29,6 +29,7 @@ from scripts.screens.enums import GameScreen
 from scripts.screens.make_clan_screens.MakeClanScreenBase import MakeClanScreenBase
 from scripts.ui.elements.image_button import UIImageButton
 from scripts.ui.elements.modified_scrolling_container import UIModifiedScrollingContainer
+from scripts.ui.elements.sprite_button import UISpriteButton
 from scripts.ui.elements.surface_image_button import UISurfaceImageButton
 from scripts.ui.generate_box import get_box, BoxStyles
 from scripts.ui.generate_button import ButtonStyles, get_button_dict
@@ -3477,11 +3478,14 @@ class CustomCatScreen(MakeClanScreenBase):
         if "sprite" in self.elements:
             self.elements['sprite'].kill()
         # Sprite
-        self.elements["sprite"] = pygame_gui.elements.UIImage(
+        # LG: hovering the cat shows its genes as they are right now, to check what the picks give
+        self.elements["sprite"] = UISpriteButton(
             ui_scale(pygame.Rect((0, 180), (175, 175))),
             pygame.transform.scale(
                 new_sprite, ui_scale_dimensions((175, 175))
             ),
+            cat_object=self.custom_cat,
+            tool_tip_text=self.custom_cat.create_genelist(),
             manager=MANAGER,
             anchors={"centerx": "centerx"}
         )
