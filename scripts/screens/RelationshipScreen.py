@@ -601,10 +601,13 @@ class RelationshipScreen(Screens):
             )
             if game.clan.clancount == "multiclan" and relationship.cat_to.status.fetch_clan_object():
                 clan_icon = clan_symbol_sprite(relationship.cat_to.status.fetch_clan_object(), force_dark=True)
-                self.relation_elements["clan_symbol" + str(i)] = UISpriteButton(
-                    ui_scale(pygame.Rect((INTERVAL + 15, 30), (18, 18))),
-                    clan_icon,
+                # an image, not a sprite button: a sprite button's frame can't be drawn this small (crash)
+                symbol_rect = ui_scale(pygame.Rect((INTERVAL + 15, 30), (18, 18)))
+                self.relation_elements["clan_symbol" + str(i)] = pygame_gui.elements.UIImage(
+                    symbol_rect,
+                    pygame.transform.smoothscale(clan_icon, symbol_rect.size),
                     container=container,
+                    manager=MANAGER,
                     anchors={
                         "top_target": self.relation_elements[f"rel{i}_nameplate"],
                         "left_target": prev_element,
