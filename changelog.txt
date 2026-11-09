@@ -1,3 +1,11 @@
+<strong>Buttergen v0.3.5</strong>
+
+Fixes:
+- Fixed a crash after your cat died: the game closed, then got stuck on the loading screen every time it started (it looked for a camp background that doesn't exist)
+- A Clan folder in saves without its <Name>clan.json file no longer stops the game from loading: it's skipped, and the other Clans load
+- Hovering over the picked kit when making a Clan shows its genes again, and hovering over the cat in the cat maker shows its genes as they are right now
+- The README explains what to do if setup stops with "failed to hardlink file" (the game folder is or was inside OneDrive)
+
 <strong>Buttergen v0.3.4</strong>
 
 Fixes:
