@@ -1,3 +1,31 @@
+<strong>Buttergen v0.4-dev.1: the honor system</strong>
+
+A development build, so keep a copy of your saves folder before playing.
+
+The honor system:
+- Every cat has honor (what they really did), reputation (what the Clan knows) and, for leaders, deputies and healers, Clan trust. Profiles show them as labels with the number, like unremarkable (+6)
+- Cats are tempted to break the warrior code by what's going on around them: hunger, a crush in another Clan, a grudge, their personality and Dark Forest ties. Every role has its own ways to break and follow the code
+- Someone may see: witnesses report it, keep the secret or hold it over the cat, and secrets can come out later through gossip, a falling-out or a deathbed confession
+- The leader judges at the full moon: a warning, extra duties, lost trust, flavor demotion, shunning or exile, depending on the leader, the deputy and how the Clan feels about the cat
+- Your cat's choices: for big temptations and for misdeeds your cat sees, a "Your cat has a choice" button shows on the events screen. The skip never stops, and if you skip on, your cat decides by personality
+- Your cat can be exiled, ask to come home later or, in multi clan mode, ask another Clan to take them in
+- An optional Clan setting makes healer mates break the code, with secret kits that can come out later
+- Leaders break and follow the code too. Their misdeeds cost Clan trust, StarClan can send omens, and a Clan that has lost all trust can challenge its leader
+- Multi clan mode: cats can switch Clans the warrior code's way, by asking a leader at a Gathering and doing a task for the new Clan
+- Cruel season cards: Heartless, Weakened Stars, Forsaken and Anything For The Throne touch honor, and five new cards: Iron Code, Fading Code, Whispers, Watchful Stars and No Way Back
+- Clan settings for rare or frequent warrior code events, and honor, reputation and Clan trust in the cat editor
+
+New:
+- Brought up to date with Genemod's modded branch and Clangen's development branch from November 8, 2026: Clangen's new healer den screen, the On Their Own, Hostile Environs and Healer's Tribute cruel season cards, and more
+- Your cat's family fits your cat: Clan cats are only picked as your cat's birth parents when they could have had your cat, and siblings look more like your cat
+- Cat maker: accessories can be picked again, the scar checkmarks follow every change, and the accessory list opens quickly
+
+Fixes:
+- Fixed a crash when kits are born (new with the November 5 update)
+- A cat that comes back to the Clan partway through a moon starts out fed (it was skipped with an error in the log)
+- The cat maker's little white patches, old style tortie patches and Mink's Torties show up right with Clangen's new split patch sheets
+- The README explains what to do if setup stops with "failed to hardlink file" (the game folder is inside OneDrive)
+
 <strong>Buttergen v0.3.4</strong>
 
 Fixes:
