@@ -2035,7 +2035,7 @@ class CustomCatScreen(MakeClanScreenBase):
         self.tortie_layer = 0
         self.tortie_cut = [False, False, False]
         self.tortie_extra = [None, None]
-        self.tortie_limit = ACC_PAGE
+        self.tortie_group = None
 
     @staticmethod
     def tortie_shape_options(layer):
@@ -2082,34 +2082,42 @@ class CustomCatScreen(MakeClanScreenBase):
             "Cut out", ui_scale(pygame.Rect((x_pos + 32, y_pos), (150, 34))),
             object_id=get_text_box_theme("#text_box_30_horizleft"), container=container, manager=MANAGER)
         y_pos += 46
-        options = self.tortie_shape_options(self.tortie_layer)
-        shown = options[:self.tortie_limit]
-        # the picked shape always shows, even when it's past "Show more"
         picked = self.tortie_layer_value(self.tortie_layer)
-        if picked in options and picked not in shown:
-            shown.append(picked)
-        tortie_count = len(LegacyPelt.tortie_patches) + (1 if self.tortie_layer else 0)
-        for index, patch in enumerate(shown):
-            if options.index(patch) >= tortie_count and "tortie_white_label" not in self.elements:
-                self.elements["tortie_white_label"] = pygame_gui.elements.UITextBox(
-                    "White shapes:", ui_scale(pygame.Rect((x_pos, y_pos), (180, 34))),
-                    object_id=get_text_box_theme("#text_box_30_horizleft"), container=container, manager=MANAGER)
-                y_pos += 36
+
+        def add_row(patch, label):
+            nonlocal y_pos
             self.tortie_patches_buttons[patch] = TickBox(
                 ui_scale(pygame.Rect((x_pos, y_pos + 4), (34, 34))), "",
                 object_id="@unchecked_checkbox_smalltooltip", container=container, manager=MANAGER)
             self.tortie_patches_names[patch] = pygame_gui.elements.UITextBox(
-                patch if patch == "None" else gene_menus.patch_name(patch),
-                ui_scale(pygame.Rect((x_pos + 32, y_pos), (200, 34))),
+                label, ui_scale(pygame.Rect((x_pos + 32, y_pos), (200, 34))),
                 object_id=get_text_box_theme("#text_box_30_horizleft"), container=container, manager=MANAGER)
             y_pos += 40
-        left = len(options) - self.tortie_limit
-        if left > 0:
-            self.elements["tortie_more"] = UISurfaceImageButton(
-                ui_scale(pygame.Rect((x_pos, y_pos), (170, 30))), f"Show more ({left})",
-                get_button_dict(ButtonStyles.SQUOVAL, (170, 30)), object_id="@buttonstyles_squoval",
+
+        if self.tortie_layer:
+            add_row("None", "None")
+        # the shapes in groups like the white list, one open at a time (the picked one's at first)
+        groups = gene_menus.tortie_layer_groups(list(LegacyPelt.tortie_patches))
+        if self.tortie_group is None:
+            self.tortie_group = next((f"{kind}/{heading}" for kind, heading, names in groups if picked in names), "")
+        kind_now = None
+        for kind, heading, names in groups:
+            if kind != kind_now:
+                kind_now = kind
+                self.elements[f"tortie_heading:{kind}"] = pygame_gui.elements.UITextBox(
+                    kind + ":", ui_scale(pygame.Rect((x_pos, y_pos), (180, 34))),
+                    object_id=get_text_box_theme("#text_box_30_horizleft"), container=container, manager=MANAGER)
+                y_pos += 36
+            key = f"{kind}/{heading}"
+            open_now = key == self.tortie_group
+            self.elements[f"tortie_group:{key}"] = UISurfaceImageButton(
+                ui_scale(pygame.Rect((x_pos, y_pos + 2), (170, 34))), ("- " if open_now else "+ ") + heading,
+                get_button_dict(ButtonStyles.ROUNDED_RECT, (170, 34)), object_id="@buttonstyles_rounded_rect",
                 container=container, manager=MANAGER)
             y_pos += 40
+            if open_now:
+                for patch in names:
+                    add_row(patch, gene_menus.patch_name(patch, heading))
         return y_pos
 
     def apply_tortie_layers(self, cat):
@@ -2601,7 +2609,7 @@ class CustomCatScreen(MakeClanScreenBase):
             for n in range(3):
                 if f"tortie_layer{n}" in self.elements and event.ui_element == self.elements[f"tortie_layer{n}"]:
                     self.tortie_layer = n
-                    self.tortie_limit = ACC_PAGE
+                    self.tortie_group = None
                     self.update_custom_cat_pages()
                     self.update_disabled_buttons()
                     return
@@ -2610,10 +2618,12 @@ class CustomCatScreen(MakeClanScreenBase):
                 self.update_sprite()
                 self.update_disabled_buttons()
                 return
-            if "tortie_more" in self.elements and event.ui_element == self.elements["tortie_more"]:
-                self.tortie_limit += ACC_PAGE
-                self.rebuild_keep_scroll()
-                return
+            for key, element in list(self.elements.items()):
+                if key.startswith("tortie_group:") and event.ui_element == element:
+                    group = key.split(":", 1)[1]
+                    self.tortie_group = "" if group == self.tortie_group else group
+                    self.rebuild_keep_scroll()
+                    return
             if "acc_more" in self.elements and event.ui_element == self.elements["acc_more"]:
                 container = self.elements.get("scroll_container")
                 bar = getattr(container, "vert_scroll_bar", None)

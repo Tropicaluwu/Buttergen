@@ -1122,6 +1122,59 @@ def _sprite_list(path):
         return sprite_names(json.load(file)["sprite_list"])
 
 
+WHITE_SIZES = (("little", "Small patches"), ("mid", "Medium patches"), ("high", "Large patches"),
+               ("mostly", "Mostly white"))
+_WHITE_SIZE_OF = {}
+
+
+def white_size_groups(names):
+    """[(heading, [patch names])]: patches by the game's size for them, the rest under Other"""
+    if not _WHITE_SIZE_OF:
+        for size, _ in WHITE_SIZES:
+            for name in _sprite_list(f"sprites/dicts/white_patches_{size}_sprite_data.json"):
+                _WHITE_SIZE_OF.setdefault(name, size)
+    groups = [(heading, [n for n in names if _WHITE_SIZE_OF.get(n) == size]) for size, heading in WHITE_SIZES]
+    groups.append(("Other", [n for n in names if n not in _WHITE_SIZE_OF]))
+    return [(heading, group) for heading, group in groups if group]
+
+
+# Genemod's sizes for tortie patches (Phenotype.ChooseTortiePattern), for the cat maker's tortie list
+TORTIE_SIZES = (
+    ("Small tortie patches", ("DELILAH", "MOTTLED", "EYEDOT", "BANDANA", "SMUDGED", "EMBER", "BRINDLE", "SAFI",
+                              "BELOVED", "BODY", "MINIMALONE", "MINIMALTWO", "SHILOH", "FRECKLED", "WILDFIRE")),
+    ("Medium tortie patches", ("ONE", "TWO", "SMOKE", "MINIMALTHREE", "MINIMALFOUR", "OREO", "CHIMERA", "CHEST",
+                               "GRUMPYFACE", "SIDEMASK", "PACMAN", "BRIE", "ORIOLE", "ROBIN", "PAIGE", "HEARTBEAT",
+                               "TURTLECRAWL", "LARKPETAL", "MILQUE")),
+    ("Large tortie patches", ("THREE", "FOUR", "REDTAIL", "STREAK", "MASK", "SWOOP", "ARMTAIL", "STREAMSTRIKE",
+                              "DAUB", "ROSETAIL", "DAPPLENIGHT", "BLANKET", "CHERRYTAIL", "POWDERSNOW",
+                              "TAILTIPREVERSE_T", "UNDERTAIL_T", "HALF")),
+)
+
+
+def tortie_layer_groups(tortie_shapes):
+    """[(kind, heading, [shapes])] for the cat maker's tortie layers: the tortie shapes by size, then
+    the white shapes like the white list has them (by where they are, then by size)"""
+    result = []
+    used = set()
+    for heading, names in TORTIE_SIZES:
+        group = [s for s in tortie_shapes if s in names]
+        used.update(group)
+        if group:
+            result.append(("Tortie shapes", heading, group))
+    rest = [s for s in tortie_shapes if s not in used]
+    if rest:
+        result.append(("Tortie shapes", "Other tortie shapes", rest))
+    whites = [w for w in white_shapes() if w not in tortie_shapes]
+    areas = {heading: [] for heading, _ in WHITE_AREAS}
+    other = []
+    for name in whites:
+        area = next((heading for heading, words in WHITE_AREAS if re.search(words, name.lower())), None)
+        (areas[area] if area else other).append(name)
+    result += [("White shapes", heading, names) for heading, names in areas.items() if names]
+    result += [("White shapes", heading, names) for heading, names in white_size_groups(other)]
+    return result
+
+
 _WHITE_SHAPES = []
 
 
@@ -1170,7 +1223,8 @@ def white_patch_groups():
         area = next((heading for heading, words in WHITE_AREAS if re.search(words, name.lower())), None)
         (groups[area] if area else other).append(name)
     result = [(heading, names) for heading, names in groups.items() if names]
-    result.append(("Whole body and other", other))
+    # the rest are whole-body patches: by size (the game's own little, mid, high and mostly lists)
+    result += white_size_groups(other)
     result.append(("Color spots", [f"break/{name}" for name in _files("sprites/genemod/break white")]))
     result.append(("Tortie shapes", tortie_shapes_in_white()))
     return result
