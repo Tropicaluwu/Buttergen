@@ -143,6 +143,7 @@ Once your Clans show up in the new version, you can delete the old folder.
      uv sync --python cpython-3.12-windows-x86_64-none
      ```
   3. When it's done, close the window and double-click **run.bat** as usual.
+- **"failed to hardlink file" or "incompatible hardlinks" (Windows):** the game folder is inside OneDrive. Move the game folder somewhere outside OneDrive, like **C:\Games**, and start the game again. OneDrive can also get in the way of your saves, so the game is best kept outside it.
 - **"An Application Control policy has blocked this file" or "python.exe - Bad Image" (Windows 11):** this is Windows Smart App Control, not a broken download. See [Blocked by Smart App Control](#blocked-by-smart-app-control).
 - **My Clans are gone after updating:** copy the **saves** folder from the old game folder into the new one (see [Updating](#updating-to-a-new-version)).
 
