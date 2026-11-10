@@ -98,10 +98,10 @@
     },
     "gossip": {
         "you_did": [
-            "You catch Clanmates whispering when you walk past. Someone has been talking."
+            "You catch Clanmates whispering that you [act you]. Someone has been talking."
         ],
         "you_saw": [
-            "You hear Clanmates whispering about m_c. It isn't only you who knows anymore."
+            "You hear Clanmates whispering that m_c [act]. It isn't only you who knows anymore."
         ]
     },
     "out": {

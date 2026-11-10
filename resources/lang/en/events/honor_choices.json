@@ -103,8 +103,8 @@
         "options": ["Tell r_c", "Keep it to yourself", "Talk to m_c"],
         "options_leader": ["Tell the deputy and the senior warriors", "Keep it to yourself", "Talk to m_c"],
         "options_as_leader": ["Deal with it at the full moon", "Keep it to yourself", "Talk to m_c"],
-        "listen": "m_c's ears flatten. {PRONOUN/m_c/subject/CAP} {VERB/m_c/promise/promises} it won't happen again.",
-        "bristle": "m_c tells you to mind your own business."
+        "listen": "You tell m_c you know that {PRONOUN/m_c/subject} [act]. m_c's ears flatten. {PRONOUN/m_c/subject/CAP} {VERB/m_c/promise/promises} it won't happen again.",
+        "bristle": "You tell m_c you know that {PRONOUN/m_c/subject} [act]. m_c tells you to mind your own business."
     },
     "omen": {
         "prompt": "StarClan shows you something about m_c. They're troubled by {PRONOUN/m_c/object}.",

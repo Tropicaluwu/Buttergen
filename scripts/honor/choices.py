@@ -345,7 +345,7 @@ def resolve_witness(you, offender, key, oc, option, level=None):
         nudge(offender, you, like=randint(*TALK_LIKE))
     else:
         nudge(offender, you, like=-randint(*TALK_LIKE))
-    text = _render(w["listen" if listens else "bristle"], offender, you, oc)
+    text = _render(w["listen" if listens else "bristle"].replace("[act]", witness._phrase(key, False)), offender, you, oc)
     game.cur_events_list.insert(0, EventInformation(text, ["misc"], [offender.ID, you.ID]))
     return text
 
