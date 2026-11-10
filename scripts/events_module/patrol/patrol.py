@@ -176,6 +176,9 @@ class Patrol:
                 print(
                     f"PATROL ID: {self.patrol_event.event_id} | SUCCESS: N/A (did not proceed)"
                 )
+                # BUTTERGEN: honor step 10, turning a temptation down counts
+                from scripts.honor import patrols as honor_patrols
+
                 return (
                     event_text_adjust(
                         Cat,
@@ -185,7 +188,7 @@ class Patrol:
                         other_clan=self.other_clan,
                         chosen_poi=self.chosen_poi,
                     ),
-                    "",
+                    "\n".join(honor_patrols.on_decline(self)),
                     {},
                     None,
                 )
@@ -899,6 +902,18 @@ class Patrol:
         ):
             if r and r.strip():
                 final_results.append(r)
+
+        # BUTTERGEN: honor step 10, the patrol's choices count
+        from scripts.honor import patrols as honor_patrols
+
+        final_results.extend(
+            honor_patrols.on_outcome(
+                self,
+                chosen_outcome.event_id,
+                self.outcome_cats[PatrolOutcome.SUCCESS if success else PatrolOutcome.FAILURE],
+                processed_text,
+            )
+        )
 
         # Run the chosen outcome
         return (

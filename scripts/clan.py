@@ -186,6 +186,8 @@ class Clan:
         self.affair = False
         # BUTTERGEN: kept and held secrets about broken code (scripts/honor/witness.py)
         self.code_secrets = []
+        # step 10: kits stolen on patrols and the Clan they came from, for a later "learns the truth" event
+        self.code_stolen_kits = []
         # cats waiting for the leader's judgment (scripts/honor/judgment.py)
         self.code_judgments = []
         # your cat's waiting choice, and the moon the last one came up (scripts/honor/choices.py)
@@ -1119,6 +1121,7 @@ class Clan:
             "exile_return": self.exile_return,
             "affair": self.affair,
             "code_secrets": self.code_secrets,
+            "code_stolen_kits": self.code_stolen_kits,
             "code_judgments": self.code_judgments,
             "code_choice": self.code_choice,
             "code_choice_moon": self.code_choice_moon,
@@ -1696,6 +1699,7 @@ class Clan:
         if "affair" in clan_data:
             game.clan.affair = clan_data["affair"]
         game.clan.code_secrets = list(clan_data.get("code_secrets", []))
+        game.clan.code_stolen_kits = list(clan_data.get("code_stolen_kits", []))
         game.clan.code_judgments = list(clan_data.get("code_judgments", []))
         game.clan.code_choice = clan_data.get("code_choice")
         game.clan.code_choice_moon = clan_data.get("code_choice_moon")

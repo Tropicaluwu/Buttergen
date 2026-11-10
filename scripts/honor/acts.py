@@ -99,6 +99,13 @@ ACTS = {
     "lead_dawn": fol(LEADER),
     "eat_last": fol(LEADER, hungry=True),
     "leader_vigil": fol(LEADER, other="dead"),
+    # step 10: only from the player's patrols (scripts/honor/patrols.py), never from temptation
+    "steal_kit": brk("grave", frozenset(), (), other_clan=True),
+    "kill_kits": brk("grave", frozenset(), (), other_clan=True),
+    "border_raid": brk("serious", frozenset(), (), other_clan=True),
+    "mark_their_land": brk("minor", frozenset(), (), other_clan=True),
+    "herb_border": brk("minor", frozenset(), (), other_clan=True),
+    "break_shunning": brk("minor", frozenset(), ()),
 }
 
 # honor lost for breaking the code, by level

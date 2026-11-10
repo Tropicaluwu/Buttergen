@@ -30,7 +30,13 @@
         "spite": ["punished a Clanmate harder than they deserved", "punished a Clanmate harder than they deserved"],
         "ignore_sign": ["ignored a sign from StarClan", "ignored a sign from StarClan"],
         "secret_meeting": ["met o_c_n's leader in secret", "met o_c_n's leader in secret"],
-        "claim_land": ["claimed o_c_n's land out of pride", "claimed o_c_n's land out of pride"]
+        "claim_land": ["claimed o_c_n's land out of pride", "claimed o_c_n's land out of pride"],
+        "steal_kit": ["stole a kit from o_c_n", "stole a kit from o_c_n"],
+        "kill_kits": ["killed o_c_n's kits", "killed o_c_n's kits"],
+        "border_raid": ["charged across the o_c_n border looking for a fight", "charged across the o_c_n border looking for a fight"],
+        "mark_their_land": ["spread {PRONOUN/m_c/poss} scent on o_c_n's land", "spread your scent on o_c_n's land"],
+        "herb_border": ["took herbs from o_c_n's land", "took herbs from o_c_n's land"],
+        "break_shunning": ["went into the healer's den while shunned", "went into the healer's den while shunned"]
     },
     "report": {
         "others": [
@@ -193,6 +199,65 @@
         ],
         "you_saw": [
             "Before r_c died, {PRONOUN/r_c/subject} told the healer that m_c [act]."
+        ]
+    },
+    "caught": {
+        "others": [
+            "o_c_n saw. They'll make sure c_n's leader hears that m_c [act], and m_c will answer for it at the next full moon."
+        ],
+        "you_did": [
+            "o_c_n saw. They'll make sure your leader hears that you [act you], and you'll answer for it at the next full moon."
+        ],
+        "others_leader": [
+            "o_c_n saw. By the next Gathering, every Clan will know that m_c [act]."
+        ],
+        "you_did_leader": [
+            "o_c_n saw. By the next Gathering, every Clan will know that you [act you]."
+        ]
+    },
+    "told": {
+        "others": [
+            "The patient tells the healers that m_c [act]. m_c will answer for it at the next full moon."
+        ],
+        "you_did": [
+            "The patient tells the healers that you [act you]. You'll answer for it at the next full moon."
+        ]
+    },
+    "patrol_secret": {
+        "others": [
+            "Nobody from o_c_n saw that m_c [act]. Now it's up to the patrol whether anyone else finds out."
+        ],
+        "you_did": [
+            "Nobody from o_c_n saw that you [act you]. Now it's up to your patrol whether anyone else finds out."
+        ]
+    },
+    "patrol_secret_home": {
+        "others": [
+            "Nobody outside the patrol saw that m_c [act]. Now it's up to the patrol whether anyone else finds out."
+        ],
+        "you_did": [
+            "Nobody outside your patrol saw that you [act you]. Now it's up to your patrol whether anyone else finds out."
+        ]
+    },
+    "patrol_alone": {
+        "others": [
+            "Nobody saw that m_c [act]. As far as anyone knows, it never happened."
+        ],
+        "you_did": [
+            "Nobody saw that you [act you]. As far as anyone knows, it never happened."
+        ]
+    },
+    "resist": {
+        "others": [
+            "m_c turned away from temptation today, and stands a little taller for it."
+        ],
+        "you_did": [
+            "You turned away from temptation today, and stand a little taller for it."
+        ]
+    },
+    "along": {
+        "you_did": [
+            "You went along with it when m_c [act]. It sits heavy on you."
         ]
     }
 }
