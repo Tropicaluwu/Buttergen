@@ -17,6 +17,7 @@ Fixes:
 - White patches picked in the cat maker or cat editor no longer disappear when the save loads (cats that already lost them need them picked again)
 - Fixed a crash when opening the relationships screen in multi clan mode
 - The cat maker's tint swatches show each tint's own color (pink looks pink, blue looks blue) instead of how it looks on brown fur
+- The color spots note in the cat maker's white patch list no longer shows while searching
 
 <strong>Buttergen v0.4-dev.2</strong>
 
@@ -60,7 +61,7 @@ Fixes:
 - Fixed a crash when kits are born (new with the November 5 update)
 - A cat that comes back to the Clan partway through a moon starts out fed (it was skipped with an error in the log)
 - The cat maker's little white patches, old style tortie patches and Mink's Torties show up right with Clangen's new split patch sheets
-- The README explains what to do if setup stops with "failed to hardlink file" (the game folder is inside OneDrive)
+- The README explains what to do if setup stops with "failed to hardlink file" (the game folder is or was inside OneDrive)
 
 <strong>Buttergen v0.3.4</strong>
 
