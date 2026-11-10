@@ -2,6 +2,7 @@
 
 Fixes:
 - The cat editor's rank list follows the cat's age: an adult can't be made a newborn or a kitten anymore (it could freeze the game)
+- When several cats die in one event, the death line names them once (it repeated names, like "Garkit died. Garkit and Minnowkit died.")
 
 <strong>Buttergen v0.3.8</strong>
 
