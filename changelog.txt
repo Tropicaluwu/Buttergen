@@ -1,3 +1,10 @@
+<strong>Buttergen v0.4-dev.7</strong>
+
+A development build, so keep a copy of your saves folder before playing.
+
+Fixes:
+- Date patrols go well more often: the chance was worked out of 100 but rolled out of 120, so even the closest couples failed one date in four. Dates with your cat's mate also go a little better
+
 <strong>Buttergen v0.4-dev.6</strong>
 
 A development build, so keep a copy of your saves folder before playing.
