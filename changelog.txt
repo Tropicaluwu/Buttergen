@@ -1,3 +1,11 @@
+<strong>Buttergen v0.4-dev.4</strong>
+
+A development build, so keep a copy of your saves folder before playing.
+
+Fixes:
+- Illness events no longer say the Clan has no healer when it has one
+- Fixed a crash when changing a relationship in the cat editor
+
 <strong>Buttergen v0.4-dev.3</strong>
 
 A development build, so keep a copy of your saves folder before playing.
