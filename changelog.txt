@@ -6,7 +6,11 @@ New:
 - Honor system: patrol choices count. Hunting across the border, eating prey before the Clan, stealing or harming another Clan's kits, raiding and marking another Clan's land break the code, and the other Clan or the patrol may tell. Turning a temptation down, stopping a Clanmate and taking lost kits home follow it
 
 Changes:
+- Brought up to date with Genemod's modded branch and Clangen's development branch from November 10, 2026
 - Gossip about a misdeed, and your cat talking to the cat who did it, now say what they did (like "snuck out of camp at night")
+
+Fixes:
+- When several cats die in one event, the death line names them once (it repeated names, like "Garkit died. Garkit and Minnowkit died.")
 
 <strong>Buttergen v0.4-dev.5</strong>
 
