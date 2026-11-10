@@ -56,6 +56,10 @@ from scripts.special_dates import SpecialDate, is_today
 logger = logging.getLogger(__name__)
 
 
+# BUTTERGEN: added to a date's chance (out of 100) when the date is the player's cat's mate
+MATE_DATE_BONUS = 15
+
+
 def get_patrol_temperament(patrol_cats: list, patrol_leader=None) -> tuple[str, str]:
     """
     Determines the temperament of a patrol based on clan rank and patrol_leader
@@ -976,7 +980,8 @@ class Patrol:
 
         # LG: dates depend on how your date feels about you
         if switch_get_value(Switch.patrol_category) == "date":
-            success_chance = self._get_date_success_chance()
+            # BUTTERGEN: the date chance is out of 100, but the roll below is out of 120
+            success_chance = round(self._get_date_success_chance() * 1.2)
 
         if success_chance >= 120:
             success_chance = 115
@@ -1029,6 +1034,9 @@ class Patrol:
             if relationship.like < 0:
                 success_chance -= 10
             success_chance += randint(-20, 20)
+        # BUTTERGEN: mates' dates usually go well
+        if you.ID in date.mate:
+            success_chance += MATE_DATE_BONUS
         success_chance = max(10, min(90, success_chance))
 
         if randint(1, 100) < success_chance:
