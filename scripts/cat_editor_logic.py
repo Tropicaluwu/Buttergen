@@ -1,6 +1,7 @@
 """Shared helpers for the cat editor, used by the editor window and the debug console. No UI in here."""
 
 from scripts.cat.cats import Cat
+from scripts.cat_relations.relationship import create_one_relationship
 from scripts.game_structure.game.settings import game_setting_get
 
 REL_STATS = ["like", "respect", "trust", "comfort", "romance"]
@@ -36,7 +37,7 @@ def get_rel_value(cat_from: Cat, cat_to: Cat, stat: str) -> int:
 
 
 def set_rel_stat(cat_from: Cat, cat_to: Cat, stat: str, value: int):
-    rel = cat_from.create_one_relationship(cat_to)
+    rel = create_one_relationship(cat_from, cat_to)
     if rel is None:
         return
     low = 0 if stat == "romance" else -100
