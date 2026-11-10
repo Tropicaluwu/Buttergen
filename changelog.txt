@@ -1,3 +1,10 @@
+<strong>Buttergen v0.4-dev.6</strong>
+
+A development build, so keep a copy of your saves folder before playing.
+
+Changes:
+- Gossip about a misdeed, and your cat talking to the cat who did it, now say what they did (like "snuck out of camp at night")
+
 <strong>Buttergen v0.4-dev.5</strong>
 
 A development build, so keep a copy of your saves folder before playing.
