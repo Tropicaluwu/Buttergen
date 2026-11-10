@@ -1,7 +1,13 @@
+<strong>Buttergen v0.3.7</strong>
+
+Fixes:
+- Fixed a crash when changing a relationship in the cat editor
+
 <strong>Buttergen v0.3.6</strong>
 
 Fixes:
 - White patches picked in the cat maker or cat editor no longer disappear when the save loads (cats that already lost them need them picked again)
+- The color spots note in the cat maker's white patch list no longer shows while searching
 
 <strong>Buttergen v0.3.5</strong>
 
