@@ -1,3 +1,10 @@
+<strong>Buttergen v0.4-dev.5</strong>
+
+A development build, so keep a copy of your saves folder before playing.
+
+Fixes:
+- Newborn cats get all their genetic conditions again, like XXY tortie toms being sterile, deafness in white cats, and manx and munchkin problems (missing since v0.3; cats born before this keep what they have)
+
 <strong>Buttergen v0.4-dev.4</strong>
 
 A development build, so keep a copy of your saves folder before playing.
