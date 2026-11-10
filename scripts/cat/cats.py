@@ -425,21 +425,6 @@ class Cat:
         if loading:
             return
 
-    def faith_leaning(self) -> float:
-        """Where this cat's faith settles over time when nothing is pushing it around. It comes from
-        their personality plus a bit of their own (the same every time for the same cat), so a clan
-        isn't all the same. Lawful, stable cats lean towards StarClan, aggressive ones towards the Dark Forest."""
-        own = Random(f"faith{self.ID}").gauss(1.0, 3.5)
-        lean = own
-        lean += (self.personality.lawfulness - 8) * 0.45
-        lean += (self.personality.stability - 8) * 0.2
-        lean -= (self.personality.aggression - 8) * 0.3
-        if game.clan:
-            lean += 2 if game.clan.followingsc else -2
-        if self.joined_df:
-            lean -= 5
-        return max(-9, min(9, lean))
-
         if self.phenotype.deaf:
             if 'blue' in self.phenotype.lefteyetype and 'blue' in self.phenotype.righteyetype:
                 if 'DBEre' in self.phenotype.pax3:
@@ -481,6 +466,21 @@ class Cat:
 
         if self.phenotype.pointgene[0] == 'cs' and random() < 0.05:
             gain_permanent_condition(self, 'cross_eyed', is_congenital=True, genetic=True)
+
+    def faith_leaning(self) -> float:
+        """Where this cat's faith settles over time when nothing is pushing it around. It comes from
+        their personality plus a bit of their own (the same every time for the same cat), so a clan
+        isn't all the same. Lawful, stable cats lean towards StarClan, aggressive ones towards the Dark Forest."""
+        own = Random(f"faith{self.ID}").gauss(1.0, 3.5)
+        lean = own
+        lean += (self.personality.lawfulness - 8) * 0.45
+        lean += (self.personality.stability - 8) * 0.2
+        lean -= (self.personality.aggression - 8) * 0.3
+        if game.clan:
+            lean += 2 if game.clan.followingsc else -2
+        if self.joined_df:
+            lean -= 5
+        return max(-9, min(9, lean))
 
     # LG: LifeGen code still uses the old Inheritance object, but ClanGen's new code only makes it in a
     # few places, so right after loading a save no cat had one and those spots crashed. make it when needed
