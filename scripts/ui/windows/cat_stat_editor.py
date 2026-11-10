@@ -7,7 +7,7 @@ setting is on.
 import pygame
 import pygame_gui
 
-from scripts.cat.enums import CatRank
+from scripts.cat.enums import CatAge, CatRank
 from scripts.cat_editor_logic import (
     LIFE_FLAGS,
     LIFEGEN_STATS,
@@ -53,6 +53,17 @@ EDITABLE_RANKS = [
     CatRank.LEADER,
     CatRank.ELDER,
 ]
+
+def ranks_for(cat) -> list:
+    """the ranks that fit the cat's age: newborn and kitten only for cats that young, and the
+    others only for cats past them (an adult made a newborn could freeze the game). Change the
+    moons first to make a cat a kit"""
+    if cat.age == CatAge.NEWBORN:
+        return [CatRank.NEWBORN]
+    if cat.age == CatAge.KITTEN:
+        return [CatRank.KITTEN]
+    return [r for r in EDITABLE_RANKS if not r.is_baby()]
+
 
 PICKER_COLUMNS = 3
 PICKER_ROWS = 9
@@ -233,7 +244,7 @@ class CatStatEditorWindow(EditorWindowBase):
         self._open_picker("Choose a trait", all_traits(self.the_cat), lambda t: set_trait(self.the_cat, t))
 
     def _open_rank_picker(self):
-        self._open_picker("Choose a rank", [str(r) for r in EDITABLE_RANKS],
+        self._open_picker("Choose a rank", [str(r) for r in ranks_for(self.the_cat)],
                           lambda r: set_rank(self.the_cat, CatRank(r)))
 
     def _open_condition_picker(self, kind, label):
