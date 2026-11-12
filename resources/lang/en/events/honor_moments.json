@@ -31,6 +31,14 @@
             "demotion": "Demotion",
             "shunning": "Shunning",
             "exile": "Exile"
+        },
+        "in_log": {
+            "warning": "a warning",
+            "duties": "extra duties",
+            "lost_trust": "losing the Clan's trust",
+            "demotion": "demotion",
+            "shunning": "shunning",
+            "exile": "exile"
         }
     },
     "why": {
@@ -62,7 +70,7 @@
         "named": "r_c named m_c to share the blame.",
         "favor": "r_c called in a favor from m_c for keeping quiet.",
         "talked": "r_c talked to m_c about how {PRONOUN/m_c/subject} [act].",
-        "sentenced": "r_c gave m_c [sentence].",
+        "sentenced": "r_c sentenced m_c to [sentence].",
         "wanted_harsh": "r_c wanted a harsh sentence for m_c.",
         "scolded": "r_c scolded m_c for how {PRONOUN/m_c/subject} [act].",
         "covered": "r_c covered for m_c with the leader.",
