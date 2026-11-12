@@ -2,6 +2,16 @@
 
 A development build, so keep a copy of your saves folder before playing.
 
+New:
+- Other Clans (multi clan mode): your cat meets cats from other Clans at Gatherings, on border patrols and in the game's own cross-Clan events, and can talk to, flirt with or insult the cats they've met
+- A profile note says where and when your cat met an outside cat, and the cat list has a "Cats You've Met" group
+- As the leader, you name new warriors and mediators, and as a healer you name your own apprentice: type a suffix or roll a random one
+- "Try for kits" in any mated cat's relations tab makes the pair 3 times likelier to have kits for 3 moons
+- Asking to join another Clan is now in the dangerous tab's leave the Clan window
+
+Changes:
+- Brought up to date with Genemod's modded branch from November 12, 2026 (new setting to turn off shader highlights, Gathering brawls blame the right cat, the leader's name shows in queen and mediator ceremonies)
+
 Fixes:
 - The relationships screen's "only show your cat" box stays ticked (it unticked itself right away) and has its tooltip
 - The conditions tab's details use the small font again, so they fit their boxes
