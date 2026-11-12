@@ -275,6 +275,8 @@ class ListScreen(Screens):
         group_names = ["general.your_clan", "general.cotc", "general.cbtc"]
         if game.clan and game.clan.clancount == "multiclan":
             group_names += [clan.name for clan in game.clan.all_other_clans]
+            # BUTTERGEN: every cat from outside the Clan the player's cat has met
+            group_names.append("general.met")
         self.living_group_names = tuple(group_names)
 
         self.set_disabled_menu_buttons(["cats"])
@@ -612,6 +614,8 @@ class ListScreen(Screens):
                 self.get_your_group_cats()
             elif new_group == "general.cotc":
                 self.get_cotc_cats()
+            elif new_group == "general.met":
+                self.get_met_cats()
             elif new_group == "general.cbtc":
                 self.get_cbtc_cats()
             elif new_group == "general.starclan":
@@ -781,6 +785,9 @@ class ListScreen(Screens):
         elif self.current_group == "general.cotc":
             self.set_bg(None)
             self.update_heading_text("general.cotc")
+        elif self.current_group == "general.met":
+            self.set_bg(None)
+            self.update_heading_text("general.met")
         elif self.current_group == "general.your_group":
             self.set_bg(None)
             self.update_heading_text(game.clan.your_cat.status.get_group_heading_text())
@@ -804,7 +811,8 @@ class ListScreen(Screens):
 
     def get_group_temper_message(self):
         # UR and COTC has no alignment and no message
-        if self.current_group in ("general.unknown_residence", "general.cotc", "general.cbtc", "general.your_group"):
+        if self.current_group in ("general.unknown_residence", "general.cotc", "general.cbtc", "general.your_group",
+                                  "general.met"):
             self.temper_message.hide()
             return ""
 
@@ -850,6 +858,8 @@ class ListScreen(Screens):
                 self.get_ur_cats()
             elif game.last_list_forProfile == "general.cotc":
                 self.get_cotc_cats()
+            elif game.last_list_forProfile == "general.met":
+                self.get_met_cats()
             elif game.last_list_forProfile == "general.your_group":
                 self.get_your_group_cats()
             elif game.last_list_forProfile == "general.cbtc":
@@ -889,6 +899,14 @@ class ListScreen(Screens):
             cat for cat in Cat.all_cats_list 
             if cat.status.group.is_any_clan_group() and cat.status.fetch_clan_object().name == self.selected_clan
         ]
+
+    def get_met_cats(self):
+        """BUTTERGEN: cats from other Clans and outsiders the player's cat has met"""
+        from scripts import outsiders
+
+        self.current_group = "general.met"
+        self.death_status = "living"
+        self.full_cat_list = [c for c in Cat.all_cats_list if outsiders.has_met(c)]
 
     def get_cotc_cats(self):
         """
