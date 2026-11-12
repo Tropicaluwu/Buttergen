@@ -192,6 +192,7 @@ See [changelog.txt](changelog.txt) for what's new.
 
 Buttergen is just getting started. These are on the way, roughly in this order (plans can change):
 
+- **Cat Editor experience:** change any cat's experience, anywhere from 0 to 321
 - **Affairs:** a reworked affairs system
 - **Code and Borders:** living by (or breaking) the warrior code, and murder of other Clans' cats, with honor loss, angry neighbors, exile and even war
 - **Skills and mentors:** seven skills that level up with experience and change how patrols and your choices go, with mentors who teach them
