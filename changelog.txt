@@ -3,6 +3,12 @@
 A development build, so keep a copy of your saves folder before playing.
 
 New:
+- Honor choices as a mentor or parent: when your apprentice or kit is caught breaking the code, scold them, cover for them with the leader, ask them why, or let the leader handle it
+- As the deputy, ask the leader for a harsher sentence or speak up for a Clanmate before the full moon
+- As the leader, pick each sentence yourself at the full moon
+- "Why do you think they did it?": guess why a Clanmate broke the code. A right guess earns their respect, and your guess becomes the gossip
+- Honor changes show up in the relationships tab, like "Thistleflight covered for Chubfern with the leader"
+- Choices also show in the events list with a button, and the choice window has a Decide later button
 - The cat editor can set a cat's experience, anywhere from 0 to 321, on the Skills tab (thanks to the Discord suggestion!)
 
 <strong>Buttergen v0.4-dev.8</strong>
