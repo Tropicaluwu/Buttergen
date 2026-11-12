@@ -61,6 +61,7 @@ def pending():
         or (c["kind"] == KITS and not [k for k in (Cat.fetch_cat(i) for i in c["kits"]) if k and not k.dead])
         or (c["kind"] in (OMEN, CALL, VOTE) and not _alive_in_clan(Cat.fetch_cat(c["leader"])))
         or (c["kind"] in SWITCH_KINDS and not _alive(Cat.fetch_cat(c["cat"])))
+        or (c["kind"] in _moment_kinds() and _moments().pending_gone(c))
     )
     if gone:
         game.clan.code_choice = None
@@ -77,9 +78,21 @@ def can_offer() -> bool:
     )
 
 
+def _moments():
+    from scripts.honor import moments
+
+    return moments
+
+
+def _moment_kinds():
+    return _moments().KINDS
+
+
 def _offer(entry):
     game.clan.code_choice = entry
     game.clan.code_choice_moon = game.clan.age
+    # an event line with a button, so the choice is easy to spot
+    _moments().announce()
 
 
 def offer_temptation(key, other, other_clan):
@@ -153,6 +166,11 @@ def window_text():
     you = _you()
     t = texts()
     oc = _clan(c.get("clan"))
+    if c["kind"] in _moment_kinds():
+        prompt, options, with_decide = _moments().window_text(c)
+        if with_decide:
+            options.append((DECIDE, t["let_decide"].replace("%{name}", str(you.name))))
+        return prompt, options
     if c["kind"] in SWITCH_KINDS:
         from scripts.honor import switching
 
@@ -236,9 +254,22 @@ def personality_witness(witness, offender, key) -> str:
 def resolve(option):
     """carries out the waiting choice. option is one of the window's, or DECIDE"""
     c = pending()
+    result = _resolve(option)
+    if c and c["kind"] == WITNESS and option != DECIDE:
+        # 1 in 3: "why do you think they did it?"
+        _moments().maybe_why_after_witness(Cat.fetch_cat(c["offender"]), c["act"], _clan(c.get("clan")))
+    # your leader may have more sentences to pick
+    _moments().offer_next_sentence()
+    return result
+
+
+def _resolve(option):
+    c = pending()
     if not c:
         return None
     game.clan.code_choice = None
+    if c["kind"] in _moment_kinds():
+        return _moments().resolve(c, option)
     if c["kind"] in SWITCH_KINDS:
         from scripts.honor import switching
 
@@ -338,13 +369,16 @@ def resolve_witness(you, offender, key, oc, option, level=None):
     if option == KEEP:
         return witness._post("keep", offender, you, key, oc)
     w = texts()["witness"]
-    listens = witness._like(offender, you) > 10 or (offender.personality.aggression < 8 and random() < 0.5)
+    moments = _moments()
+    listens = (witness._like(offender, you) > 10 or (offender.personality.aggression < 8 and random() < 0.5)
+               or random() < moments.talk_bonus(offender))
+    talk_log = moments.log_line("talked", offender, you, key, oc)
     if listens:
         for cause in ACTS[key]["causes"]:
             offender.temptation[cause] = 0
-        nudge(offender, you, like=randint(*TALK_LIKE))
+        nudge(offender, you, like=randint(*TALK_LIKE), log=talk_log)
     else:
-        nudge(offender, you, like=-randint(*TALK_LIKE))
+        nudge(offender, you, like=-randint(*TALK_LIKE), log=talk_log)
     text = _render(w["listen" if listens else "bristle"].replace("[act]", witness._phrase(key, False)), offender, you, oc)
     game.cur_events_list.insert(0, EventInformation(text, ["misc"], [offender.ID, you.ID]))
     return text
@@ -353,7 +387,10 @@ def resolve_witness(you, offender, key, oc, option, level=None):
 def on_skip_start():
     """a choice left waiting through a whole skip is made by your cat"""
     if pending():
-        resolve(DECIDE)
+        _resolve(DECIDE)
+    # sentences your leader didn't pick get the usual one
+    _moments().settle()
+    _moments().cleanup()
 
 
 def show_badge(screen):
@@ -381,6 +418,13 @@ def show_badge(screen):
 
 
 BADGE_SPOT = (33, 634)
+
+
+def choice_event():
+    """the newest event line about the waiting choice, the one that gets a button, or None"""
+    if pending() is None:
+        return None
+    return next((e for e in game.cur_events_list if getattr(e, "honor_choice", False)), None)
 
 
 def open_window(screen=None):

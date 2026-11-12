@@ -1,0 +1,75 @@
+{
+    "mentor": {
+        "prompt_mentor": "Word got out that m_c [act]. m_c is your apprentice. What do you do?",
+        "prompt_parent": "Word got out that m_c [act]. m_c is your kit. What do you do?",
+        "options": [
+            "Scold m_c",
+            "Cover for m_c with r_c",
+            "Ask m_c why",
+            "Let r_c handle it"
+        ],
+        "scold": "You take m_c aside and scold {PRONOUN/m_c/object} for how {PRONOUN/m_c/subject} [act]. m_c won't meet your eyes, but {PRONOUN/m_c/subject} {VERB/m_c/seem/seems} to take it to heart.",
+        "cover": "You tell r_c it was all a misunderstanding, and that m_c never [act]. r_c gives you a long look, but lets it go for now."
+    },
+    "deputy": {
+        "prompt": "m_c will be judged at the full moon, because {PRONOUN/m_c/subject} [act]. r_c asks what you think.",
+        "options": [
+            "Ask for a harsher sentence",
+            "Speak up for m_c",
+            "Leave it to r_c"
+        ],
+        "harsher": "You tell r_c that m_c should be made an example of. m_c hears about it before the day is out.",
+        "softer": "You speak up for m_c, and tell r_c that {PRONOUN/m_c/subject} {VERB/m_c/deserve/deserves} another chance."
+    },
+    "sentence": {
+        "prompt": "m_c [act]. What will you do at the full moon?",
+        "usual": "[sentence] (what you'd usually give)",
+        "steps": {
+            "warning": "A warning",
+            "duties": "Extra duties",
+            "lost_trust": "Loss of the Clan's trust",
+            "demotion": "Demotion",
+            "shunning": "Shunning",
+            "exile": "Exile"
+        }
+    },
+    "why": {
+        "prompt": "m_c [act]. Why do you think {PRONOUN/m_c/subject} did it?",
+        "prompt_heard": "You hear Clanmates whispering that m_c [act]. Why do you think {PRONOUN/m_c/subject} did it?",
+        "answers": {
+            "hunger": "Because {PRONOUN/m_c/subject} {VERB/m_c/were/was} hungry",
+            "longing": "To meet someone",
+            "grudge": "To get back at someone",
+            "restless": "Because {PRONOUN/m_c/subject} {VERB/m_c/are/is} restless",
+            "dark": "Something darker is pulling at {PRONOUN/m_c/object}",
+            "fun": "Just for fun"
+        },
+        "reasons": {
+            "hunger": "because {PRONOUN/m_c/subject} {VERB/m_c/were/was} hungry",
+            "longing": "to meet someone",
+            "grudge": "to get back at someone",
+            "restless": "out of restlessness",
+            "dark": "because something darker is pulling at {PRONOUN/m_c/object}",
+            "fun": "just for fun"
+        },
+        "answer": "You decide that m_c [act].",
+        "right": "The next time you see {PRONOUN/m_c/object}, m_c gives you a look that says you understand."
+    },
+    "log": {
+        "came_out": "r_c found out that m_c [act].",
+        "reported": "r_c told on m_c for how {PRONOUN/m_c/subject} [act].",
+        "held": "r_c is holding it over m_c that {PRONOUN/m_c/subject} [act].",
+        "named": "r_c named m_c to share the blame.",
+        "favor": "r_c called in a favor from m_c for keeping quiet.",
+        "talked": "r_c talked to m_c about how {PRONOUN/m_c/subject} [act].",
+        "sentenced": "r_c gave m_c [sentence].",
+        "wanted_harsh": "r_c wanted a harsh sentence for m_c.",
+        "scolded": "r_c scolded m_c for how {PRONOUN/m_c/subject} [act].",
+        "covered": "r_c covered for m_c with the leader.",
+        "deputy_harsher": "r_c asked for a harsher sentence for m_c.",
+        "deputy_softer": "r_c spoke up for m_c before the full moon.",
+        "harsher_sentence": "r_c gave m_c a harsher sentence than usual.",
+        "why_right": "r_c understood why m_c [act].",
+        "why_right_them": "r_c understood why m_c [act]."
+    }
+}

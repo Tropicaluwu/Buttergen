@@ -64,10 +64,10 @@ def _like(cat_from, cat_to) -> int:
     return rel.like if rel else 0
 
 
-def _nudge(cat_from, cat_to, **stats):
+def _nudge(cat_from, cat_to, log=None, **stats):
     from scripts.honor.temptation import nudge
 
-    nudge(cat_from, cat_to, **stats)
+    nudge(cat_from, cat_to, log=log, **stats)
 
 
 def _clan_by_name(name):
@@ -103,7 +103,11 @@ def _post(group, offender, witness, key, other_clan, variant=None, named_key=Non
         return None
     text = choice(lines[variant])
     if key:
-        text = text.replace("[act you]", _phrase(key, True)).replace("[act]", _phrase(key, False))
+        from scripts.honor import moments
+
+        # the reason your cat guessed becomes part of the story
+        them = _phrase(key, False) + moments.reason_suffix(offender, key)
+        text = text.replace("[act you]", _phrase(key, True)).replace("[act]", them)
     if named_key:
         text = text.replace("[act r_c]", _phrase(named_key, False, "r_c"))
     text = event_text_adjust(Cat, text, main_cat=offender, random_cat=witness, clan=game.clan,
@@ -249,7 +253,10 @@ def after_break(offender, key, other_clan, level=None):
     held = what == "hold"
     add_secret(offender, witness, key, other_clan, held, level)
     if held:
-        _nudge(offender, witness, trust=-randint(6, 12), like=-randint(3, 6))
+        from scripts.honor import moments
+
+        _nudge(offender, witness, trust=-randint(6, 12), like=-randint(3, 6),
+               log=moments.log_line("held", offender, witness, key, other_clan))
     you = _you()
     if you in (offender, witness) or random() < SHOW_OTHERS_QUIET:
         _post("hold" if held else "keep", offender, witness, key, other_clan)
@@ -264,12 +271,16 @@ def report(offender, witness, key, other_clan, group, naming=True, level=None):
     if key in healer.HEALER_ACTS:
         healer.mark_known(offender)
 
-    came_out(offender, key, other_clan, level)
+    came_out(offender, key, other_clan, level, by=witness)
+    from scripts.honor import moments
+
     leader = game.clan.leader
     if _alive_in_clan(leader) and leader is not offender:
-        _nudge(leader, offender, respect=-randint(3, 8), trust=-randint(3, 8))
+        _nudge(leader, offender, respect=-randint(3, 8), trust=-randint(3, 8),
+               log=moments.log_line("came_out", offender, leader, key, other_clan))
     if witness is not None and group in ("report", "falling_out"):
-        _nudge(offender, witness, like=-randint(5, 10))
+        _nudge(offender, witness, like=-randint(5, 10),
+               log=moments.log_line("reported", offender, witness, key, other_clan))
         if group == "report":
             core.change_honor(witness, REPORT_HONOR)
             core.change_reputation(witness, REPORT_REPUTATION)
@@ -278,14 +289,17 @@ def report(offender, witness, key, other_clan, group, naming=True, level=None):
         name_others(offender)
 
 
-def came_out(cat, key, other_clan, level=None):
-    """step 4: judged at the next full moon. Step 8: a leader loses Clan trust instead"""
-    from scripts.honor import judgment, leader
+def came_out(cat, key, other_clan, level=None, by=None):
+    """step 4: judged at the next full moon. Step 8: a leader loses Clan trust instead.
+    by is the cat who told, if anyone"""
+    from scripts.honor import judgment, leader, moments
 
     if leader.is_leader(cat):
         leader.misdeed_out(cat, key, level)
     else:
         judgment.queue(cat, key, other_clan, level)
+        # your cat may get a say, as their mentor, parent or the deputy
+        moments.after_came_out(cat, key, other_clan, level, by)
 
 
 def name_others(caught):
@@ -300,8 +314,10 @@ def name_others(caught):
         return
     key, other_clan, level = secret["act"], _clan_by_name(secret["clan"]), secret.get("level")
     core.change_reputation(named, -randint(*REPUTATION_LOSS[_level(key, level)]))
-    came_out(named, key, other_clan, level)
-    _nudge(named, caught, like=-randint(8, 14))
+    came_out(named, key, other_clan, level, by=caught)
+    from scripts.honor import moments
+
+    _nudge(named, caught, like=-randint(8, 14), log=moments.log_line("named", named, caught, key, other_clan))
     you = _you()
     variant = "you_named" if named is you else ("you_name" if caught is you else "others")
     _post("naming", caught, named, None, other_clan, variant=variant, named_key=key)
@@ -339,7 +355,13 @@ def on_skip():
         if random() < spread * scale:
             new = [c for c in _clanmates(offender) if c.ID not in secret["knowers"]]
             if new:
-                secret["knowers"].append(choice(new).ID)
+                newcomer = choice(new)
+                secret["knowers"].append(newcomer.ID)
+                if newcomer is you:
+                    # your cat heard it through gossip, and may wonder why
+                    from scripts.honor import moments
+
+                    moments.maybe_why_from_gossip(offender, key, other_clan)
                 core.change_reputation(offender, -randint(1, 2))
                 if len(secret["knowers"]) >= core.card("secret_out_at"):
                     game.clan.code_secrets.remove(secret)
@@ -349,6 +371,8 @@ def on_skip():
                     _post("gossip", offender, witness, key, other_clan)
         # favors
         if secret["held"] and random() < FAVOR_CHANCE * scale:
-            _nudge(offender, witness, like=-2)
+            from scripts.honor import moments
+
+            _nudge(offender, witness, like=-2, log=moments.log_line("favor", offender, witness, key, other_clan))
             if you in (offender, witness) or random() < SHOW_OTHERS_QUIET:
                 _post("favor", offender, witness, key, other_clan)

@@ -16,7 +16,7 @@ class HonorChoiceWindow(GameWindow):
     def __init__(self, events_screen=None):
         shown = choices.window_text()
         prompt, options = shown if shown else ("", [])
-        height = 150 + GAP * len(options)
+        height = 150 + GAP * (len(options) + 1)
         super().__init__(ui_scale(pygame.Rect(((800 - WIDTH) // 2, (700 - height) // 2), (WIDTH, height))))
         self.set_blocking(True)
         self.events_screen = events_screen
@@ -37,6 +37,15 @@ class HonorChoiceWindow(GameWindow):
                 container=self,
             )
             y += GAP
+        # closing is fine too: the choice waits, and the cat decides if the player skips on
+        later_w = 200
+        self.later_button = UISurfaceImageButton(
+            ui_scale(pygame.Rect(((WIDTH - later_w) // 2, y + 4), (later_w, BUTTON_H))),
+            choices.texts()["decide_later"],
+            get_button_dict(ButtonStyles.SQUOVAL, (later_w, BUTTON_H)),
+            object_id="@buttonstyles_squoval",
+            container=self,
+        )
 
     def close(self):
         self.kill()
@@ -45,6 +54,9 @@ class HonorChoiceWindow(GameWindow):
         handled = super().process_event(event)
         if event.type != pygame_gui.UI_BUTTON_START_PRESS:
             return handled
+        if event.ui_element == self.later_button:
+            self.close()
+            return True
         for option, button in self.option_buttons.items():
             if event.ui_element == button:
                 choices.resolve(option)

@@ -210,7 +210,8 @@ class EventsScreen(Screens):
             event.type == pygame_gui.UI_BUTTON_PRESSED
         ):  # everything else on button press to prevent blinking
             element = event.ui_element
-            if element is not None and element == getattr(self, "honor_choice_badge", None):
+            if element is not None and (element == getattr(self, "honor_choice_badge", None)
+                                        or element in getattr(self, "honor_event_buttons", [])):
                 honor_choices.open_window(self)
                 return
             if element == self.timeskip_button:
@@ -1417,6 +1418,12 @@ class EventsScreen(Screens):
             ele.kill()
         self.involved_cat_buttons = []
 
+        # BUTTERGEN: the button on the event line of the waiting choice
+        for ele in getattr(self, "honor_event_buttons", []):
+            ele.kill()
+        self.honor_event_buttons = []
+        choice_event = honor_choices.choice_event()
+
         # Stop if Clan is new, so that events from previously loaded Clan don't show up
         if game.clan.age == 0:
             return
@@ -1531,6 +1538,19 @@ class EventsScreen(Screens):
                     },
                 )
                 self.involved_cat_buttons.append(involved_cat_button)
+                if event_object is choice_event:
+                    choice_rect = ui_scale(pygame.Rect((0, 0), (150, 30)))
+                    choice_rect.topright = ui_scale_offset((-50, 7))
+                    self.honor_event_buttons.append(UISurfaceImageButton(
+                        choice_rect,
+                        honor_choices.texts()["event_button"],
+                        get_button_dict(ButtonStyles.SQUOVAL, (150, 30)),
+                        object_id="@buttonstyles_squoval",
+                        starting_height=3,
+                        container=display_element_container,
+                        manager=MANAGER,
+                        anchors={"right": "right", "top_target": display_element_event},
+                    ))
 
             display_element_container.set_dimensions(
                 (

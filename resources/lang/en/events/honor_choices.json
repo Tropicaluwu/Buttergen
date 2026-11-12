@@ -1,5 +1,7 @@
 {
     "badge": "Your cat has a choice",
+    "decide_later": "Decide later",
+    "event_button": "Make your choice",
     "let_decide": "Let %{name} decide",
     "acts": {
         "lie_leader": {

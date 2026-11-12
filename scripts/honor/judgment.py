@@ -177,6 +177,9 @@ def _sentence_text(step, cat, key, deputy_push, clan_push):
         lines = t[step][who]
     text = choice(lines)
     them, yours = _phrases(key)
+    from scripts.honor import moments
+
+    them += moments.reason_suffix(cat, key)
     text = text.replace("[act you]", yours).replace("[act]", them)
     if deputy_push:
         deputy = game.clan.deputy
@@ -195,18 +198,41 @@ def judge(entry) -> bool:
     judge_cat = _judge_for(cat)
     if judge_cat is None:
         return False
+    if entry.get("usual"):
+        # waiting for your leader to pick the sentence
+        return False
     key = entry["act"]
     points, deputy_push, clan_push = points_for(cat, judge_cat, key, entry.get("extra", 0), entry.get("level"))
+    if "deputy_choice" in entry:
+        # your cat as deputy asked for a harsher or softer sentence
+        points += entry["deputy_choice"] - deputy_push
+        deputy_push = entry["deputy_choice"]
     step = step_for(points)
     # step 8c: Iron Code makes every judgment harsher
     harsher = int(core.card("harsher_judgments"))
     step = LADDER[min(len(LADDER) - 1, LADDER.index(step) + harsher)]
+    # your cat covered for them as their mentor or parent
+    step = LADDER[max(0, LADDER.index(step) - entry.get("softer", 0))]
+    if judge_cat is _you():
+        # your leader picks the sentence, with this one as the usual pick
+        from scripts.honor import moments
+
+        entry["usual"], entry["pushes"] = step, [deputy_push, clan_push]
+        moments.offer_next_sentence()
+        return False
     # step 8: a leader may let a favorite off, or punish out of spite
     from scripts.honor import leader
 
     step, spite_line = leader.feelings(judge_cat, cat, step, LADDER)
     if step is None:
         return True
+    finish(entry, cat, judge_cat, step, deputy_push, clan_push, spite_line)
+    return True
+
+
+def finish(entry, cat, judge_cat, step, deputy_push, clan_push, spite_line=""):
+    """gives the sentence: the event, and what it does"""
+    key = entry["act"]
     from scripts.honor.witness import _clan_by_name
 
     other_clan = _clan_by_name(entry.get("clan"))
@@ -223,7 +249,7 @@ def judge(entry) -> bool:
         if demotion:
             game.cur_events_list.insert(0 if cat is _you() else len(game.cur_events_list),
                                         EventInformation(demotion, ["misc"], [cat.ID]))
-    return True
+    return text
 
 
 def apply(cat, judge_cat, step, clan_push=0, level=None):
@@ -248,14 +274,19 @@ def apply(cat, judge_cat, step, clan_push=0, level=None):
 
         exile.record(cat, level)
     if LADDER.index(step) >= LADDER.index(LOST_TRUST):
-        nudge(cat, judge_cat, like=-randint(2, 5))
+        from scripts.honor import moments
+
+        sentence_name = moments.texts()["sentence"]["steps"][step]
+        sentence_name = sentence_name[0].lower() + sentence_name[1:]
+        nudge(cat, judge_cat, like=-randint(2, 5),
+              log=moments.log_line("sentenced", cat, judge_cat, sentence=sentence_name))
         if clan_push > 0:
             loud = sorted(
                 (c for c in (Cat.fetch_cat(i) for i in game.clan.clan_cats)
                  if _alive_in_clan(c) and c is not cat and _like(c, cat) < -10),
                 key=lambda c: _like(c, cat))[:3]
             for other in loud:
-                nudge(cat, other, like=-randint(2, 4))
+                nudge(cat, other, like=-randint(2, 4), log=moments.log_line("wanted_harsh", cat, other))
 
 
 def sentence(cat):

@@ -63,13 +63,19 @@ def relation(cat_from, cat_to):
     return cat_from.relationships.get(cat_to.ID) or create_one_relationship(cat_from, cat_to)
 
 
-def nudge(cat_from, cat_to, **stats):
+def nudge(cat_from, cat_to, log=None, log_amount=None, **stats):
+    """changes cat_from's feelings for cat_to. log is a line for cat_from's relationship log
+    (its effect size follows log_amount, or the total change)"""
     if not cat_from or not cat_to or cat_from is cat_to:
         return
     rel = relation(cat_from, cat_to)
     if rel:
         for stat, amount in stats.items():
             setattr(rel, stat, getattr(rel, stat) + amount)
+        if log:
+            from scripts.honor import moments
+
+            moments.log(cat_from, cat_to, log, log_amount if log_amount is not None else sum(stats.values()))
 
 
 def _crush_clan(cat):
@@ -235,6 +241,10 @@ def do_act(cat, key, other, other_clan):
     elif a["kind"] == "follow":
         core.change_honor(cat, randint(*HONOR_GAIN))
         core.change_reputation(cat, randint(*REPUTATION_GAIN))
+    # the "why?" questions need the real reason, before it resets
+    from scripts.honor import moments
+
+    moments.remember_reason(cat, key)
     for cause in a["causes"]:
         cat.temptation[cause] = 0
     cat.code_done[key] = game.clan.age

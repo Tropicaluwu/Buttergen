@@ -193,6 +193,8 @@ class Clan:
         # your cat's waiting choice, and the moon the last one came up (scripts/honor/choices.py)
         self.code_choice = None
         self.code_choice_moon = None
+        # why cats broke the code, and your cat's guesses (scripts/honor/moments.py)
+        self.code_why = {}
         # the leader's Clan trust record (scripts/honor/leader.py)
         self.code_leader = {}
         # cats switching Clans by a task (scripts/honor/switching.py)
@@ -1125,6 +1127,7 @@ class Clan:
             "code_judgments": self.code_judgments,
             "code_choice": self.code_choice,
             "code_choice_moon": self.code_choice_moon,
+            "code_why": self.code_why,
             "code_leader": self.code_leader,
             "code_switch": self.code_switch,
             "custom_pronouns": self.custom_pronouns,
@@ -1703,6 +1706,7 @@ class Clan:
         game.clan.code_judgments = list(clan_data.get("code_judgments", []))
         game.clan.code_choice = clan_data.get("code_choice")
         game.clan.code_choice_moon = clan_data.get("code_choice_moon")
+        game.clan.code_why = dict(clan_data.get("code_why") or {})
         game.clan.code_leader = dict(clan_data.get("code_leader") or {})
         game.clan.code_switch = dict(clan_data.get("code_switch") or {})
 
