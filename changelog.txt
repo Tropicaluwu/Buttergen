@@ -1,3 +1,10 @@
+<strong>Buttergen v0.3.10</strong>
+
+Fixes:
+- The cat editor's Health & life tab no longer crashes the game
+- Cats with only minor conditions, like a running nose, can work and patrol again
+- Kits who join with a patrol are 0 moons old, not -1
+
 <strong>Buttergen v0.3.9</strong>
 
 Fixes:
