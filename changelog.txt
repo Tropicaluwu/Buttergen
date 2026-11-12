@@ -1,3 +1,12 @@
+<strong>Buttergen v0.4-dev.10</strong>
+
+A development build, so keep a copy of your saves folder before playing.
+
+Fixes:
+- The relationships screen's "only show your cat" box stays ticked (it unticked itself right away) and has its tooltip
+- The conditions tab's details use the small font again, so they fit their boxes
+- The Discord status works (the game never installed the part it needs), and now says "Playing Buttergen"
+
 <strong>Buttergen v0.4-dev.9</strong>
 
 A development build, so keep a copy of your saves folder before playing.
