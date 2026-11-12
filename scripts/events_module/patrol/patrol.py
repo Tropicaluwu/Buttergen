@@ -922,11 +922,14 @@ class Patrol:
         # BUTTERGEN: running into another Clan, the player's cat may meet one of its cats
         from scripts import outsiders
 
-        final_results.extend(
-            outsiders.after_patrol(
-                self, processed_text,
-                self.outcome_cats[PatrolOutcome.SUCCESS if success else PatrolOutcome.FAILURE],
-            )
+        final_results.extend(outsiders.after_patrol(self, processed_text, self.patrol_cats))
+
+        # BUTTERGEN: the player's cat and the cats in the outcome grow closer
+        from scripts import patrol_bonds
+
+        patrol_bonds.after_patrol(
+            self, chosen_outcome,
+            self.outcome_cats[PatrolOutcome.SUCCESS if success else PatrolOutcome.FAILURE], success,
         )
 
         # Run the chosen outcome
