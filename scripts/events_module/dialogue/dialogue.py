@@ -41,6 +41,18 @@ class Dialogue:
 
         special_date = get_special_date()
 
+        # BUTTERGEN: a cat from another Clan gets lines about being from another Clan
+        from scripts import outsiders
+
+        if outsiders.on() and outsiders.clan_of(self.cat) is not None and not self.cat.dead:
+            category = switch_get_value(Switch.talk_category)
+            part = {"insult": "insults", "flirt": "flirt", "caught": "caught"}.get(category)
+            if part:
+                return load_lang_resource(f"{resource_dir}/other_clan/{part}.json")
+            possible_texts.update(load_lang_resource(f"{resource_dir}/other_clan/general.json"))
+            possible_texts.update(load_lang_resource(f"{resource_dir}/other_clan/{outsiders.mood(self.cat)}.json"))
+            return possible_texts
+
         if switch_get_value(Switch.talk_category) == "insult":
             possible_texts.update(load_lang_resource(f"{resource_dir}/insults.json"))
         elif switch_get_value(Switch.talk_category) == "flirt":

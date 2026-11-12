@@ -1,0 +1,87 @@
+{
+    "bg_oc_general_1": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "You're from c_n, aren't you? I think I saw you at the last Gathering."
+        ]
+    },
+    "bg_oc_general_2": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "[t_c sniffs the air between you.]",
+            "You smell like c_n. Not that that's a bad thing."
+        ]
+    },
+    "bg_oc_general_3": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "How's the prey running on your side of the border? Ours has been thin."
+        ]
+    },
+    "bg_oc_general_4": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "I didn't expect to see you here. Don't worry, I won't tell anyone we talked."
+        ]
+    },
+    "bg_oc_general_5": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "Every Clan thinks their warriors are the best. Ours actually are, though."
+        ]
+    },
+    "bg_oc_general_6": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "Do you ever wonder what life is like in the other Clans? I guess you're finding out."
+        ]
+    }
+}

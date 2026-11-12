@@ -1,0 +1,45 @@
+{
+    "bg_oc_hostile_1": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "[t_c's fur bristles.]",
+            "Talk fast. I don't want my Clanmates seeing me with a c_n cat."
+        ]
+    },
+    "bg_oc_hostile_2": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "After everything between our Clans? I don't know why I'm even listening to you."
+        ]
+    },
+    "bg_oc_hostile_3": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "Watch yourself. Our warriors are itching for a fight with c_n."
+        ]
+    }
+}

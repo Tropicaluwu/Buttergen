@@ -1,0 +1,59 @@
+{
+    "bg_oc_insult_1": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "Is that what they teach in c_n? No wonder your Clan has no friends."
+        ]
+    },
+    "bg_oc_insult_2": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "Say that again at the Gathering, under StarClan's eyes. I dare you."
+        ]
+    },
+    "bg_oc_insult_3": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "I'll remember that the next time our patrols meet."
+        ]
+    },
+    "bg_oc_insult_4": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "[t_c curls {PRONOUN/t_c/poss} lip.]",
+            "Typical c_n cat."
+        ]
+    }
+}

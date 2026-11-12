@@ -1,0 +1,73 @@
+{
+    "bg_oc_caught_1": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "What are you doing on our land? You reek of c_n."
+        ]
+    },
+    "bg_oc_caught_2": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "Turn around and go back to your own territory before I make you."
+        ]
+    },
+    "bg_oc_caught_3": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "I'll be telling my leader about this. Expect to hear about it at the Gathering."
+        ]
+    },
+    "bg_oc_caught_4": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "[t_c steps in front of you, tail lashing.]",
+            "One chance. Leave now."
+        ]
+    },
+    "bg_oc_caught_5": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "Lost? Funny, the scent markers are pretty hard to miss."
+        ]
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "gathering": {
+        "ally": [
+            "At the Gathering, you share tongues with m_c of o_c_n.",
+            "At the Gathering, m_c of o_c_n waves you over to sit with {PRONOUN/m_c/object}."
+        ],
+        "neutral": [
+            "At the Gathering, you swap hunting stories with m_c of o_c_n.",
+            "At the Gathering, you end up sitting next to m_c of o_c_n, and the two of you get to talking."
+        ],
+        "hostile": [
+            "At the Gathering, m_c of o_c_n keeps glaring at you from across the hollow.",
+            "At the Gathering, m_c of o_c_n makes a sharp remark about c_n, but you end up talking anyway."
+        ],
+        "apprentice": [
+            "At the Gathering, you and m_c of o_c_n trade stories about your mentors."
+        ],
+        "also": "You also meet %{names}."
+    },
+    "border": [
+        "Before the patrols part, you catch the name of one of the o_c_n cats: m_c.",
+        "One of the o_c_n cats, m_c, gives you a long look before the patrols part."
+    ],
+    "profile": {
+        "met": "met %{how}, %{when}",
+        "how": {
+            "gathering": "at a Gathering",
+            "border": "on a border patrol",
+            "exploring": "while exploring"
+        },
+        "this_moon": "this moon",
+        "moons_ago": "%{moons} moons ago"
+    }
+}

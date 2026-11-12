@@ -763,6 +763,15 @@ def _one_moon_impl():
         import traceback
 
         traceback.print_exc()
+    # BUTTERGEN: Gatherings and the cats the player's cat has met (Other Clans step 1)
+    try:
+        from scripts import outsiders
+
+        outsiders.on_skip(full_moon)
+    except Exception:  # pylint: disable=broad-except
+        import traceback
+
+        traceback.print_exc()
 
     generate_dialogue_focus()
     checks = [

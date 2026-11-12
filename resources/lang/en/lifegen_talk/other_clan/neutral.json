@@ -1,0 +1,44 @@
+{
+    "bg_oc_neutral_1": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "I don't have anything against c_n. Just keep to your side of the scent markers."
+        ]
+    },
+    "bg_oc_neutral_2": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "You seem all right, for a c_n cat."
+        ]
+    },
+    "bg_oc_neutral_3": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "We're not friends, but we're not enemies either. Let's keep it that way."
+        ]
+    }
+}

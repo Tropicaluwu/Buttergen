@@ -1,0 +1,97 @@
+{
+    "bg_oc_flirt_1": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "[t_c's ears go warm.]",
+            "We shouldn't... but I don't want to stop either."
+        ]
+    },
+    "bg_oc_flirt_2": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "If my Clan knew I was talking to you like this, they'd never let me hear the end of it."
+        ]
+    },
+    "bg_oc_flirt_3": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "Meet me by the border at moonhigh? Only if you want to."
+        ]
+    },
+    "bg_oc_flirt_reject_1": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "You know we're from different Clans, right? This can't go anywhere."
+        ],
+        "tags": [
+            "reject"
+        ]
+    },
+    "bg_oc_flirt_reject_2": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "[t_c steps back.]",
+            "I'm loyal to my Clan. Don't do that again."
+        ],
+        "tags": [
+            "reject"
+        ]
+    },
+    "bg_oc_flirt_reject_3": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "Ha! Nice try, c_n cat."
+        ],
+        "tags": [
+            "reject"
+        ]
+    }
+}

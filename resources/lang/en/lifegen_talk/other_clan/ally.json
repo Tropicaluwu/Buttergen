@@ -1,0 +1,44 @@
+{
+    "bg_oc_ally_1": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "Our Clans have been getting along lately. I hope it stays that way."
+        ]
+    },
+    "bg_oc_ally_2": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "My leader speaks well of c_n. That's rare, believe me."
+        ]
+    },
+    "bg_oc_ally_3": {
+        "frequency": 2,
+        "cats": {
+            "y_c": {},
+            "t_c": {
+                "group": [
+                    "other_clan"
+                ]
+            }
+        },
+        "intro": [
+            "If you ever need help at the border, just yowl. We'll come."
+        ]
+    }
+}

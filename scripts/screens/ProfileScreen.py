@@ -462,6 +462,12 @@ class ProfileScreen(Screens):
             ):
                 self.the_cat.insulted = True
                 self.affect_relationship("insult")
+                # BUTTERGEN: insulting another Clan's cat sours that Clan a little
+                from scripts import outsiders
+
+                other_clan = outsiders.clan_of(self.the_cat) if outsiders.on() else None
+                if other_clan:
+                    game.clan.set_relations(game.clan, other_clan, None, -1)
                 switch_set_value(Switch.talk_category, "insult")
                 self.change_screen(GameScreen.TALK)
             elif (
@@ -1749,6 +1755,12 @@ class ProfileScreen(Screens):
         from scripts.honor.core import profile_lines
 
         output += profile_lines(the_cat)
+        # BUTTERGEN: where the player's cat met a cat from outside the Clan
+        from scripts import outsiders
+
+        met = outsiders.met_note(the_cat)
+        if met:
+            output += met + "\n"
 
         # NUTRITION INFO (if the game is in the correct mode)
         if (
@@ -4444,6 +4456,11 @@ class ProfileScreen(Screens):
     def validate_talk(self, cat_to, cat_from):
         if cat_to.moons < 0:
             return False
+        # BUTTERGEN: cats from other Clans and outsiders the player's cat has met (multi clan mode)
+        from scripts import outsiders
+
+        if not cat_to.dead and not cat_from.dead and outsiders.can_talk(cat_to, cat_from):
+            return True
         if cat_to.dead:
             if not cat_from.dead:
                 # newborns are too young to hold a conversation with the dead

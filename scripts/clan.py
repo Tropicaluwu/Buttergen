@@ -197,6 +197,8 @@ class Clan:
         self.code_why = {}
         # mates trying for kits: cat ID -> the moon it ends (events_module/pregnancy/try_for_kits.py)
         self.kit_tries = {}
+        # cats from outside the Clan the player's cat has met (scripts/outsiders.py)
+        self.met = {}
         # the leader's Clan trust record (scripts/honor/leader.py)
         self.code_leader = {}
         # cats switching Clans by a task (scripts/honor/switching.py)
@@ -1131,6 +1133,7 @@ class Clan:
             "code_choice_moon": self.code_choice_moon,
             "code_why": self.code_why,
             "kit_tries": self.kit_tries,
+            "met": self.met,
             "code_leader": self.code_leader,
             "code_switch": self.code_switch,
             "custom_pronouns": self.custom_pronouns,
@@ -1711,6 +1714,7 @@ class Clan:
         game.clan.code_choice_moon = clan_data.get("code_choice_moon")
         game.clan.code_why = dict(clan_data.get("code_why") or {})
         game.clan.kit_tries = dict(clan_data.get("kit_tries") or {})
+        game.clan.met = dict(clan_data.get("met") or {})
         game.clan.code_leader = dict(clan_data.get("code_leader") or {})
         game.clan.code_switch = dict(clan_data.get("code_switch") or {})
 
