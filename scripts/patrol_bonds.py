@@ -33,7 +33,9 @@ def after_patrol(patrol, outcome, outcome_cats, success: bool):
         return
     if getattr(outcome, "relationship_changes", None):
         return
-    # date patrols have their own
+    # friend patrols and date patrols have their own
+    if getattr(patrol, "friend", None):
+        return
     if switch_get_value(Switch.patrol_category) == "date":
         return
     others = []

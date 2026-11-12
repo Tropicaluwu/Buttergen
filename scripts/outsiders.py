@@ -92,7 +92,8 @@ def meet(cat, how, like=None):
     you = _you()
     if not you or not is_outside(cat) or cat is you:
         return
-    _met()[cat.ID] = {"moon": game.clan.age, "how": how}
+    # anything else kept for the cat (like a friend patrol break) stays
+    _met()[cat.ID] = {**_met().get(cat.ID, {}), "moon": game.clan.age, "how": how}
     if like:
         nudge(you, cat, like=like)
         nudge(cat, you, like=like)
