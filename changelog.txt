@@ -2,6 +2,9 @@
 
 A development build, so keep a copy of your saves folder before playing.
 
+Changes:
+- Brought up to date with Genemod's modded branch and Clangen's development branch from November 11, 2026
+
 Fixes:
 - Cats with only minor conditions, like a running nose, can work and patrol again
 - Kits who join with a patrol are 0 moons old, not -1
