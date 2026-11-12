@@ -70,6 +70,8 @@ def _test():
         "mur_c": _r,
         "t_c": _r,
         "y_c": _r,
+        # BUTTERGEN: the friend in friend patrols
+        "f_c": _r,
         "parent": _r,
         "parent1": _r,
         "parent2": _r,
