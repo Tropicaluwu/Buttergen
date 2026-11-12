@@ -37,6 +37,40 @@ LG_MENTOR_RANKS = {
     CatRank.QUEENS_APPRENTICE: [CatRank.QUEEN],
 }
 
+# BUTTERGEN: while the player's healer, mediator or queen has asked for an apprentice, each kit
+# turning 6 may take their path (the usual chances for these paths are 1 in 50 or less)
+REQUESTED_PATHS = {
+    CatRank.MEDICINE_CAT: CatRank.MEDICINE_APPRENTICE,
+    CatRank.MEDIATOR: CatRank.MEDIATOR_APPRENTICE,
+    CatRank.QUEEN: CatRank.QUEEN_APPRENTICE,
+}
+REQUEST_CHANCE = 1 / 3
+REQUEST_CHANCE_BAD_FIT = 1 / 6
+HEALER_BAD_FITS = (
+    "adventurous", "arrogant", "bold", "bloodthirsty", "cold", "fierce", "rebellious",
+    "troublesome", "vengeful",
+)
+
+
+def _requested_apprentice_rank(main_cat: Cat):
+    """BUTTERGEN: the apprentice rank this kit takes for the player's request, or None"""
+    if not switch_get_value(Switch.request_apprentice) or not game.clan:
+        return None
+    you = game.clan.your_cat
+    if (
+        not you
+        or you.dead
+        or not you.status.alive_in_player_clan
+        or you.status.is_shunned()
+        or not main_cat.status.alive_in_player_clan
+    ):
+        return None
+    rank = REQUESTED_PATHS.get(you.status.rank)
+    if rank is None:
+        return None
+    bad_fit = rank == CatRank.MEDICINE_APPRENTICE and main_cat.personality.trait in HEALER_BAD_FITS
+    return rank if random.random() < (REQUEST_CHANCE_BAD_FIT if bad_fit else REQUEST_CHANCE) else None
+
 
 def trigger_ceremony(
     main_cat: Cat,
@@ -188,6 +222,10 @@ def check_for_ceremony(main_cat: Cat, clan):
     # BECOME APPRENTICE
     if main_cat.moons == cat_class.age_moons[CatAge.ADOLESCENT][0]:
         if main_cat.status.rank == CatRank.KITTEN:
+            requested = _requested_apprentice_rank(main_cat)
+            if requested:
+                trigger_ceremony(main_cat, requested)
+                return
             # BECOME MEDICINE APPRENTICE
             if _is_suitable_medcat_app(main_cat, clan):
                 trigger_ceremony(main_cat, CatRank.MEDICINE_APPRENTICE)
@@ -530,7 +568,7 @@ def _is_suitable_medcat_app(cat, clan) -> bool:
 
     # get number of medcat apps
     num_med_apps = len(
-        [cat.status.rank == CatRank.MEDICINE_APPRENTICE for cat in med_cat_list]
+        [cat for cat in med_cat_list if cat.status.rank == CatRank.MEDICINE_APPRENTICE]
     )
     logger.debug("Current number of medcats: %d", num_medcats - num_med_apps)
     logger.debug("Current number of medcat apps: %d", num_med_apps)
