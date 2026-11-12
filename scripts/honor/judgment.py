@@ -276,8 +276,7 @@ def apply(cat, judge_cat, step, clan_push=0, level=None):
     if LADDER.index(step) >= LADDER.index(LOST_TRUST):
         from scripts.honor import moments
 
-        sentence_name = moments.texts()["sentence"]["steps"][step]
-        sentence_name = sentence_name[0].lower() + sentence_name[1:]
+        sentence_name = moments.texts()["sentence"]["in_log"][step]
         nudge(cat, judge_cat, like=-randint(2, 5),
               log=moments.log_line("sentenced", cat, judge_cat, sentence=sentence_name))
         if clan_push > 0:
