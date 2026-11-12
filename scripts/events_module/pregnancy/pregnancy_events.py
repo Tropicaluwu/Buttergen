@@ -89,6 +89,10 @@ def handle_having_kits(cat: Cat, clan):
     from scripts.honor import healer as honor_healer
 
     chance = honor_healer.kit_chance(chance, cat, second_parent)
+    # BUTTERGEN: "Try for kits" makes a pair of mates 3 times likelier for a few moons
+    from scripts.events_module.pregnancy import try_for_kits
+
+    chance = try_for_kits.adjust(chance, cat, second_parent)
     
     all_infertile = True
     if 'sterile' not in cat.permanent_conditions:
