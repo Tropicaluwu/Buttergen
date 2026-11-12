@@ -27,6 +27,13 @@ class LeaveClanWindow(GameWindow):
         for clan in game.clan.all_other_clans:
             height += 31
         # ---
+        # BUTTERGEN: your cat can ask to join another Clan from here (honor system step 9)
+        from scripts.honor import switching
+
+        self.switch_button = None
+        show_switch = cat == game.clan.your_cat and switching.on()
+        if show_switch:
+            height += 40
         super().__init__(
             ui_scale(pygame.Rect((225, 130), (350, height))),
         )
@@ -104,6 +111,19 @@ class LeaveClanWindow(GameWindow):
             container=self,
             anchors={"centerx": "centerx"},
         )
+        if show_switch:
+            self.switch_button = UISurfaceImageButton(
+                ui_scale(pygame.Rect((0, height - 130), (220, 30))),
+                "Ask to join another Clan",
+                get_button_dict(ButtonStyles.SQUOVAL, (220, 30)),
+                object_id="@buttonstyles_squoval",
+                manager=MANAGER,
+                container=self,
+                anchors={"centerx": "centerx"},
+                tool_tip_text="Ask another Clan's leader to take your cat in, the warrior code's way",
+            )
+            if not switching.you_can_ask():
+                self.switch_button.disable()
         if cat == game.clan.your_cat:
             self.done_button.disable()
             self.error.show()
@@ -113,6 +133,13 @@ class LeaveClanWindow(GameWindow):
 
     def process_event(self, event):
         if event.type == pygame_gui.UI_BUTTON_START_PRESS:
+            if self.switch_button is not None and event.ui_element == self.switch_button:
+                from scripts.ui.windows.honor_switch import HonorSwitchWindow
+
+                cat = self.the_cat
+                self.kill()
+                HonorSwitchWindow(cat, game.all_screens[GameScreen.PROFILE])
+                return True
             if event.ui_element == self.done_button:
                 # LG edits
                 if self.new_group_ID in (

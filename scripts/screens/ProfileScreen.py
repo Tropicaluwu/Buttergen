@@ -1864,13 +1864,8 @@ class ProfileScreen(Screens):
                         ): "You may attend the half-moon gathering every six moons"
                     }
                 )
-            # BUTTERGEN: your cat can ask to join another Clan by a task (honor system step 9)
-            from scripts.honor import switching
-
-            if self.the_cat == game.clan.your_cat and switching.you_can_ask():
-                work_button_dict.update(
-                    {("switch_clan", "#exile_return_button"): "Ask to join another Clan"}
-                )
+            # BUTTERGEN: asking to join another Clan (honor system step 9) is in the dangerous tab,
+            # in the leave the Clan window
         elif self.the_cat.status.is_exiled(CatGroup.PLAYER_CLAN_ID):
             work_button_dict.update(
                 {
