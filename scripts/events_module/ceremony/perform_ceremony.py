@@ -87,8 +87,13 @@ def trigger_ceremony(
     # applies actual rank change
     current_mentor = Cat.fetch_cat(main_cat.mentor) if main_cat.mentor else None
     lead_retire = main_cat.status.rank == CatRank.LEADER and new_rank == CatRank.ELDER
+    was_apprentice = main_cat.status.rank.is_any_apprentice_rank()
     main_cat.rank_change(new_rank)
     main_cat.rank_change_traits_skill(current_mentor)
+    # BUTTERGEN: the player's leader (or healer, for their apprentice) gets to name them
+    from scripts.ui.windows.name_warrior import maybe_queue
+
+    maybe_queue(main_cat, new_rank, was_apprentice, current_mentor)
 
     # LG: request apprentice switch
     your_cat = game.clan.your_cat if game.clan else None

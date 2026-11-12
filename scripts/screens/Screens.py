@@ -249,6 +249,14 @@ class Screens:
             ) and not switch_get_value(Switch.window_open):
                 MateWindow("events screen")
                 switch_remove_list_value(Switch.windows_dict, "mate")
+            elif "warrior name" in switch_get_value(
+                Switch.windows_dict
+            ) and not switch_get_value(Switch.window_open):
+                # BUTTERGEN: the player's leader or healer names a cat
+                from scripts.ui.windows.name_warrior import NameWarriorWindow
+
+                switch_remove_list_value(Switch.windows_dict, "warrior name")
+                NameWarriorWindow("events screen")
         return
 
     def on_use(self):

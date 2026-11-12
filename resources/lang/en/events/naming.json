@@ -1,0 +1,10 @@
+{
+    "prompt": "m_c is ready for {PRONOUN/m_c/poss} [kind] name. What will it be?",
+    "kinds": {
+        "warrior": "warrior",
+        "mediator": "mediator",
+        "healer": "full healer"
+    },
+    "random": "Random",
+    "use": "Use this name"
+}
