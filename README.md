@@ -190,7 +190,7 @@ If it's still blocked and the error mentions `Python312\Lib\site-packages`, Wind
 - Real cat genetics: coat color, patterns, white spotting, eyes, fur types, ear and tail traits, genetic conditions and offspring prediction
 - Physical traits passed down as genes: saber teeth, manes, ear tufts and more
 - A custom cat maker for your main character that can pick all of it
-- A Cat Editor (turn it on in the settings) to change any cat's personality, stats, health, faith, relationships and looks
+- A Cat Editor (turn it on in the settings) to change any cat's personality, stats, skills, experience, health, faith, relationships and looks
 - Cat picking screens you can sort, search and filter by group
 - Cats with their own faith, and flirting with your mate
 - Multi clan mode (optional, picked when you make a new clan), where the other Clans have their own real cats
@@ -203,7 +203,6 @@ See [changelog.txt](changelog.txt) for what's new.
 
 Buttergen is just getting started. These are on the way, roughly in this order (plans can change):
 
-- **Cat Editor experience:** change any cat's experience, anywhere from 0 to 321
 - **Affairs:** a reworked affairs system
 - **Code and Borders:** more patrols where your choice counts for honor, and murder of other Clans' cats, with angry neighbors and even war
 - **Skills and mentors:** seven skills that level up with experience and change how patrols and your choices go, with mentors who teach them

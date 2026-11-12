@@ -1,3 +1,10 @@
+<strong>Buttergen v0.4-dev.9</strong>
+
+A development build, so keep a copy of your saves folder before playing.
+
+New:
+- The cat editor can set a cat's experience, anywhere from 0 to 321, on the Skills tab (thanks to the Discord suggestion!)
+
 <strong>Buttergen v0.4-dev.8</strong>
 
 A development build, so keep a copy of your saves folder before playing.
