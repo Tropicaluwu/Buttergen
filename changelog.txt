@@ -8,6 +8,7 @@ New:
 - As the leader, you name new warriors and mediators, and as a healer you name your own apprentice: type a suffix or roll a random one
 - "Try for kits" in any mated cat's relations tab makes the pair 3 times likelier to have kits for 3 moons
 - Asking to join another Clan is now in the dangerous tab's leave the Clan window
+- Friends from other Clans (multi clan mode): patrols about your cat's friend across the border use a real cat they've met who likes them, and that friend can even join your Clan
 - Patrols bring cats closer: when your cat patrols with others, they like and trust each other a little more (a bit less when it goes badly), with a line in the relationships tab
 - Requesting an apprentice works for healers, mediators and queens: each kit turning 6 has a good chance to take your path, with your cat as their mentor
 
