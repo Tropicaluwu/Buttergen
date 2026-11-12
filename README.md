@@ -10,7 +10,7 @@ Updated November 12, 2026.
 
 **Join the Discord server** for help, news and bug reports: [discord.gg/Kxdvk5eXC9](https://discord.gg/Kxdvk5eXC9)
 
-I ask that if you make a fork or a version of this mod built off of my code, you credit me as well as the creators of Lifegen, Genemod, Lifegen Genetics, Clangen and the mods listed under Credits too.
+I ask that if you make a fork or a version of this mod built off of my code, you credit me as well as the creators of Lifegen, Genemod, Clangen and the mods listed under Credits too.
 
 ## How to play
 
@@ -194,7 +194,7 @@ If it's still blocked and the error mentions `Python312\Lib\site-packages`, Wind
 - Cat picking screens you can sort, search and filter by group
 - Cats with their own faith, and flirting with your mate
 - Multi clan mode (optional, picked when you make a new clan), where the other Clans have their own real cats
-- The honor system (dev build): honor, reputation and Clan trust, temptations to break the warrior code, witnesses and secrets, judgments at the full moon, exile and coming home, leader challenges and switching Clans
+- The honor system (dev build): honor, reputation and Clan trust, temptations to break the warrior code, witnesses and secrets, judgments at the full moon, exile and coming home, leader challenges, switching Clans, and choices as a mentor, parent, deputy or leader
 - Built on the newest development versions of Genemod, Lifegen and Clangen
 
 See [changelog.txt](changelog.txt) for what's new.
