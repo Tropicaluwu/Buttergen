@@ -27,6 +27,15 @@ status_dict = {
 }
 
 
+# BUTTERGEN: Buttergen's own Discord app, so the status says "Playing Buttergen". Its one picture is
+# named "buttergen" (Clangen's app has a camp picture for every biome and season, ours doesn't)
+DISCORD_APP_ID = "1570359456405917797"
+DISCORD_BUTTONS = [
+    {"label": "Join the Discord", "url": "https://discord.gg/Kxdvk5eXC9"},
+    {"label": "Get Buttergen", "url": "https://github.com/Tropicaluwu/Buttergen"},
+]
+
+
 class _DiscordRPC(threading.Thread):
     def __init__(self, client_id: str, daemon: bool):
         super().__init__(daemon=daemon)
@@ -104,20 +113,14 @@ class _DiscordRPC(threading.Thread):
                 state_text = "Leading the Clan"
 
             try:
-                img_str = (
-                    f"{game.clan.biome}_{game.clan.current_season.replace('-', '')}_"
-                    f"{game.clan.camp_bg}_{'dark' if game_setting_get('dark mode') else 'light'}"
-                )
-                img_text = game.clan.biome
+                img_text = f"{game.clan.biome}, {game.clan.current_season}"
             except AttributeError:
                 print(
                     "Failed to get image string, game may not be fully loaded yet. "
                     "Don't worry, it will fix itself. Hopefully."
                 )
-                img_str = "discord"  # fallback incase the game isn't loaded yet
-                img_text = "Genemod!!"
+                img_text = "Buttergen"
 
-            # Example: beach_greenleaf_camp1_dark
 
             if game.clan:
                 clan_name = game.clan.name
@@ -131,12 +134,11 @@ class _DiscordRPC(threading.Thread):
                 self._rpc.update(
                     state=state_text,
                     details=f"{clan_name} ({clan_age} moons)",
-                    large_image=img_str.lower(),
+                    large_image="buttergen",
                     large_text=img_text,
-                    small_image="discord",
                     small_text=f"{cats_amount} cats",
                     start=self._start_time,
-                    # no "Join The Server" button (it was LifeGen's server)
+                    buttons=DISCORD_BUTTONS,
                 )
             except BaseException:  # pylint: disable=broad-except
                 print("Discord rpc had issue updating, disabling...")

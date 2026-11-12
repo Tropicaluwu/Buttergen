@@ -13,4 +13,4 @@ if ! command -v uv > /dev/null; then
     exit 1
 fi
 
-uv sync && uv run main.py || read -n 1 -s -r -p "Something went wrong (see above). Press any key to close."
+uv sync --extra discord && uv run --extra discord main.py || read -n 1 -s -r -p "Something went wrong (see above). Press any key to close."

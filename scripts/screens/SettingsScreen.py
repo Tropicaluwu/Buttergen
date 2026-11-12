@@ -373,7 +373,9 @@ class SettingsScreen(Screens):
             self._discord_at_open = discord_is_on
             if discord_is_on:
                 print("Starting Discord RPC")
-                game.rpc = _DiscordRPC("1076277970060185701", daemon=True)
+                from scripts.game_structure.discord_rpc import DISCORD_APP_ID
+
+                game.rpc = _DiscordRPC(DISCORD_APP_ID, daemon=True)
                 game.rpc.start()
                 game.rpc.start_rpc.set()
             else:

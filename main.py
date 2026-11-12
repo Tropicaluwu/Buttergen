@@ -41,7 +41,9 @@ from scripts.housekeeping.quit_game import quit_game
 clock = pygame.time.Clock()
 pygame.display.set_icon(pygame.image.load("resources/images/icon.png"))
 
-game.rpc = _DiscordRPC("1076277970060185701", daemon=True)
+from scripts.game_structure.discord_rpc import DISCORD_APP_ID
+
+game.rpc = _DiscordRPC(DISCORD_APP_ID, daemon=True)
 game.rpc.start()
 game.rpc.start_rpc.set()
 
