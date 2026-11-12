@@ -26,7 +26,8 @@
         "how": {
             "gathering": "at a Gathering",
             "border": "on a border patrol",
-            "exploring": "while exploring"
+            "exploring": "while exploring",
+            "event": "while crossing paths"
         },
         "this_moon": "this moon",
         "moons_ago": "%{moons} moons ago",

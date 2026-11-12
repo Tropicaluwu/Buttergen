@@ -112,6 +112,10 @@ def create_rel_event(
 
         # execute the event
         text, results, rel_results = execute_outcome(chosen_event, involved_cats, clan, other_clans)
+        # BUTTERGEN: when the player's cat is in one of these, they've met the other Clans' cats in it
+        from scripts import outsiders
+
+        outsiders.note_event(involved_cats.values(), text)
         types = ["other_clans", "interaction"]
         if chosen_event.condition:
             types = ["other_clans", "health"]

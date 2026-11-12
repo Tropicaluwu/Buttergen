@@ -198,6 +198,19 @@ def gathering():
     return text
 
 
+def note_event(cats, text):
+    """the game's own cross-Clan events (Gatherings, chance meetings): if the player's cat is in one,
+    every cat from another Clan in it counts as met"""
+    you = _you()
+    cats = [c for c in cats if c is not None]
+    if not on() or not you or you not in cats:
+        return
+    how = "gathering" if text and "Gathering" in text else "event"
+    for cat in cats:
+        if cat is not you and clan_of(cat) is not None:
+            meet(cat, how)
+
+
 def after_patrol(patrol, processed_text, patrol_cats):
     """the player's cat was on a patrol that ran into another Clan: they may meet one of its cats"""
     from scripts.cat.cats import Cat
