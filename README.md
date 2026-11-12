@@ -8,7 +8,7 @@ Updated November 11, 2026.
 
 **Join the Discord server** for help, news and bug reports: [discord.gg/Kxdvk5eXC9](https://discord.gg/Kxdvk5eXC9)
 
-I ask that if you make a fork or a version of this mod built off of my code, you credit me as well as the creators of Lifegen, Genemod, Lifegen Genetics, Clangen and the mods listed under Credits too.
+I ask that if you make a fork or a version of this mod built off of my code, you credit me as well as the creators of Lifegen, Genemod, Clangen and the mods listed under Credits too.
 
 ## How to play
 
