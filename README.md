@@ -193,6 +193,12 @@ See [changelog.txt](changelog.txt) for what's new.
 Buttergen is just getting started. These are on the way, roughly in this order (plans can change):
 
 - **Cat Editor experience:** change any cat's experience, anywhere from 0 to 321
+- **Other Clans:** meet other Clans' cats at Gatherings, on border patrols and on new exploring patrols (trespassing on their land, or meeting kittypets and rogues), talk with them, forbidden romance across borders, half-Clan kits, and finding out where a cat was really born
+- **The leader names new warriors:** as the leader, pick each new warrior's name at their ceremony, or roll a random one
+- **Try for kits:** a button that makes any pair of mates much likelier to have kits for a while
+- **Your own warrior code:** a checklist of rules for each Clan. The Clan only reacts when a cat breaks a rule it actually follows
+- **Relationships with more going on:** ambition, jealousy, wants and feelings that change how cats act toward each other, like an ambitious cat resenting the deputy
+- **Play as your cat mode:** an optional mode where what you can do depends on your cat's rank, so only a leader picks mentors or exiles cats, and patrols go out without you unless you lead them
 - **Affairs:** a reworked affairs system
 - **Code and Borders:** living by (or breaking) the warrior code, and murder of other Clans' cats, with honor loss, angry neighbors, exile and even war
 - **Skills and mentors:** seven skills that level up with experience and change how patrols and your choices go, with mentors who teach them
