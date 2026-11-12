@@ -1,3 +1,11 @@
+<strong>Buttergen v0.4-dev.11</strong>
+
+A development build, so keep a copy of your saves folder before playing.
+
+Fixes:
+- Talking with a Clanmate no longer crashes when they bring up the Clan you're at war with
+- Shunned cats are never made deputy (a cat shunned for killing the deputy could take their place)
+
 <strong>Buttergen v0.4-dev.10</strong>
 
 A development build, so keep a copy of your saves folder before playing.
