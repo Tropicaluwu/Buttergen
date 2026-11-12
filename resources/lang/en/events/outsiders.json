@@ -29,6 +29,7 @@
             "exploring": "while exploring"
         },
         "this_moon": "this moon",
-        "moons_ago": "%{moons} moons ago"
+        "moons_ago": "%{moons} moons ago",
+        "one_moon_ago": "1 moon ago"
     }
 }

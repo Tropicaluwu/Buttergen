@@ -109,7 +109,12 @@ def met_note(cat) -> str:
         return ""
     t = texts()["profile"]
     moons = game.clan.age - entry["moon"]
-    when = t["this_moon"] if moons == 0 else t["moons_ago"].replace("%{moons}", str(moons))
+    if moons == 0:
+        when = t["this_moon"]
+    elif moons == 1:
+        when = t["one_moon_ago"]
+    else:
+        when = t["moons_ago"].replace("%{moons}", str(moons))
     return t["met"].replace("%{how}", t["how"].get(entry["how"], entry["how"])).replace("%{when}", when)
 
 
