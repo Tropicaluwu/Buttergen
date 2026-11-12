@@ -24,6 +24,8 @@ from scripts.cat_editor_logic import (
     hidden_options,
     max_skills,
     max_stats,
+    MAX_EXPERIENCE,
+    nudge_experience,
     nudge_stat,
     remove_condition,
     remove_second_skill,
@@ -200,7 +202,7 @@ class CatStatEditorWindow(EditorWindowBase):
     def _build_skills(self):
         cat = self.the_cat
         for i, (slot, label) in enumerate(SKILL_SLOTS):
-            top = 100 + i * 150
+            top = 100 + i * 122
             skill = getattr(cat.skills, slot)
             self._text(f"{label}: {skill_text(cat, slot)}", (20, top, 660, 30))
             self._button("change skill", (20, top + 36, 170, 32), lambda s=slot: self._open_skill_picker(s))
@@ -215,21 +217,29 @@ class CatStatEditorWindow(EditorWindowBase):
             for j, step in enumerate((-10, -1, 1, 10)):
                 self._button(f"+{step}" if step > 0 else str(step), (120 + j * 78, top + 78, 70, 30),
                              lambda s=slot, n=step: nudge_skill_points(cat, s, n), disabled=skill is None)
+        # BUTTERGEN: experience, 0 to 321 (a Discord suggestion)
+        experience = cat.experience or 0
+        self._text(f"Experience: {experience} ({cat.experience_level_string})", (20, 346, 300, 30))
+        for j, step in enumerate((-50, -10, -1, 1, 10, 50)):
+            self._button(f"+{step}" if step > 0 else str(step), (330 + j * 55, 344, 50, 30),
+                         lambda n=step: nudge_experience(cat, n),
+                         disabled=(step < 0 and experience <= 0) or (step > 0 and experience >= MAX_EXPERIENCE))
         hidden = cat.skills.hidden.value if cat.skills.hidden else "none"
-        self._text(f"Hidden knowledge: {hidden}", (20, 400, 420, 30))
-        self._button("change", (450, 398, 140, 32), self._open_hidden_picker)
+        self._text(f"Hidden knowledge: {hidden}", (20, 392, 420, 30))
+        self._button("change", (450, 390, 140, 32), self._open_hidden_picker)
         self._text(
             "Points go from 0 to 29: level 1 at 0, level 2 at 10 and level 3 at 20. "
+            f"Experience goes from 0 to {MAX_EXPERIENCE} ({MAX_EXPERIENCE} is masterful). "
             "Hidden knowledge is what rogues, loners and kittypets learned outside the Clans.",
-            (20, 440, 660, 80),
+            (20, 432, 660, 110),
             "#text_box_26_horizleft_pad_10_14",
         )
         self._max_reset(
             560,
             lambda: max_skills(cat),
             lambda: reset_skills(cat),
-            "Both skills to level 3, as real skills.",
-            "Both skills back to 0 points.",
+            f"Both skills to level 3, as real skills, and experience to {MAX_EXPERIENCE}.",
+            "Both skills back to 0 points, and experience to 0.",
         )
 
     def _build_health(self):

@@ -347,6 +347,7 @@ def max_skills(cat: Cat) -> None:
         if skill:
             skill.interest_only = False
             skill.points = skill.point_range[1]
+    set_experience(cat, MAX_EXPERIENCE)
 
 
 def reset_skills(cat: Cat) -> None:
@@ -354,6 +355,19 @@ def reset_skills(cat: Cat) -> None:
         skill = getattr(cat.skills, slot)
         if skill:
             skill.points = 0
+    set_experience(cat, 0)
+
+
+# 321 is the top of the game's last level (masterful)
+MAX_EXPERIENCE = Cat.experience_levels_range["masterful"][1]
+
+
+def set_experience(cat: Cat, value: int) -> None:
+    cat.experience = max(0, min(MAX_EXPERIENCE, int(value)))
+
+
+def nudge_experience(cat: Cat, amount: int) -> None:
+    set_experience(cat, (cat.experience or 0) + amount)
 
 
 def condition_options(kind: str) -> list:
