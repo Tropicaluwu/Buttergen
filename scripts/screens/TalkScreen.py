@@ -229,7 +229,7 @@ class TalkScreen(Screens):
             from scripts.clan_package.cotc import get_warring_clan
             enemy = get_warring_clan() or self.other_clan
             if enemy:
-                processed_text = processed_text.replace("w_c", str(enemy.displayname))
+                processed_text = processed_text.replace("w_c", str(enemy.prefix))
 
         # event text adjust for clan name
         final_text = event_text_adjust(
