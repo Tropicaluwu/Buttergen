@@ -273,6 +273,7 @@ def check_and_promote_deputy(clan):
         filter(
             lambda x: x.status.group_ID == clan.group_ID
             and x.status.rank == CatRank.WARRIOR
+            and not x.status.is_shunned(clan.group_ID)
             and ([i for i in x.former_apprentices if Cat.all_cats.get(i) and not Cat.all_cats.get(i).status.rank.is_any_apprentice_rank()]),
             Cat.all_cats_list,
         )
@@ -289,6 +290,7 @@ def check_and_promote_deputy(clan):
             filter(
                 lambda x: x.status.group_ID == clan.group_ID
                 and x.status.rank == CatRank.WARRIOR
+                and not x.status.is_shunned(clan.group_ID)
                 and (x.apprentice or x.former_apprentices),
                 Cat.all_cats_list))
     
@@ -309,7 +311,8 @@ def check_and_promote_deputy(clan):
         all_warriors = list(
             filter(
                 lambda x: x.status.group_ID == clan.group_ID
-                and x.status.rank == CatRank.WARRIOR,
+                and x.status.rank == CatRank.WARRIOR
+                and not x.status.is_shunned(clan.group_ID),
                 Cat.all_cats_list,
             )
         )
