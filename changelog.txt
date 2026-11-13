@@ -1,3 +1,11 @@
+<strong>Buttergen v0.3.11</strong>
+
+Fixes:
+- Talking with a Clanmate no longer crashes when they bring up the Clan you're at war with
+- Shunned cats are never made deputy (a cat shunned for killing the deputy could take their place)
+- Events about the Clan you're at war with name it once (they said "RidgeClanClan")
+- The conditions tab's details use the small font again, so they fit their boxes
+
 <strong>Buttergen v0.3.10</strong>
 
 Fixes:
