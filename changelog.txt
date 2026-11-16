@@ -1,3 +1,9 @@
+<strong>Buttergen v0.3.12</strong>
+
+Fixes:
+- The game no longer crashes when an event names the leader or deputy while the Clan doesn't have one
+- Starting relationships: cats were all treated as siblings (so everyone liked everyone, even with randomized relationships on); only real siblings are now
+
 <strong>Buttergen v0.3.11</strong>
 
 Fixes:
