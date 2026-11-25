@@ -325,18 +325,43 @@ def _attempt_confession(cat_from: Cat) -> bool:
     if not _check_against_grief(cat_from, cat_to):
         return False
 
-    # CONFESS
-    become_mates, cat_from_change, cat_to_change, mate_string = _try_confession(
-        cat_from, cat_to
+    # BUTTERGEN: a confession to the player's cat can be the player's choice (scripts/feelings.py)
+    from scripts import feelings
+
+    if feelings.offer_confession(cat_from, cat_to):
+        return True
+
+    return confess(cat_from, cat_to)
+
+
+def can_confess(cat_from, cat_to) -> bool:
+    """False if a current mate of either cat wouldn't allow a new one"""
+    existing_from_cat_mates, existing_to_cat_mates = _get_existing_mates(cat_from, cat_to)
+    if not (existing_from_cat_mates or existing_to_cat_mates):
+        return True
+    return _current_mates_allow_new_mate(
+        cat_from, cat_to, existing_from_cat_mates, existing_to_cat_mates
     )
 
-    if not become_mates:
+
+def confess(cat_from, cat_to, answer=None, show_no=False) -> bool:
+    """cat_from asks cat_to to be mates. answer True or False is cat_to's answer, None lets the game
+    decide. A no only shows up as an event with show_no"""
+    # CONFESS
+    become_mates, cat_from_change, cat_to_change, mate_string = _try_confession(
+        cat_from, cat_to, answer
+    )
+
+    if not mate_string:
+        return False
+    if not become_mates and not show_no:
         return False
     # BUTTERGEN: healers and the healer mates toggle (honor step 7)
-    from scripts.honor import healer as honor_healer
+    if become_mates:
+        from scripts.honor import healer as honor_healer
 
-    if not honor_healer.gate(cat_from, cat_to):
-        return False
+        if not honor_healer.gate(cat_from, cat_to):
+            return False
 
     # do the final prep of the rel change dicts
     cat_from_change["cats_from"] = [cat_from]
@@ -370,7 +395,7 @@ def _attempt_confession(cat_from: Cat) -> bool:
     return True
 
 
-def _try_confession(cat_from, cat_to) -> tuple[bool, dict, dict, str]:
+def _try_confession(cat_from, cat_to, answer=None) -> tuple[bool, dict, dict, str]:
     # CHECK POLY
     existing_from_cat_mates, existing_to_cat_mates = _get_existing_mates(
         cat_from, cat_to
@@ -386,7 +411,10 @@ def _try_confession(cat_from, cat_to) -> tuple[bool, dict, dict, str]:
     # accept confession
     condition = get_config("mates.confession.accept_confession")
     variability = get_config("mates.confession.reactions.variability")
-    if cat_to.relationships[cat_from.ID].relationship_qualifies(condition):
+    # BUTTERGEN: answer is the player's choice for their cat, None lets the game decide
+    if answer is None:
+        answer = cat_to.relationships[cat_from.ID].relationship_qualifies(condition)
+    if answer:
         become_mates = True
         if cat_from.ID in cat_to.previous_mates:
             mate_string = _get_mate_string(

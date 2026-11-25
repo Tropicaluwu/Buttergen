@@ -206,6 +206,8 @@
         "decide retire_tooltip": "Your cat decides for themselves when they're asked to retire.",
         "decide deputy": "Their deputy",
         "decide deputy_tooltip": "As leader, your cat picks their own deputy.",
+        "decide mates": "Mates",
+        "decide mates_tooltip": "When a cat asks your cat to be mates, your cat answers on their own.",
         "decide names": "Names",
         "decide names_tooltip": "Your cat's kits, and the cats your cat would name, keep the names the game gives them.",
         "decide code": "Warrior code choices",

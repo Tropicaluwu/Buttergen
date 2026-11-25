@@ -7,6 +7,11 @@
     "ask_no": "The leader turns m_c down. m_c doesn't argue, but {PRONOUN/m_c/poss} tail lashes as {PRONOUN/m_c/subject} {VERB/m_c/leave/leaves}.",
     "ask_yes_not_kin": "The leader breaks with tradition and names m_c deputy in place of r_c, though the Clan murmurs about kinship.",
     "ask_no_not_kin": "The leader reminds m_c that only the leader's own kin may be deputy. m_c says nothing, but {PRONOUN/m_c/poss} claws dig into the earth.",
+    "confess_window": {
+        "prompt": "m_c confesses {PRONOUN/m_c/poss} feelings to you and asks to be your mate. What do you say?",
+        "yes": "Become m_c's mate",
+        "no": "Turn m_c down"
+    },
     "ask_window": {
         "prompt": "m_c asks you to make {PRONOUN/m_c/object} deputy instead of r_c. What do you say?",
         "yes": "Make m_c deputy",

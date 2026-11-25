@@ -266,9 +266,30 @@ def answer_ask(cat, deputy, option):
         cat.temptation[GRUDGE] = min(100, cat.temptation.get(GRUDGE, 0) + TURNED_DOWN_GRUDGE)
 
 
-ASK = "feelings_ask"
+ASK, CONFESS = "feelings_ask", "feelings_confess"
 YES, NO = "yes", "no"
-KINDS = (ASK,)
+KINDS = (ASK, CONFESS)
+
+
+# confessions to the player's cat (romantic_events.py asks here first)
+
+def offer_confession(cat, you) -> bool:
+    """cat asks the player's cat to be mates: the player answers, unless their cat decides mates
+    themselves, a choice is already waiting, or a healer is involved (the healer code asks then)"""
+    from scripts import let_decide
+    from scripts.events_module.relationship.romantic_events import can_confess
+    from scripts.honor import choices
+    from scripts.honor import healer as honor_healer
+
+    if (you is not _you() or cat is you or not _alive_in_clan(you) or not _alive_in_clan(cat)
+            or let_decide.on(let_decide.MATES)):
+        return False
+    if honor_healer.on() and (honor_healer.is_healer(cat) or honor_healer.is_healer(you)):
+        return False
+    if not can_confess(cat, you) or not choices.can_offer():
+        return False
+    choices._offer({"kind": CONFESS, "cat": cat.ID})
+    return True
 
 
 # jealousy
@@ -817,12 +838,20 @@ def on_skip(full_moon: bool):
 # the player's choices (scripts/honor/choices.py hands these over)
 
 def pending_gone(c) -> bool:
+    if c["kind"] == CONFESS:
+        cat = Cat.fetch_cat(c["cat"])
+        return not _alive_in_clan(cat) or cat.ID in _you().mate
     cat, deputy = Cat.fetch_cat(c["cat"]), Cat.fetch_cat(c["deputy"])
     return not _can_be_deputy(cat) or not _alive_in_clan(deputy) or game.clan.deputy is not deputy \
         or game.clan.leader is not _you()
 
 
 def window_text(c):
+    if c["kind"] == CONFESS:
+        cat = Cat.fetch_cat(c["cat"])
+        part = texts()["confess_window"]
+        prompt = _render(part["prompt"], cat, _you())
+        return prompt, [(YES, _render(part["yes"], cat, _you())), (NO, _render(part["no"], cat, _you()))]
     cat, deputy = Cat.fetch_cat(c["cat"]), Cat.fetch_cat(c["deputy"])
     part = texts()["ask_window"]
     prompt = _render(part["prompt"], cat, deputy)
@@ -832,6 +861,12 @@ def window_text(c):
 def resolve_choice(c, option):
     from scripts.honor import choices
 
+    if c["kind"] == CONFESS:
+        from scripts.events_module.relationship.romantic_events import confess
+
+        answer = None if option == choices.DECIDE else option == YES
+        confess(Cat.fetch_cat(c["cat"]), _you(), answer, show_no=True)
+        return option
     cat, deputy = Cat.fetch_cat(c["cat"]), Cat.fetch_cat(c["deputy"])
     if option == choices.DECIDE:
         option = _leader_says(_you(), cat, deputy)

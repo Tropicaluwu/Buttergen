@@ -1,3 +1,13 @@
+<strong>Buttergen v0.4-dev.19</strong>
+
+A development build, so keep a copy of your saves folder before playing.
+
+New:
+- When a cat asks your cat to be mates, you choose the answer: say yes, turn them down, or let your cat decide (a player suggestion). A new "Mates" toggle in Let your cat decide has your cat answer on their own, as before. Healers keep their own choice about the warrior code
+
+Changes:
+- The "Meow! This is a bug" talk line now points to #bg-bug-reports on the Buttergen Discord server
+
 <strong>Buttergen v0.4-dev.18</strong>
 
 A development build, so keep a copy of your saves folder before playing.

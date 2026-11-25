@@ -157,6 +157,7 @@
         "decide path" = false
         "decide retire" = false
         "decide deputy" = false
+        "decide mates" = false
         "decide names" = false
         "decide code" = false
 
@@ -232,6 +233,8 @@
         [clan.nests.decide."decide retire"]
             "decide all" = false
         [clan.nests.decide."decide deputy"]
+            "decide all" = false
+        [clan.nests.decide."decide mates"]
             "decide all" = false
         [clan.nests.decide."decide names"]
             "decide all" = false

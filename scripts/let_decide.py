@@ -20,8 +20,8 @@ from scripts.game_structure.localization import load_lang_resource
 
 # the clan settings
 ALL = "decide all"
-PATH, RETIRE, DEPUTY, NAMES, CODE = (
-    "decide path", "decide retire", "decide deputy", "decide names", "decide code")
+PATH, RETIRE, DEPUTY, NAMES, CODE, MATES = (
+    "decide path", "decide retire", "decide deputy", "decide names", "decide code", "decide mates")
 
 WARRIOR, HEALER, MEDIATOR, QUEEN = "warrior", "healer", "mediator", "queen"
 RANKS = {
