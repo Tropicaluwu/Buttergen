@@ -8,6 +8,13 @@ New:
 Changes:
 - The "Meow! This is a bug" talk line now points to #bg-bug-reports on the Buttergen Discord server
 
+Fixes:
+- Cat lists that become empty no longer keep showing the cats from the last list (Outsiders after driving the last one away, and Cats Beyond the Clan)
+- The apprentice event about your mentor talking with your parents now names one parent, so it no longer shows up for a cat with one parent who is also their mentor (a player report)
+- A lost apprentice can no longer come back as the child in a "parent and child" patrol with a new parent they aren't related to. Family made by a patrol is always new (a player report)
+- Kits who go to live with a kittypet, loner or rogue parent get a name like that parent's, not a Clan name (a player report)
+- When a Clan cat secretly hands kits over to their outside parent at birth, the birth event tells the story they give the Clan, instead of saying they're raising the kits (a player report)
+
 <strong>Buttergen v0.4-dev.18</strong>
 
 A development build, so keep a copy of your saves folder before playing.

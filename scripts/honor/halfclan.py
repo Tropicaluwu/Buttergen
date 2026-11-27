@@ -395,7 +395,10 @@ def resolve_litter(litter, where, option):
         _say_found(litter)
         _guess(litter, GUESS_AT_BIRTH[FOUND])
     elif option == TAKE and _reachable(litter):
-        _move(_kits(litter), away)
+        kits = _kits(litter)
+        _move(kits, away)
+        if where == HERE and home is not _you():
+            _hide_birth_line(home, kits)
         _quietly(_key(litter, "taken"), home, away, clan)
         record()["litters"].remove(litter)
     else:
@@ -406,6 +409,19 @@ def resolve_litter(litter, where, option):
             mates = _clan_mates(home, exclude=(away,))
             _post(litter["story"], home, mates[0] if mates else None, clan, top=True)
         _guess(litter, GUESS_AT_BIRTH[litter["story"]])
+
+
+def _hide_birth_line(home, kits):
+    """the birth line said home was raising the kits, but they went to the other parent: home tells
+    the Clan a story instead (lines about one kit only for one kit)"""
+    lines = load_lang_resource("conditions/pregnancy.json")["birth"]["otherclan_mother"]
+    if len(kits) > 1:
+        lines = [line for line in lines if "single kit" not in line]
+    for event in reversed(game.cur_events_list):
+        if "birth_death" in event.types and home.ID in event.cats_involved:
+            event.text = _render(choice(lines), home)
+            event.cat_dict = {"m_c": home}
+            return
 
 
 def _agrees(home, away) -> bool:
@@ -438,6 +454,9 @@ def _move(kits, parent):
         )
         if was_outsider and into_clan:
             kit.name = Name(kit)
+        elif not was_outsider and not into_clan and kit.status.social != CatSocial.CLANCAT:
+            # a kittypet, loner or rogue parent gives them a name like theirs, not a Clan name
+            kit.name.find_outsider_name(kit.status.social)
         game.clan.add_cat(kit)
         create_relationships_new_cat(kit)
         change_relationship_values(cats_from=[parent], cats_to=[kit],
