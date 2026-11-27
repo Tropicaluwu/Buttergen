@@ -96,6 +96,10 @@ def handle_having_kits(cat: Cat, clan):
     from scripts.events_module.pregnancy import try_for_kits
 
     chance = try_for_kits.adjust(chance, cat, second_parent)
+
+    for parent in [cat]+(second_parent if second_parent else []):
+        if parent != "Surrogate" and parent.ID in game.queen_advice:
+            chance -= chance * float(game.queen_advice_outcomes[game.queen_advice.index(parent.ID)])
     
     all_infertile = True
     if 'sterile' not in cat.permanent_conditions:
